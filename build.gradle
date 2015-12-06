@@ -1,0 +1,51 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.asciidoctor.convert'
+
+ext.versions = [
+    groovy: "2.4.4"
+]
+
+ext.libs = [
+    groovy: "org.codehaus.groovy:groovy:${versions.groovy}",
+    groovy_test: "org.codehaus.groovy:groovy-test:${versions.groovy}",
+    groovy_all: "org.codehaus.groovy:groovy-all:${versions.groovy}",
+    junit: "junit:junit:4.12"
+]
+
+version = "0.1.0-SNAPSHOT"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile libs.groovy
+
+    testCompile libs.groovy_test
+    testCompile libs.junit
+}
+
+asciidoctor {
+    attributes 'source-highlighter': 'prettify',
+            toc                 : 'left',
+            icons               : 'font',
+            toclevels           : 3,
+            'pdf-style'         : 'default'
+}
+
+task('console', type: JavaExec) {
+    main = 'groovy.ui.Console'
+    project.dependencies.add("compile", libs.groovy_all)
+    classpath = sourceSets.main.runtimeClasspath
+}

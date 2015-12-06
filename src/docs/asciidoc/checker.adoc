@@ -1,0 +1,8 @@
+== Checkers
+
+`asteroid.A.CHECK`
+
+`Checkers` is an effort to avoid boiler plate code when checking the AST state. Many times you have to check
+whether all precoditions are correct before applying a given transformation. Without this sanity check, many things
+could go wrong.
+

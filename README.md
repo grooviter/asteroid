@@ -1,0 +1,1 @@
+Asteroid is a set of utilities to make it easier to develop http://www.groovy-lang.org[Groovy] AST transformations.
