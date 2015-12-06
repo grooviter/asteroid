@@ -1,0 +1,122 @@
+== Fluent API
+
+The main goal of this project is to have a unified way to access all AST APIs through a single entry point. That
+entry point is `asteroid.A`.
+
+- **NODES**: Create instances of `org.codehaus.groovy.ast.ASTNode`
+- **EXPRESSIONS**: Create instances of `org.codehaus.groovy.ast.expr.Expression`
+- **STATEMENTS**: Create instances of `org.codehaus.groovy.ast.stmt.Statement`
+- **MODIFIERS**: `asteroid.A.ACC`
+- **CHECKERS**: `asteroid.A.CHECK`. Access to checkers.
+- **UTILS**: `asteroid.A.UTIL`.
+
+=== Nodes
+
+`asteroid.A.NODES`
+
+This is entry point accesses to a set of builders to create instances of `org.codehaus.groovy.ast.ASTNode`. All builders
+in `asteroid.A.NODES` follow the same API:
+
+[source,groovy]
+----
+A.NODES.annotation("MyAnnotation") // <1>
+       .member(...) // <2>
+       .xxxxxx(...)
+       .yyyyyy(...)
+       .build()  // <3>
+----
+
+<1> Creates a builder of a specific type of `ASTNode`.
+<2> Then each node builder has a set of associated methods. E.g: `annotation` has `member(...)` to add annotation members...
+<3> Once the node has been configured is time to create the instance calling the `build()` method of the
+current builder.
+
+For instance, the following code:
+
+[source,groovy]
+----
+A.NODES.annotation("MyAnnotation")
+       .member("message", A.EXPR.constX("hello"))
+       .member("sort", A.EXPR.constX("desc"))
+       .build()
+----
+
+Will produce the following annotation:
+
+[source,groovy]
+----
+@MyAnnotation(message = "hello", sort = "desc")
+----
+
+=== Expressions
+
+`asteroid.A.EXPR`
+
+This entry point accesses to a set of methods returning instances of `org.codehaus.groovy.ast.expr.Expression`.
+
+Unlike the `asteroid.A.NODES` this entry point only has methods creating expressions directly. So bear in mind that
+all methods from `asteroid.A.EXPR` will return instances of `org.codehaus.groovy.ast.Expression`.
+
+For instance if we would like to create an expression like:
+
+[source, groovy]
+----
+println "hello"
+----
+
+We should code:
+
+[source, groovy]
+----
+A.EXPR.callThisX( // <1>
+    "println",
+    A.EXPR.constX("hello") // <2>
+)
+----
+
+<1> Creates an instance of `org.codehaus.groovy.ast.expr.MethodCallExpression`
+<2> Creates an instance of `org.codehaus.groovy.ast.expr.ConstantExpression` used as method call argument.
+
+NOTE: Why using `callThisX` when coding `println` ? This is because `println` is added to all JDK objects
+through the `DefaultGroovyMethods` object.
+
+=== Statements
+
+`asteroid.A.STMT`
+
+"In computer programming a statement is the smallest standalone element of an imperative programming language that
+expresses some action to be carried out. It is an instruction written in a high-level language that commands the
+computer to perform a specified action.[1] A program written in such a language is formed by a sequence of one or
+more statements. A statement may have internal components (e.g., expressions)."
+-- Wikipedia
+
+This entry point accesses to a set of methods returning instances of `org.codehaus.groovy.ast.stmt.Statement`. It
+follows the same design as expressions. Each method returns an statement. For instance, a return statement:
+
+[source, groovy]
+----
+return 1
+----
+
+Can be written as:
+
+[source, groovy]
+----
+A.STMT.returnS(A.EXPR.constX(1))
+----
+
+=== Modifiers
+
+`asteroid.A.ACC`
+
+When creating a node we may want to restrict its visibility, or mark it as `static`...etc. To do that each node
+has a method called `setModifiers(int)`. That value can be built with one or more values from this entry point:
+
+[source,groovy]
+----
+A.ACC.ACC_PUBLIC // public
+----
+
+=== Utils
+
+`asteroid.A.UTIL`
