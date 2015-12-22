@@ -54,6 +54,9 @@ public final class A {
      * @since 0.1.0
      */
     public static enum PHASE_LOCAL {
+        /**
+         * Consistency and validity checks
+         */
         SEMANTIC_ANALYSIS,
         /**
          * Complete building the AST
@@ -68,11 +71,11 @@ public final class A {
          */
         CLASS_GENERATION,
         /**
-         * Write the binary output to the file system
+         * Write the binary output to the file system (*.class file)
          */
         OUTPUT,
         /**
-         * Perform any last cleanup
+         * Perform any last cleanup and closes the file
          */
         FINALIZATION
     }
