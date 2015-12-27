@@ -1,7 +1,9 @@
 package examples
 
-import asteroid.A
+import static asteroid.A.TO
 import asteroid.Local
+import asteroid.Apply
 
-@Local(WithLoggingTransformationImpl) // <1>
+@Apply(TO.METHOD) // <1>
+@Local(WithLoggingTransformationImpl) // <2>
 @interface WithLogging { }
