@@ -4,6 +4,7 @@ import asteroid.nodes.AnnotationNodeBuilder;
 import asteroid.nodes.ClassNodeBuilder;
 import asteroid.nodes.ConstructorNodeBuilder;
 import asteroid.nodes.GenericsTypeBuilder;
+import asteroid.nodes.MethodNodeBuilder;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.GenericsType;
 
@@ -73,5 +74,15 @@ public final class Nodes {
      */
     public ConstructorNodeBuilder constructor(int modifiers) {
         return ConstructorNodeBuilder.constructor(modifiers);
+    }
+
+    /**
+     * Creates an instance of {@link MethodNodeBuilder}
+     *
+     * @param methodName name of the method to create
+     * @return an instance of {@link MethodNodeBuilder}
+     */
+    public MethodNodeBuilder method(String methodName) {
+        return MethodNodeBuilder.method(methodName);
     }
 }

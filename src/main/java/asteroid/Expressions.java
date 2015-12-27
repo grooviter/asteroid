@@ -8,6 +8,8 @@ import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
+import org.codehaus.groovy.ast.expr.FieldExpression;
+import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 
 import java.util.Arrays;
@@ -119,8 +121,67 @@ public final class Expressions {
         return GeneralUtils.classX(classNode);
     }
 
+    /**
+      * Creates a method call expression using `this` as target instance
+      * <br><br>
+      *
+      * <strong>AST</strong>
+      * <pre><code>A.NODES.callThisX("println", A.EXPR.constX("hello"))</code></pre>
+      *
+      * <strong>Result</strong>
+      * <pre><code>println "hello"</code></pre>
+      *
+      * @param methodName The name of the method to invoke
+      * @param varargs with different argument expressions
+      * @return an instance of {@link MethodCallExpression}
+      */
     public static MethodCallExpression callThisX(String methodName, Expression... args) {
         return GeneralUtils.callThisX(methodName, new ArgumentListExpression(args));
+    }
+
+    /**
+     * Creates a method call expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>A.NODES.callX(ownerExpression, "toMD5", A.EXPR.constX("hello"))</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>owner.toMD5("hello")</code></pre>
+     *
+     * @param receiver target instance expression
+     * @param methodName The name of the method to invoke
+     * @param varargs with different argument expressions
+     * @return an instance of {@link MethodCallExpression}
+     */
+    public static MethodCallExpression callX(Expression receiver, String methodName, Expression... args) {
+        return GeneralUtils.callX(receiver, methodName, new ArgumentListExpression(args));
+    }
+
+    /**
+     * Creates a method call expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre>
+     *     <code>
+     *         class A {
+     *             Integer age
+     *         }
+     *         //...
+     *         FieldExpression node = A.NODES.fieldX(ageNode)
+     *         A.EXPR.callX(node, "toString")
+     *     </code>
+     * </pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>age.toString()</code></pre>
+     *
+     * @param fieldNode the node pointing at the field
+     * @return an instance of {@link FielExpression}
+     */
+    public static FieldExpression fieldX(FieldNode fieldNode) {
+        return GeneralUtils.fieldX(fieldNode);
     }
 
 }
