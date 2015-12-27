@@ -7,6 +7,8 @@ class WithLoggingTest extends GroovyTestCase {
 
     void testLoggingWorks() {
         assertScript '''
+            package examples
+
             // tag::testCode[]
             @WithLogging
             def greet() {
