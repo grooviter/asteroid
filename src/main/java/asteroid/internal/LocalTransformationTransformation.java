@@ -77,6 +77,9 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
 
     private CompilePhase toCompilePhase(final PHASE_LOCAL phase) {
         switch (phase) {
+            case SEMANTIC_ANALYSIS:
+                return CompilePhase.SEMANTIC_ANALYSIS;
+
             case CANONICALIZATION:
                 return CompilePhase.CANONICALIZATION;
 
