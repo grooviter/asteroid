@@ -6,6 +6,7 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import asteroid.check.Result;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
@@ -25,6 +26,16 @@ import java.util.ArrayList;
 public final class Utils {
 
     public static final String ANNOTATION_VALUE = "value";
+
+    /**
+     * Adds the method to the class node passed as first argument
+     *
+     * @param classNode the class we want to add the method to
+     * @param methodNode the method we want to add
+     */
+    public void addMethodToClass(final ClassNode classNode, final MethodNode methodNode) {
+        classNode.addMethod(methodNode);
+    }
 
     /**
      * Returns the {@link String} representation of the member "value" of the annotation

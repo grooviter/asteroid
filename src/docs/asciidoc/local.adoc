@@ -77,7 +77,7 @@ classes should always extend `asteroid.LocalTransformationImpl` class.
 
 [source,groovy]
 ----
-include::{test}/examples/As.groovy[]
+include::{test}/examples/AsList.groovy[]
 ----
 
 If `@Local` annotation is not used in combination with `@Apply` the
@@ -116,4 +116,39 @@ annotated with `@AsList`.
 
 === LocalTransformationImpl
 
-TODO
+`asteroid.LocalTransformationImpl` exists to avoid some of the
+defensive code that you would normally write at the beggining of an
+AST transformation.
+
+When coding an AST transformation you always check that the first node
+is an `AnnotationNode` and the second is the type of `ASTNode` you
+expected to be annotated by the first node. Instead of coding that you
+can use `LocalTransformationImpl`.
+
+Lets say I have an annotation `@ToMD5`. That annotation can only be
+used in elements of type `FIELD`:
+
+[source, groovy]
+----
+include::{test}/examples/ToMD5.groovy[]
+----
+
+I would like to create a method for every field annotated by `ToMD5`
+returning the MD5 signature of the content of that field.
+
+In order to implement that I'm using `LocalTransformationImpl`:
+
+[source, groovy]
+----
+include::{test}/examples/ToMD5Impl.groovy[]
+----
+
+<1> Declaring this class as the implementation of a local AST
+transformation using `LocalTransformation`
+<2> Creating a class extending `LocalTransformationImpl` and declaring
+that the annotation and the affected node type are `ToMD5` and
+`FieldNode` respectively
+<3> The override method declares the correct generic type `FieldNode`.
+
+From this line on you don't have to be worried about casting first and
+second node passed to your transformation anymore.
