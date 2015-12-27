@@ -38,10 +38,11 @@ Lets see first the `@WithLogging` annotation declaration:
 include::{test}/examples/WithLogging.groovy[]
 ----
 
-<1> The `@Local` annotation only requires the class of the AST transformation implementation
+<1> This annotation will be applied to method elements.
+<2> The `@Local` annotation only requires the class of the AST transformation implementation
 
-By default `@Local` annotation assumes the annotation is applied to a `method`. If you would like to apply the
-annotation to any other type of node, please use `@Apply` annotation.
+NOTE: By default `@Local` annotation assumes the annotation is applied to a `type` (classes). If you would like to apply the
+annotation to any other type of node, please use `@Apply` annotation and the correspondent element type.
 
 Now it's time to implement the transformation. The transformation should be an instance of
 `asteroid.LocalTransformationImpl`. We have to extend `LocalTransformationImpl` and provide two important generic
@@ -70,15 +71,48 @@ transformation is safely typed and can be optimized by this annotation.
 
 === @Local
 
-TODO
+You can use `@Local` to use an annotation as an AST marker. The only
+**mandatory** argument is the AST implementation class. Implementation
+classes should always extend `asteroid.LocalTransformationImpl` class.
+
+[source,groovy]
+----
+include::{test}/examples/As.groovy[]
+----
+
+If `@Local` annotation is not used in combination with `@Apply` the
+transformation is supposed to be used over an element of type `TYPE`,
+meaning it will be applied over an entire class.
 
 === @Apply
 
-TODO
+`@Apply` is used in combination with `@Local` when the transformation
+is applied to any element type other than `TYPE`: a method,
+annotation, field...etc.
+
+[source, groovy]
+----
+include::{test}/examples/WithLogging.groovy[]
+----
+
+<1> This annotation will be applied to method elements.
+<2> The `@Local` annotation only requires the class of the AST transformation implementation
 
 === @LocalTransformation
 
-TODO
+This annotation can only be used when coding a local transformation
+implementation using Groovy. It saves some of the boilerplate code
+needed to implement an instance of `asteroid.LocalTransformationImpl`.
+
+[source, groovy]
+----
+include::{test}/examples/AsListImpl.groovy[]
+----
+
+<1> This is a local transformation to be applied during `SEMANTIC_ANALYSIS` phase.
+
+This transformation will be applied to those `ClassNode` instances
+annotated with `@AsList`.
 
 === LocalTransformationImpl
 

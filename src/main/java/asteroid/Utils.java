@@ -5,11 +5,16 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
 import asteroid.check.Result;
 import org.codehaus.groovy.ast.ASTNode;
+import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.AnnotationNode;
+import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class gathers together a bunch of util functions to deal with
@@ -116,6 +121,19 @@ public final class Utils {
      */
     public Result createResult(Boolean passes, ASTNode node, String errorMessage) {
         return new Result(node, passes ? Result.Status.PASSED : Result.Status.ERROR, errorMessage);
+    }
+
+    /**
+     * Gets a given annotation node from the {@link ClassNode} passed as first argument.
+     *
+     * @param classNode the class node annotated with the annotation we're looking for
+     * @param annotationType the annotation class node
+     * @return the annotation type if found, null otherwise
+     */
+    public AnnotationNode getAnnotationFrom(ClassNode classNode, ClassNode annotationType) {
+        List<AnnotationNode> list = classNode.getAnnotations(annotationType);
+
+        return list != null && !list.isEmpty() ? first(list) : null;
     }
 
 }

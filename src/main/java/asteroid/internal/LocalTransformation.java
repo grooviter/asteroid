@@ -2,9 +2,11 @@ package asteroid.internal;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
+import static org.codehaus.groovy.ast.ClassHelper.make;
 
 import asteroid.A;
 import asteroid.Local;
+import asteroid.Apply;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
@@ -74,16 +76,21 @@ public class LocalTransformation extends AbstractASTTransformation {
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        String clazzQualifiedName = A.UTIL.get(annotationNode, String.class);
+        String clazzQualifiedName      = A.UTIL.get(annotationNode, String.class);
+        AnnotationNode applyAnnotation = A.UTIL.getAnnotationFrom(annotatedNode, make(Apply.class));
 
-        annotatedNode.addAnnotation(getTargetAnnotation());
+        annotatedNode.addAnnotation(getTargetAnnotation(applyAnnotation));
         annotatedNode.addAnnotation(getRetentionAnnotation());
         annotatedNode.addAnnotation(getGroovyAnnotationWith(clazzQualifiedName));
     }
 
-    private AnnotationNode getTargetAnnotation() {
+    private AnnotationNode getTargetAnnotation(AnnotationNode applyAnnotation) {
+        String             targetString = applyAnnotation != null ?
+            A.UTIL.get(applyAnnotation, String.class) :
+            A.TO.TYPE.toString();
+
+        ConstantExpression constantExpression = A.EXPR.constX(targetString);
         ClassExpression    classExpression    = A.EXPR.classX(ElementType.class);
-        ConstantExpression constantExpression = A.EXPR.constX(ElementType.METHOD.toString());
         PropertyExpression propertyExpression = A.EXPR.propX(classExpression, constantExpression);
         ListExpression     listExpression     = A.EXPR.listX(propertyExpression);
 
