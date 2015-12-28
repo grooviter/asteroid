@@ -84,7 +84,7 @@ public final class Statements {
      * @param statements a varargs of type Statement
      * @return an instance of {@link BlockStatement}
      */
-    public static BlockStatement block(final Statement... statements) {
+    public static BlockStatement blockS(final Statement... statements) {
         return GeneralUtils.block(statements);
     }
 
@@ -96,7 +96,7 @@ public final class Statements {
      * @param code the string representation of the code
      * @return an instance of {@link BlockStatement}
      */
-    public static BlockStatement blockFromString(String code) {
+    public static BlockStatement blockSFromString(String code) {
         return (BlockStatement) new AstBuilder().buildFromString(code).get(0);
     }
 

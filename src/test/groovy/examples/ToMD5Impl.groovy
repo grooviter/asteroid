@@ -29,7 +29,7 @@ class ToMD5Impl extends LocalTransformationImpl<ToMD5, FieldNode> { // <2>
     }
 
     private BlockStatement buildMethodCode(final String name) {
-        A.STMT.blockFromString """
+        A.STMT.blockSFromString """
             return java.security.MessageDigest
                 .getInstance('MD5')
                 .digest(${name}.getBytes())
