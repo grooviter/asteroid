@@ -6,6 +6,7 @@ import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
+import org.codehaus.groovy.ast.builder.AstBuilder;
 
 /**
  * This class hides the different implementations to create expressions through the Groovy api to provide a unified
@@ -77,8 +78,26 @@ public final class Statements {
         return GeneralUtils.ctorSuperS(new ArgumentListExpression(args));
     }
 
+    /**
+     * Returns an  instance of {@link BlockStatement}.
+     *
+     * @param statements a varargs of type Statement
+     * @return an instance of {@link BlockStatement}
+     */
     public static BlockStatement block(final Statement... statements) {
         return GeneralUtils.block(statements);
+    }
+
+    /**
+     * Returns an  instance of {@link BlockStatement}. The code contained
+     * in the string passed as argument will be parsed and converted
+     * to a {@link BlockStatement}
+     *
+     * @param code the string representation of the code
+     * @return an instance of {@link BlockStatement}
+     */
+    public static BlockStatement blockFromString(String code) {
+        return (BlockStatement) new AstBuilder().buildFromString(code).get(0);
     }
 
 }
