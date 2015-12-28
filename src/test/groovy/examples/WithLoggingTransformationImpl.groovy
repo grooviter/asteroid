@@ -18,7 +18,7 @@ class WithLoggingTransformationImpl extends LocalTransformationImpl<WithLogging,
         def startCode = A.STMT.stmt(printlnX("start")) // <3>
         def endCode   = A.STMT.stmt(printlnX("end")) // <4>
 
-        methodNode.code = A.STMT.block(startCode, oldCode, endCode) // <5>
+        methodNode.code = A.STMT.blockS(startCode, oldCode, endCode) // <5>
     }
 
     Expression printlnX(String message) {
