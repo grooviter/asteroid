@@ -5,12 +5,21 @@ buildscript {
 
     dependencies {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 apply plugin: 'org.asciidoctor.convert'
+
+ext.metadata = [
+    group: "com.github.januslynd",
+    desc: "Library for creating Groovy ASTs",
+    version : "0.1.0-beta-8244016"
+]
 
 ext.versions = [
     groovy: "2.4.4"
@@ -23,7 +32,7 @@ ext.libs = [
     junit: "junit:junit:4.12"
 ]
 
-version = "0.1.0-SNAPSHOT"
+
 
 repositories {
     jcenter()
@@ -48,4 +57,40 @@ task('console', type: JavaExec) {
     main = 'groovy.ui.Console'
     project.dependencies.add("compile", libs.groovy_all)
     classpath = sourceSets.main.runtimeClasspath
+}
+
+publishing {
+    publications {
+        mavenCustom(MavenPublication) {
+            groupId    metadata.group
+            artifactId 'asteroid'
+            version    metadata.version
+
+            from components.java
+        }
+    }
+}
+
+bintray {
+ /* Normally taken from ~/.gradle/gradle.properties */
+    user         = bintrayUser
+    key          = bintrayKey
+    publish      = false
+    publications = ['mavenCustom']
+    pkg {
+        repo            = 'maven'
+        name            = 'asteroid'
+        desc            =  metadata.desc
+        websiteUrl      = 'http://januslynd.github.io/asteroid/'
+        issueTrackerUrl = 'https://github.com/januslynd/asteroid/issues'
+        licenses        = ['Apache-2.0']
+        vcsUrl          = 'https://github.com/januslynd/asteroid.git'
+        labels          = ['groovy', 'ast']
+        version {
+            name      = metadata.version
+            desc      = 'Asteroid Release'
+            released  = new Date()
+            vcsTag    = metadata.version
+        }
+    }
 }
