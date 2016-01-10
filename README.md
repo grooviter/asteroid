@@ -1,16 +1,15 @@
-Asteroid is a set of utilities to make it easier to develop http://www.groovy-lang.org[Groovy] AST transformations.
+Asteroid is a set of utilities to make it easier to develop http://www.groovy-lang.org AST transformations.
 
-Binaries are published at Bintray:
+In order to use `Asteroid` in your Groovy app you can find it in Bintray:
 
-[source,groovy]
-----
-repositories {
-    maven {
-        url  "http://dl.bintray.com/januslynd/maven"
+    repositories {
+        maven {
+            url  "http://dl.bintray.com/januslynd/maven"
+        }
     }
-}
 
-compile 'com.github.januslynd:asteroid:0.1.0-beta-8244016"
-----
+Then you can add the dependency to your project:
 
-Documentation available at: http://januslynd.github.io/asteroid/
+    compile 'com.github.januslynd:asteroid:0.1.0-beta-8244016"
+
+Current documentation is available at: http://januslynd.github.io/asteroid/
