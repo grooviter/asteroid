@@ -18,7 +18,7 @@ apply plugin: 'org.asciidoctor.convert'
 ext.metadata = [
     group: "com.github.januslynd",
     desc: "Library for creating Groovy ASTs",
-    version : "0.1.0-beta-4126b00"
+    version : "0.1.0-beta-89a8fb3"
 ]
 
 ext.versions = [
