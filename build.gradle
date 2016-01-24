@@ -18,7 +18,7 @@ apply plugin: 'org.asciidoctor.convert'
 ext.metadata = [
     group: "com.github.januslynd",
     desc: "Library for creating Groovy ASTs",
-    version : "0.1.0-beta-8244016"
+    version : "0.1.0-beta-4126b00"
 ]
 
 ext.versions = [
@@ -32,7 +32,8 @@ ext.libs = [
     junit: "junit:junit:4.12"
 ]
 
-
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
     jcenter()
