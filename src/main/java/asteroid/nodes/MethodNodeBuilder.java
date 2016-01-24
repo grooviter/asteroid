@@ -21,8 +21,8 @@ public class MethodNodeBuilder {
     private int modifiers;
     private Statement code;
     private ClassNode returnType;
-    private Parameter[] parameters;
-    private ClassNode[] exceptions;
+    private Parameter[] parameters = new Parameter[0];
+    private ClassNode[] exceptions = new ClassNode[0];
 
     private MethodNodeBuilder(String name) {
         this.name = name;
