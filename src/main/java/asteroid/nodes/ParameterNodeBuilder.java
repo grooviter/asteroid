@@ -47,7 +47,7 @@ public class ParameterNodeBuilder {
      *
      * @return an instance of {@link Parameter}
      */
-    Parameter build() {
+    public Parameter build() {
         return new Parameter(type, name);
     }
 
