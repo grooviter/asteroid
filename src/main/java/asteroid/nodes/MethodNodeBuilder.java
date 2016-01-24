@@ -21,8 +21,8 @@ public class MethodNodeBuilder {
     private int modifiers;
     private Statement code;
     private ClassNode returnType;
-    private List<Parameter> parameters = new ArrayList();
-    private List<ClassNode> exceptions = new ArrayList();
+    private Parameter[] parameters;
+    private ClassNode[] exceptions;
 
     private MethodNodeBuilder(String name) {
         this.name = name;
@@ -42,6 +42,16 @@ public class MethodNodeBuilder {
         return this;
     }
 
+    public MethodNodeBuilder parameters(Parameter... parameters) {
+        this.parameters = parameters;
+        return this;
+    }
+
+    public MethodNodeBuilder exceptions(ClassNode... exceptions) {
+        this.exceptions = exceptions;
+        return this;
+    }
+
     public MethodNodeBuilder code(Statement code) {
         this.code = code;
         return this;
@@ -52,8 +62,8 @@ public class MethodNodeBuilder {
             new MethodNode(name,
                            modifiers,
                            returnType,
-                           (Parameter[]) parameters.toArray(new Parameter[parameters.size()]),
-                           (ClassNode[]) exceptions.toArray(new ClassNode[exceptions.size()]),
+                           parameters,
+                           exceptions,
                            code);
 
         return methodNode;
