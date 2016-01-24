@@ -10,6 +10,7 @@ import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.FieldExpression;
 import org.codehaus.groovy.ast.FieldNode;
+import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 
 import java.util.Arrays;
@@ -192,7 +193,9 @@ public final class Expressions {
      * <pre>
      *     <code>
      *         class A {
-     *             public void doSomething() { }
+     *             public void doSomething() {
+     *                 super.doSomething()
+     *             }
      *         }
      *
      *         //...
@@ -212,14 +215,17 @@ public final class Expressions {
     }
 
     /**
-     Creates a method call expression
+     * Creates a method call expression
+     *
      * <br><br>
      *
      * <strong>AST</strong>
      * <pre>
      *     <code>
      *         class A {
-     *             public void doSomething(String constant) { }
+     *             public void doSomething(String constant) {
+     *                 super.doSomething("1")
+     *             }
      *         }
      *
      *         //...
@@ -237,6 +243,72 @@ public final class Expressions {
      */
     public static MethodCallExpression callSuperX(String methodName, Expression... args) {
         return GeneralUtils.callSuperX(methodName, GeneralUtils.args(args));
+    }
+
+    /**
+     * Creates a reference to a given variable
+     *
+     * Creates a method call expression
+     *
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre>
+     *     <code>
+     *         class A {
+     *             public void doSomething(String constant) {
+     *                 super.doSomething(constant)
+     *             }
+     *         }
+     *
+     *         //...
+     *         VariableExpression = A.NODES.varX("constant")
+     *
+     *     </code>
+     * </pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>constant</code></pre>
+     *
+     * @param varName
+     * @return an instance of {@link VariableExpression}
+     */
+    public static VariableExpression varX(String varName) {
+        return GeneralUtils.varX(varName);
+    }
+
+    /**
+     * Creates a reference to a given variable
+     *
+     * Creates a method call expression
+     *
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre>
+     *     <code>
+     *         class A {
+     *             public void doSomething(String constant) {
+     *                 super.doSomething(constant)
+     *             }
+     *         }
+     *
+     *         //...
+     *         VariableExpression = A.NODES.varX("constant", A.NODES.clazz(String))
+     *
+     *     </code>
+     * </pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>constant</code></pre>
+     * Creates a reference to a given variable
+     *
+     * @param varName
+     * @param type
+     * @return an instance of {@link VariableExpression}
+     */
+    public static VariableExpression varX(String varName, ClassNode type) {
+        return GeneralUtils.varX(varName, type);
     }
 
 }
