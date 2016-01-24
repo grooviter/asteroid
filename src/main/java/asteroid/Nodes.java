@@ -5,6 +5,7 @@ import asteroid.nodes.ClassNodeBuilder;
 import asteroid.nodes.ConstructorNodeBuilder;
 import asteroid.nodes.GenericsTypeBuilder;
 import asteroid.nodes.MethodNodeBuilder;
+import asteroid.nodes.ParameterNodeBuilder;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.GenericsType;
 
@@ -84,5 +85,16 @@ public final class Nodes {
      */
     public MethodNodeBuilder method(String methodName) {
         return MethodNodeBuilder.method(methodName);
+    }
+
+    /**
+     * Creates an instance of {@link ParameterNodeBuilder}. This builder can create instances
+     * of type {@link org.codehaus.groovy.ast.Parameter}
+     *
+     * @param paramName of the parameter
+     * @return an instance of {@link ParameterNodeBuilder}
+     */
+    public ParameterNodeBuilder param(String paramName) {
+        return ParameterNodeBuilder.param(paramName);
     }
 }
