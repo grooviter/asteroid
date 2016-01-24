@@ -151,7 +151,7 @@ public final class Expressions {
      *
      * @param receiver target instance expression
      * @param methodName The name of the method to invoke
-     * @param varargs with different argument expressions
+     * @param args with different argument expressions
      * @return an instance of {@link MethodCallExpression}
      */
     public static MethodCallExpression callX(Expression receiver, String methodName, Expression... args) {
@@ -178,10 +178,65 @@ public final class Expressions {
      * <pre><code>age.toString()</code></pre>
      *
      * @param fieldNode the node pointing at the field
-     * @return an instance of {@link FielExpression}
+     * @return an instance of {@link FieldExpression}
      */
     public static FieldExpression fieldX(FieldNode fieldNode) {
         return GeneralUtils.fieldX(fieldNode);
+    }
+
+    /**
+     Creates a method call expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre>
+     *     <code>
+     *         class A {
+     *             public void doSomething() { }
+     *         }
+     *
+     *         //...
+     *         MethodCallExpression = A.NODES.callSuperX("doSomething")
+     *
+     *     </code>
+     * </pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>super.doSomething()</code></pre>
+     *
+     * @param methodName name of the method we want to call
+     * @return an instance of {@link MethodCallExpression}
+     */
+    public static MethodCallExpression callSuperX(String methodName) {
+        return GeneralUtils.callSuperX(methodName);
+    }
+
+    /**
+     Creates a method call expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre>
+     *     <code>
+     *         class A {
+     *             public void doSomething(String constant) { }
+     *         }
+     *
+     *         //...
+     *         MethodCallExpression = A.NODES.callSuperX("doSomething", constX("1"))
+     *
+     *     </code>
+     * </pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>super.doSomething("1")</code></pre>
+     *
+     * @param methodName name of the method we want to call
+     * @param args expression representing different arguments to method call expression
+     * @return an instance of {@link MethodCallExpression}
+     */
+    public static MethodCallExpression callSuperX(String methodName, Expression... args) {
+        return GeneralUtils.callSuperX(methodName, GeneralUtils.args(args));
     }
 
 }
