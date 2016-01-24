@@ -5,17 +5,17 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
 import asteroid.check.Result;
 import org.codehaus.groovy.ast.ASTNode;
+import org.codehaus.groovy.ast.AnnotationNode;
+import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.MethodNode;
-import org.codehaus.groovy.ast.AnnotationNode;
-import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
+import org.codehaus.groovy.ast.tools.GeneralUtils;
 
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * This class gathers together a bunch of util functions to deal with
@@ -145,6 +145,18 @@ public final class Utils {
         List<AnnotationNode> list = classNode.getAnnotations(annotationType);
 
         return list != null && !list.isEmpty() ? first(list) : null;
+    }
+
+    /**
+     * Returns true if the classNode passed as first argument is of type `clazz` or that class implements
+     * `clazz`, false otherwise
+     *
+     * @param classNode the node we are checking
+     * @param clazz the type we are testing against
+     * @return true if the classNode is of type `clazz`
+     */
+    public Boolean isOrImplements(ClassNode classNode, Class clazz) {
+        return GeneralUtils.isOrImplements(classNode, ClassHelper.make(clazz,false));
     }
 
 }

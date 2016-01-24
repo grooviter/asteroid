@@ -96,6 +96,32 @@ public final class ChecksBuilder {
         return this;
     }
 
+    /**
+     * Evaluates a given expression over a given node. If the expression evaluates to false then
+     * a syntax error will be thrown
+     *
+     * @param node an instance of {@link AnnotationNode}
+     * @param expression to evaluate{@link AnnotationNode}
+     * @return the current instance
+     */
+    public <T extends AnnotationNode> ChecksBuilder checkTrue(final T node, Boolean expression, String message) {
+        processResult(new Result(node, expression ? Result.Status.PASSED : Result.Status.ERROR, message), sourceUnit);
+        return this;
+    }
+
+    /**
+     * Evaluates a given expression over a given node. If the expression evaluates to true then
+     * a syntax error will be thrown
+     *
+     * @param node an instance of {@link AnnotationNode}
+     * @param expression to evaluate{@link AnnotationNode}
+     * @return the current instance
+     */
+    public <T extends AnnotationNode> ChecksBuilder checkFalse(final T node, Boolean expression, String message) {
+        processResult(new Result(node, !expression ? Result.Status.PASSED : Result.Status.ERROR, message), sourceUnit);
+        return this;
+    }
+
     private void processResult(final Result result, final SourceUnit sourceUnit) {
         switch(result.status) {
             case PASSED:
