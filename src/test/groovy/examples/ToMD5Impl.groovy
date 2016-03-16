@@ -25,7 +25,7 @@ class ToMD5Impl extends LocalTransformationImpl<ToMD5, FieldNode> { // <2>
             .code(block)
             .build()
 
-        A.UTIL.addMethodToClass(node.declaringClass, methodNode)
+        A.UTIL.addMethod(node.declaringClass, methodNode)
     }
 
     private BlockStatement buildMethodCode(final String name) {
