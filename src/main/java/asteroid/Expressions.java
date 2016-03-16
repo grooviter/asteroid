@@ -1,12 +1,14 @@
 package asteroid;
 
 import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.ast.ClassHelper;;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
+import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.FieldExpression;
 import org.codehaus.groovy.ast.FieldNode;
@@ -154,9 +156,50 @@ public final class Expressions {
      * @param methodName The name of the method to invoke
      * @param args with different argument expressions
      * @return an instance of {@link MethodCallExpression}
+     * @since 0.1.0
      */
     public static MethodCallExpression callX(Expression receiver, String methodName, Expression... args) {
         return GeneralUtils.callX(receiver, methodName, new ArgumentListExpression(args));
+    }
+
+    /**
+     * Creates a static method expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>A.NODES.staticCallX(systemClassNode, "currentTimeMillis")</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>System.currentTimeMillis()</code></pre>
+     *
+     * @param clazz the {@link ClassNode} the method belongs
+     * @param methodName The name of the method to invoke
+     * @param args with different argument expressions
+     * @return an instance of {@link StaticMethodCallExpression}
+     * @since 0.1.0
+     */
+    public static StaticMethodCallExpression staticCallX(ClassNode clazz, String methodName, Expression... args) {
+        return GeneralUtils.callX(clazz, methodName, new ArgumentListExpression(args));
+    }
+
+        /**
+     * Creates a static method expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>A.NODES.staticCallX(systemClass, "currentTimeMillis")</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>System.currentTimeMillis()</code></pre>
+     *
+     * @param clazz the {@link Class} the method belongs
+     * @param methodName The name of the method to invoke
+     * @param args with different argument expressions
+     * @return an instance of {@link StaticMethodCallExpression}
+     * @since 0.1.0
+     */
+    public static StaticMethodCallExpression staticCallX(Class clazz, String methodName, Expression... args) {
+        return GeneralUtils.callX(ClassHelper.make(clazz, false), methodName, new ArgumentListExpression(args));
     }
 
     /**
