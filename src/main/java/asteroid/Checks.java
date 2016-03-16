@@ -17,6 +17,7 @@ public final class Checks {
      *
      * @param sourceUnit see {@link ChecksBuilder#source(SourceUnit, Closure)}
      * @param closure see {@link ChecksBuilder#source(SourceUnit, Closure)}
+     * @since 0.1.0
      */
     public void source(SourceUnit sourceUnit, @DelegatesTo(ChecksBuilder.class) Closure<?> closure) {
         ChecksBuilder.source(sourceUnit, closure);
@@ -27,6 +28,7 @@ public final class Checks {
      * See see {@link ChecksBuilder#source(SourceUnit)}
      *
      * @param sourceUnit see {@link ChecksBuilder#source(SourceUnit)}
+     * @since 0.1.0
      */
     public ChecksBuilder source(SourceUnit sourceUnit){
         return ChecksBuilder.source(sourceUnit);

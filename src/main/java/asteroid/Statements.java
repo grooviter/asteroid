@@ -28,6 +28,7 @@ public final class Statements {
      *
      * @param expression
      * @return an instance of {@link ReturnStatement}
+     * @since 0.1.0
      */
     public static ReturnStatement returnS(final Expression expression) {
         return (ReturnStatement) GeneralUtils.returnS(expression);
@@ -50,6 +51,7 @@ public final class Statements {
      *
      * @param expression
      * @return an instance of {@link Statement}
+     * @since 0.1.0
      */
     public static Statement stmt(final Expression expression) {
         return GeneralUtils.stmt(expression);
@@ -73,6 +75,7 @@ public final class Statements {
      *
      * @param args
      * @return an instance of type {@link Statement}
+     * @since 0.1.0
      */
     public static Statement ctorSuperS(final Expression... args) {
         return GeneralUtils.ctorSuperS(new ArgumentListExpression(args));
@@ -83,6 +86,7 @@ public final class Statements {
      *
      * @param statements a varargs of type Statement
      * @return an instance of {@link BlockStatement}
+     * @since 0.1.0
      */
     public static BlockStatement blockS(final Statement... statements) {
         return GeneralUtils.block(statements);
@@ -95,6 +99,7 @@ public final class Statements {
      *
      * @param code the string representation of the code
      * @return an instance of {@link BlockStatement}
+     * @since 0.1.0
      */
     public static BlockStatement blockSFromString(String code) {
         return (BlockStatement) new AstBuilder().buildFromString(code).get(0);

@@ -19,11 +19,17 @@ public class HasName implements Checker<MethodNode> {
      * Creates an instance of {@link HasName} with the name passed as argument
      *
      * @param name the name this checker will use to check the condition
+     * @since 0.1.0
      */
     private HasName(String name) {
         this.name = name;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 0.1.0
+     */
     @Override
     public Result accepts(final MethodNode node) {
         return A.UTIL.createResult(node.getName().equals(this.name), node, getErrorMessage(node));
@@ -34,6 +40,7 @@ public class HasName implements Checker<MethodNode> {
      *
      * @param name the name that will be used to check whether a method has the expected name or not.
      * @return an instance of {@link HasName}
+     * @since 0.1.0
      */
     public static HasName hasName(String name) {
         return new HasName(name);

@@ -27,6 +27,7 @@ public @interface LocalTransformation {
      * Sets the local phase compilation
      *
      * @return the specific {@link asteroid.A.PHASE_LOCAL} when transformation will be applied
+     * @since 0.1.0
      */
     A.PHASE_LOCAL value();
 }

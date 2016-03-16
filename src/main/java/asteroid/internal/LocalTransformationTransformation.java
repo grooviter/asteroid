@@ -32,6 +32,11 @@ import java.util.List;
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class LocalTransformationTransformation extends AbstractASTTransformation {
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 0.1.0
+     */
     @Override
     public void visit(final ASTNode[] nodes, final SourceUnit source) {
         if (nodes == null) return;
