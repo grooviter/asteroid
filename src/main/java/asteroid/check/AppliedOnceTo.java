@@ -20,6 +20,11 @@ public class AppliedOnceTo<T extends AnnotatedNode> implements Checker<Annotatio
 
     private final List<T> population;
 
+    /**
+     * Default constructor
+     *
+     * @since 0.1.0
+     */
     private AppliedOnceTo(final List<T> population) {
         this.population = population;
     }
@@ -31,11 +36,17 @@ public class AppliedOnceTo<T extends AnnotatedNode> implements Checker<Annotatio
      * @param <T> the type of instance expected for each item in the node list passed as argument
      * @param nodeList Set of nodes the annotation could be applied to
      * @return an instance of {@link AppliedOnceTo}
+     * @since 0.1.0
      */
     public static <T extends AnnotatedNode> AppliedOnceTo appliedOnceTo(final List<T> nodeList) {
         return new AppliedOnceTo(nodeList);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 0.1.0
+     */
     @Override
     public Result accepts(final AnnotationNode node) {
         Number howManyTimes = count(population.iterator(), new Closure<Boolean>(this) {

@@ -45,6 +45,7 @@ public final class ChecksBuilder {
      * Creates an instance of ChecksBuilder
      *
      * @param sourceUnit an instance of {@link SourceUnit} is needed when throwing {@link SyntaxException} instances
+     * @since 0.1.0
      */
     private ChecksBuilder(final SourceUnit sourceUnit) {
         this.sourceUnit = sourceUnit;
@@ -55,6 +56,7 @@ public final class ChecksBuilder {
      *
      * @param sourceUnit a {@link SourceUnit} is needed especially when throwing a {@link SyntaxException}
      * @return the current instance
+     * @since 0.1.0
      */
     public static ChecksBuilder source(final SourceUnit sourceUnit) {
         return new ChecksBuilder(sourceUnit);
@@ -66,6 +68,7 @@ public final class ChecksBuilder {
      *
      * @param sourceUnit a {@link SourceUnit} is needed especially when throwing a {@link SyntaxException}
      * @param closure Within this scope all methods from {@link ChecksBuilder} can be invoked.
+     * @since 0.1.0
      */
     public static void source(final SourceUnit sourceUnit, @DelegatesTo(ChecksBuilder.class) Closure<?> closure) {
         closure.setDelegate(new ChecksBuilder(sourceUnit));
@@ -78,6 +81,7 @@ public final class ChecksBuilder {
      * @param node an instance of {@link AnnotatedNode}
      * @param checker a checker able to act over instances of {@link AnnotatedNode}
      * @return the current instance
+     * @since 0.1.0
      */
     public <T extends AnnotatedNode> ChecksBuilder checkThat(final T node, final Checker<T> checker) {
         processResult(checker.accepts(node), sourceUnit);
@@ -90,6 +94,7 @@ public final class ChecksBuilder {
      * @param node an instance of {@link AnnotationNode}
      * @param checker a checker able to act over instances of {@link AnnotationNode}
      * @return the current instance
+     * @since 0.1.0
      */
     public <T extends AnnotationNode> ChecksBuilder checkThat(final T node, Checker<T> checker) {
         processResult(checker.accepts(node), sourceUnit);
@@ -103,6 +108,7 @@ public final class ChecksBuilder {
      * @param node an instance of {@link AnnotationNode}
      * @param expression to evaluate{@link AnnotationNode}
      * @return the current instance
+     * @since 0.1.0
      */
     public <T extends AnnotationNode> ChecksBuilder checkTrue(final T node, Boolean expression, String message) {
         processResult(new Result(node, expression ? Result.Status.PASSED : Result.Status.ERROR, message), sourceUnit);
@@ -116,6 +122,7 @@ public final class ChecksBuilder {
      * @param node an instance of {@link AnnotationNode}
      * @param expression to evaluate{@link AnnotationNode}
      * @return the current instance
+     * @since 0.1.0
      */
     public <T extends AnnotationNode> ChecksBuilder checkFalse(final T node, Boolean expression, String message) {
         processResult(new Result(node, !expression ? Result.Status.PASSED : Result.Status.ERROR, message), sourceUnit);
@@ -144,6 +151,7 @@ public final class ChecksBuilder {
      *
      * @param name The name of the expected {@link MethodNode}
      * @return an instance of checker of type {@link HasName}
+     * @since 0.1.0
      */
     public static Checker<MethodNode> hasName(String name) {
         return HasName.hasName(name);
@@ -154,6 +162,7 @@ public final class ChecksBuilder {
      *
      * @param nodes The nodes the annotation will be checked against
      * @return an instance of {@link AppliedOnceTo} checker
+     * @since 0.1.0
      */
     public static <T extends AnnotatedNode> Checker<AnnotationNode> isAppliedOnceTo(final List<T> nodes) {
         return AppliedOnceTo.appliedOnceTo(nodes);

@@ -1,12 +1,14 @@
 package asteroid;
 
 import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.ast.ClassHelper;;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
+import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.FieldExpression;
 import org.codehaus.groovy.ast.FieldNode;
@@ -48,6 +50,7 @@ public final class Expressions {
      *
      * @param constant the constant value
      * @return an instance of {@link ConstantExpression}
+     * @since 0.1.0
      */
     public static ConstantExpression constX(final Object constant) {
         return GeneralUtils.constX(constant);
@@ -66,6 +69,7 @@ public final class Expressions {
      * @param owner the instance the property belongs to
      * @param property
      * @return an instance of {@link PropertyExpression}
+     * @since 0.1.0
      */
     public static PropertyExpression propX(Expression owner, Expression property) {
         return PropertyExpression.class.cast(GeneralUtils.propX(owner, property));
@@ -83,6 +87,7 @@ public final class Expressions {
      *
      * @param expressions
      * @return an instance of {@link ListExpression}
+     * @since 0.1.0
      */
     public static ListExpression listX(Expression... expressions) {
         return new ListExpression(Arrays.asList(expressions));
@@ -100,6 +105,7 @@ public final class Expressions {
      *
      * @param clazz
      * @return an instance of {@link ClassExpression}
+     * @since 0.1.0
      */
     public static ClassExpression classX(Class clazz) {
         return GeneralUtils.classX(clazz);
@@ -117,6 +123,7 @@ public final class Expressions {
      *
      * @param classNode
      * @return an instance of {@link ClassNode}
+     * @since 0.1.0
      */
     public static ClassExpression classX(ClassNode classNode) {
         return GeneralUtils.classX(classNode);
@@ -133,8 +140,9 @@ public final class Expressions {
       * <pre><code>println "hello"</code></pre>
       *
       * @param methodName The name of the method to invoke
-      * @param varargs with different argument expressions
+      * @param args with different argument expressions
       * @return an instance of {@link MethodCallExpression}
+      * @since 0.1.0
       */
     public static MethodCallExpression callThisX(String methodName, Expression... args) {
         return GeneralUtils.callThisX(methodName, new ArgumentListExpression(args));
@@ -154,9 +162,50 @@ public final class Expressions {
      * @param methodName The name of the method to invoke
      * @param args with different argument expressions
      * @return an instance of {@link MethodCallExpression}
+     * @since 0.1.0
      */
     public static MethodCallExpression callX(Expression receiver, String methodName, Expression... args) {
         return GeneralUtils.callX(receiver, methodName, new ArgumentListExpression(args));
+    }
+
+    /**
+     * Creates a static method expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>A.NODES.staticCallX(systemClassNode, "currentTimeMillis")</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>System.currentTimeMillis()</code></pre>
+     *
+     * @param clazz the {@link ClassNode} the method belongs
+     * @param methodName The name of the method to invoke
+     * @param args with different argument expressions
+     * @return an instance of {@link StaticMethodCallExpression}
+     * @since 0.1.0
+     */
+    public static StaticMethodCallExpression staticCallX(ClassNode clazz, String methodName, Expression... args) {
+        return GeneralUtils.callX(clazz, methodName, new ArgumentListExpression(args));
+    }
+
+        /**
+     * Creates a static method expression
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>A.NODES.staticCallX(systemClass, "currentTimeMillis")</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>System.currentTimeMillis()</code></pre>
+     *
+     * @param clazz the {@link Class} the method belongs
+     * @param methodName The name of the method to invoke
+     * @param args with different argument expressions
+     * @return an instance of {@link StaticMethodCallExpression}
+     * @since 0.1.0
+     */
+    public static StaticMethodCallExpression staticCallX(Class clazz, String methodName, Expression... args) {
+        return GeneralUtils.callX(ClassHelper.make(clazz, false), methodName, new ArgumentListExpression(args));
     }
 
     /**
@@ -180,6 +229,7 @@ public final class Expressions {
      *
      * @param fieldNode the node pointing at the field
      * @return an instance of {@link FieldExpression}
+     * @since 0.1.0
      */
     public static FieldExpression fieldX(FieldNode fieldNode) {
         return GeneralUtils.fieldX(fieldNode);
@@ -209,6 +259,7 @@ public final class Expressions {
      *
      * @param methodName name of the method we want to call
      * @return an instance of {@link MethodCallExpression}
+     * @since 0.1.0
      */
     public static MethodCallExpression callSuperX(String methodName) {
         return GeneralUtils.callSuperX(methodName);
@@ -240,6 +291,7 @@ public final class Expressions {
      * @param methodName name of the method we want to call
      * @param args expression representing different arguments to method call expression
      * @return an instance of {@link MethodCallExpression}
+     * @since 0.1.0
      */
     public static MethodCallExpression callSuperX(String methodName, Expression... args) {
         return GeneralUtils.callSuperX(methodName, GeneralUtils.args(args));
@@ -272,6 +324,7 @@ public final class Expressions {
      *
      * @param varName
      * @return an instance of {@link VariableExpression}
+     * @since 0.1.0
      */
     public static VariableExpression varX(String varName) {
         return GeneralUtils.varX(varName);
@@ -306,6 +359,7 @@ public final class Expressions {
      * @param varName
      * @param type
      * @return an instance of {@link VariableExpression}
+     * @since 0.1.0
      */
     public static VariableExpression varX(String varName, ClassNode type) {
         return GeneralUtils.varX(varName, type);
