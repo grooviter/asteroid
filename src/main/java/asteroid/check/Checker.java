@@ -16,6 +16,7 @@ public interface Checker<T extends ASTNode> {
      *
      * @param node The node under test
      * @return an instance of {@link Result}
+     * @since 0.1.0
      */
     Result accepts(T node);
 }

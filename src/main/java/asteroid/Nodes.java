@@ -21,6 +21,7 @@ public final class Nodes {
      *
      * @param annotationClazz the annotation type
      * @return an instance of {@link AnnotationNodeBuilder}
+     * @since 0.1.0
      */
     public AnnotationNodeBuilder annotation(Class annotationClazz) {
        return AnnotationNodeBuilder.annotation(annotationClazz);
@@ -31,6 +32,7 @@ public final class Nodes {
      *
      * @param type the class type
      * @return an instance of {@link ClassNodeBuilder}
+     * @since 0.1.0
      */
     public ClassNodeBuilder clazz(Class type) {
         return ClassNodeBuilder.clazz(type);
@@ -41,6 +43,7 @@ public final class Nodes {
      *
      * @param fullyQualifiedName the class full qualified name
      * @return and instance of {@link ClassNodeBuilder}
+     * @since 0.1.0
      */
     public ClassNodeBuilder clazz(String fullyQualifiedName) {
         return ClassNodeBuilder.clazz(fullyQualifiedName);
@@ -52,6 +55,7 @@ public final class Nodes {
      * @param type the class type
      * @param generics related generics
      * @return and instance of {@link ClassNodeBuilder}
+     * @since 0.1.0
      */
     public ClassNodeBuilder clazzWithGenerics(Class type, GenericsType... generics) {
         return ClassNodeBuilder.clazzWithGenerics(type, generics);
@@ -62,6 +66,7 @@ public final class Nodes {
      *
      * @param classNode the type of the generic type
      * @return an instance of {@link GenericsTypeBuilder}
+     * @since 0.1.0
      */
     public GenericsTypeBuilder generics(ClassNode classNode) {
         return GenericsTypeBuilder.generics(classNode);
@@ -72,6 +77,7 @@ public final class Nodes {
      *
      * @param modifiers set of modifiers for the constructor about to build
      * @return an instance of {@link ConstructorNodeBuilder}
+     * @since 0.1.0
      */
     public ConstructorNodeBuilder constructor(int modifiers) {
         return ConstructorNodeBuilder.constructor(modifiers);
@@ -82,6 +88,7 @@ public final class Nodes {
      *
      * @param methodName name of the method to create
      * @return an instance of {@link MethodNodeBuilder}
+     * @since 0.1.0
      */
     public MethodNodeBuilder method(String methodName) {
         return MethodNodeBuilder.method(methodName);
@@ -93,6 +100,7 @@ public final class Nodes {
      *
      * @param paramName of the parameter
      * @return an instance of {@link ParameterNodeBuilder}
+     * @since 0.1.0
      */
     public ParameterNodeBuilder param(String paramName) {
         return ParameterNodeBuilder.param(paramName);

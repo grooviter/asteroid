@@ -61,6 +61,11 @@ import java.lang.annotation.Target;
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class LocalTransformation extends AbstractASTTransformation {
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 0.1.0
+     */
     @Override
     public void visit(final ASTNode[] nodes, final SourceUnit source) {
         this.sourceUnit = source;
