@@ -21,6 +21,7 @@ public final class Result {
      * @param nodeUnderTest The node that will be used to tell the user what the error is related to
      * @param status The status represents whether the process has failed or not. It also can represent a warning.
      * @param message The message used in case of error or warning
+     * @since 0.1.0
      */
     public Result(final ASTNode nodeUnderTest, final Status status, String message) {
         this.nodeUnderTest = nodeUnderTest;

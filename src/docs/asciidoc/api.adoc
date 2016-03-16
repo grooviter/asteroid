@@ -10,6 +10,12 @@ entry point is `asteroid.A`.
 - **CHECKERS**: `asteroid.A.CHECK`. Access to checkers.
 - **UTILS**: `asteroid.A.UTIL`.
 
+NOTE: The project has been developed having in mind to get the general
+idea reading this documentation and then checking the specifics using
+the javadoc.
+
+Please check out the javadoc link:javadocs/index.html[here]
+
 === Nodes
 
 `asteroid.A.NODES`
@@ -47,6 +53,9 @@ Will produce the following annotation:
 ----
 @MyAnnotation(message = "hello", sort = "desc")
 ----
+
+NOTE: The nodes related javadoc has the same structure. Normally
+you'll see the AST and the resulting code explained.
 
 === Expressions
 

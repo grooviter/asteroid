@@ -8,6 +8,7 @@ import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
@@ -32,9 +33,26 @@ public final class Utils {
      *
      * @param classNode the class we want to add the method to
      * @param methodNode the method we want to add
+     * @since 0.1.0
      */
-    public void addMethodToClass(final ClassNode classNode, final MethodNode methodNode) {
+    public void addMethod(final ClassNode classNode, final MethodNode methodNode) {
         classNode.addMethod(methodNode);
+    }
+
+    /**
+     * Makes the {@link ClassNode} to implement the interfaces passed
+     * as arguments
+     *
+     * @param classNode
+     * @param interfaces the interfaces we want the class node to be
+     * implementing
+     * @since 0.1.0
+     */
+    public void addInterfaces(final ClassNode classNode, Class... interfaces) {
+        for (Class clazz : interfaces) {
+            ClassNode nextInterface = ClassHelper.make(clazz, false);
+            classNode.addInterface(nextInterface);
+        }
     }
 
     /**
@@ -43,6 +61,7 @@ public final class Utils {
      *
      * @param annotationNode The node we want the value from
      * @return the value of the member "value" as a {@link String}
+     * @since 0.1.0
      */
     public String getStringValue(final AnnotationNode annotationNode) {
         return annotationNode.getMember(ANNOTATION_VALUE).getText();
@@ -55,6 +74,7 @@ public final class Utils {
      * @param clazz the type of the expected value
      * @param <T> the expected type
      * @return a node with type T
+     * @since 0.1.0
      */
     public <T> T getFirstNodeAs(final ASTNode[] nodes, final Class<T> clazz) {
         return (T) first(nodes);
@@ -67,6 +87,7 @@ public final class Utils {
      * @param clazz the type of the expected value
      * @param <T> the expected type
      * @return a node with type T
+     * @since 0.1.0
      */
     public <T> T getLastNodeAs(final ASTNode[] nodes, final Class<T> clazz) {
         return (T) last(nodes);
@@ -80,6 +101,7 @@ public final class Utils {
      * @param clazz the type of value expected
      * @param <T> The expected return type
      * @return an instance of type T
+     * @since 0.1.0
      */
     public <T> T get(AnnotationNode annotationNode, final Class<T> clazz) {
         Object value = resolveValueFrom(annotationNode.getMember(ANNOTATION_VALUE));
@@ -101,11 +123,25 @@ public final class Utils {
      * @param annotationNode the annotation we want a member value from
      * @param name the name of the member we want the value from
      * @param clazz the clazz of the expected value
+     * @since 0.1.0
      */
     public <T> T get(AnnotationNode annotationNode, String name, Class<T> clazz) {
         Object value = resolveValueFrom(annotationNode.getMember(name));
 
         return clazz.cast(value);
+    }
+
+    /**
+     * Returns all properties from a given {@link ClassNode} passed as
+     * argument
+     *
+     * @param classNode the {@link ClassNode} we want its properties from
+     * @return a list of the properties ({@link FieldNode}) of a given
+     * {@link ClassNode}
+     * @since 0.1.0
+     */
+    public List<FieldNode> getInstancePropertyFields(ClassNode classNode) {
+        return GeneralUtils.getInstancePropertyFields(classNode);
     }
 
     private Object resolveValueFrom(final Expression expression) {
@@ -129,6 +165,7 @@ public final class Utils {
      * @param passes whether the result is successful or not
      * @param node the node under test
      * @param errorMessage The message in case result was not successful
+     * @since 0.1.0
      */
     public Result createResult(Boolean passes, ASTNode node, String errorMessage) {
         return new Result(node, passes ? Result.Status.PASSED : Result.Status.ERROR, errorMessage);
@@ -140,6 +177,7 @@ public final class Utils {
      * @param classNode the class node annotated with the annotation we're looking for
      * @param annotationType the annotation class node
      * @return the annotation type if found, null otherwise
+     * @since 0.1.0
      */
     public AnnotationNode getAnnotationFrom(ClassNode classNode, ClassNode annotationType) {
         List<AnnotationNode> list = classNode.getAnnotations(annotationType);
@@ -149,14 +187,81 @@ public final class Utils {
 
     /**
      * Returns true if the classNode passed as first argument is of type `clazz` or that class implements
-     * `clazz`, false otherwise
+     * `parent`, false otherwise
      *
-     * @param classNode the node we are checking
-     * @param clazz the type we are testing against
+     * @param child the {@link Class}  we are checking
+     * @param parent the {@link Class} we are testing against
      * @return true if the classNode is of type `clazz`
+     * @since 0.1.0
      */
-    public Boolean isOrImplements(ClassNode classNode, Class clazz) {
-        return GeneralUtils.isOrImplements(classNode, ClassHelper.make(clazz,false));
+    public Boolean isOrImplements(Class child, Class parent) {
+        return isOrImplements(ClassHelper.make(child, false), parent);
     }
 
+    /**
+     * Returns true if the classNode passed as first argument is of type `clazz` or that class implements
+     * `parent`, false otherwise
+     *
+     * @param child the {@link ClassNode}  we are checking
+     * @param parent the {@link Class}  we are testing against
+     * @return true if the classNode is of type `parent`
+     * @since 0.1.0
+     */
+    public Boolean isOrImplements(ClassNode child, Class parent) {
+        return GeneralUtils.isOrImplements(child, ClassHelper.make(parent,false));
+    }
+
+    /**
+     * Returns true if the classNode passed as first argument is of type `clazz` or that class implements
+     * `parent`, false otherwise
+     *
+     * @param child the {@link ClassNode}  we are checking
+     * @param parent the qualified name of the {@link Class} we are testing against
+     * @return true if the classNode is of type `clazz`
+     * @since 0.1.0
+     */
+    public Boolean isOrImplements(ClassNode child, String parent) {
+        return GeneralUtils.isOrImplements(child, ClassHelper.make(parent));
+    }
+
+    /**
+     * Returns true if the classNode passed as first argument is of type `clazz` or that class extends
+     * the other class, false otherwise
+     *
+     * @param child the {@link ClassNode}  we are checking
+     * @param parent the {@link Class}  we are testing against
+     * @return true if the classNode is of type `parent`
+     * @since 0.1.0
+     */
+    public Boolean isOrExtends(ClassNode child, Class parent) {
+        ClassNode extendedType = ClassHelper.make(parent,false);
+
+        return isOrExtends(child, extendedType);
+    }
+
+    /**
+     * Returns true if the classNode passed as first argument is of type `clazz` or that class extends
+     * the other class, false otherwise
+     *
+     * @param child the {@link ClassNode}  we are checking
+     * @param parent the {@link ClassNode}  we are testing against
+     * @return true if the classNode is of type `parent`
+     * @since 0.1.0
+     */
+    public Boolean isOrExtends(ClassNode child, ClassNode parent) {
+        return child.equals(parent) || child.isDerivedFrom(parent);
+    }
+
+        /**
+     * Returns true if the classNode passed as first argument is of type `clazz` or that class extends
+     * the other class, false otherwise
+     *
+     * @param child the {@link ClassNode}  we are checking
+     * @param parent the qualified name of the class we are testing against
+     * @return true if the classNode is of type `parent`
+     * @since 0.1.0
+     */
+    public Boolean isOrExtends(ClassNode child, String parent) {
+        return child.equals(parent) || child.isDerivedFrom(ClassHelper.make(parent));
+    }
 }
