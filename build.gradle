@@ -11,15 +11,10 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'groovy'
+apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'org.asciidoctor.convert'
-
-ext.metadata = [
-    group: "com.github.januslynd",
-    desc: "Library for creating Groovy ASTs",
-    version : "0.1.0-beta-313cf7a"
-]
 
 ext.versions = [
     groovy: "2.4.4"
@@ -54,6 +49,13 @@ asciidoctor {
             'pdf-style'         : 'default'
 }
 
+asciidoctor.dependsOn 'javadoc'
+
+task copyJavadocs(type: Copy, dependsOn: 'asciidoctor') {
+    from "build/docs/javadoc/"
+    into "build/asciidoc/html5/javadocs/"
+}
+
 task('console', type: JavaExec) {
     main = 'groovy.ui.Console'
     project.dependencies.add("compile", libs.groovy_all)
@@ -63,9 +65,9 @@ task('console', type: JavaExec) {
 publishing {
     publications {
         mavenCustom(MavenPublication) {
-            groupId    metadata.group
+            groupId    releaseGroup
             artifactId 'asteroid'
-            version    metadata.version
+            version    releaseVersion
 
             from components.java
         }
@@ -81,17 +83,17 @@ bintray {
     pkg {
         repo            = 'maven'
         name            = 'asteroid'
-        desc            =  metadata.desc
+        desc            =  releaseDesc
         websiteUrl      = 'http://januslynd.github.io/asteroid/'
         issueTrackerUrl = 'https://github.com/januslynd/asteroid/issues'
         licenses        = ['Apache-2.0']
         vcsUrl          = 'https://github.com/januslynd/asteroid.git'
         labels          = ['groovy', 'ast']
         version {
-            name      = metadata.version
+            name      = releaseVersion
             desc      = 'Asteroid Release'
             released  = new Date()
-            vcsTag    = metadata.version
+            vcsTag    = releaseVersion
         }
     }
 }
