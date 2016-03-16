@@ -1,6 +1,6 @@
 = Asteroid
 :author: @januslynd
-:revnumber: {project-version}
+:revnumber: 0.1.1
 :numbered:
 :imagesDir: images/
 :baseDir: ../../
@@ -14,8 +14,8 @@ http://www.groovy-lang.org[Groovy] AST transformations.
 
 include::local.adoc[]
 
+include::global.adoc[]
+
 include::api.adoc[]
 
 include::checker.adoc[]
-
-
