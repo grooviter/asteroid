@@ -1,7 +1,14 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
-## [0.1.0] 2016-03-16
+## [0.1.1] - 2016-03-16
+### Breaking changes
+- LocalTransformation, LocalTransformationImpl, Apply moved to `asteroid.local` package
+
+### Added
+- New global transformation abstractions located at `asteroid.global`
+
+## [0.1.0] - 2016-03-16
 ### Breaking changes
 - A.UTIL.addMethodToClass -> A.UTIL.addMethod
 
