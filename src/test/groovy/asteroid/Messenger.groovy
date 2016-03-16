@@ -1,6 +1,8 @@
 package asteroid
 
-import asteroid.A.TO;
+import asteroid.A.TO
+import asteroid.local.Local
+import asteroid.local.Apply
 
 /**
  * When applied to a method this annotation will trigger a

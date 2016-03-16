@@ -1,4 +1,4 @@
-package asteroid;
+package asteroid.local;
 
 import static org.codehaus.groovy.ast.ClassHelper.make;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;

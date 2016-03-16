@@ -1,6 +1,6 @@
 package examples
 
-import asteroid.Local
+import asteroid.local.Local
 
 @Local(AsListImpl)
 @interface AsList { }

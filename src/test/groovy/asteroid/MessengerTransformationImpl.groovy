@@ -5,6 +5,9 @@ import static asteroid.A.EXPR
 import static asteroid.A.STMT
 import static asteroid.A.UTIL
 
+import asteroid.local.LocalTransformation
+import asteroid.local.LocalTransformationImpl
+
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.MethodNode
