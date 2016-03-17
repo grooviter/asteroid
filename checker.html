@@ -439,12 +439,78 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 whether all precoditions are correct before applying a given transformation. Without this sanity check, many things
 could go wrong.</p>
 </div>
+<div class="paragraph">
+<p>Here&#8217;s an example, it&#8217;s a bit silly but I think it will easy to
+understand. We have a annotation called <code>@Serializable</code>.</p>
+</div>
+<div class="paragraph">
+<p>The transformation <code>SerializableImpl</code> will make all classes annotated
+with <code>@Serializable</code> to implement <code>java.io.Serializable</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in checker.adoc - include::{testMain}/asteroid/local/samples/Serializable.groovy[]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As a constraint I want to make sure the class has not been annotated
+twice with the same annotation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in checker.adoc - include::{testMain}/asteroid/local/samples/SerializableImpl.groovy[]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>SourceUnit</code> is required to create compilation errors</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Checking the annotated class belongs to a certain <code>package</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Checking that the annotated node has less than two methods</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>checkTrue</code> method receives three parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The node we are checking</p>
+</li>
+<li>
+<p>A boolean expression: true if it&#8217;s ok, false if it should fail</p>
+</li>
+<li>
+<p>The error message</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To prove it, there&#8217;s a test with an annotated class having two
+methods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in checker.adoc - include::{testTest}/asteroid/local/samples/SerializableTest.groovy[tags=checkersShouldFail]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the test&#8230;&#8203; passes :)</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-03-14 08:37:51 +00:00
+Last updated 2016-03-17 13:02:49 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

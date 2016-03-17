@@ -423,7 +423,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_global_transformations">Global Transformations</a></li>
+<li><a href="#_global_transformations">Global Transformations</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_node_transformers">Node transformers</a>
+<ul class="sectlevel3">
+<li><a href="#_classnodetransformer">ClassNodeTransformer</a></li>
+</ul>
+</li>
+<li><a href="#_expression_transformers">Expression transformers</a>
+<ul class="sectlevel3">
+<li><a href="#_expressiontransformer">ExpressionTransformer</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -431,6 +445,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_global_transformations">Global Transformations</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction">Introduction</h3>
 <div class="quoteblock">
 <blockquote>
 Global AST transformation are similar to local one with a major
@@ -444,29 +460,14 @@ can have a significant impact on the compiler performance.
 </div>
 </div>
 <div class="paragraph">
-<p>Asteroid suggest a different way of creating global AST
-transformations than the official Groovy documentation does.</p>
-</div>
-<div class="paragraph">
-<p>Instead of creating a global transformation and manipulate the
-<code>SourceUnit</code> directly, an <code>Asteroid</code> global transformation only holds
-references to code visitors.</p>
+<p><code>Asteroid</code> suggest a certain way of creating global AST
+transformations. Instead of creating a global transformation and
+manipulate the <code>SourceUnit</code> directly, an <code>Asteroid</code> global
+transformation only holds references to code transformers.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package myast
-
-import asteroid.global.GlobalTransformationImpl
-
-@GlobalTransformation(A.PHASE_GLOBAL.SEMANTIC_ANALYSIS) <i class="conum" data-value="1"></i><b>(1)</b>
-class MyGlobalAST extends GlobalTransformationImpl { <i class="conum" data-value="2"></i><b>(2)</b>
-
-      List&lt;Class&lt;? extends AbstractClassCodeExpressionTransformer&gt;&gt; getTransformers() {
-          return [
-              MyMethodTransformer, <i class="conum" data-value="3"></i><b>(3)</b>
-          ]
-      }
-}</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in global.adoc - include::{testMain}/asteroid/global/samples/AddTransformation.groovy[]</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -485,12 +486,71 @@ class MyGlobalAST extends GlobalTransformationImpl { <i class="conum" data-value
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>A global transformation needs to be annotated with the
+<code>@GlobalTransformation</code> annotation, then it should extend
+<code>GlobalTransformationImpl</code> and finally to provide a list of the
+transformers that will eventually transform the code.</p>
+</div>
+<div class="paragraph">
+<p>In this example the code of the transformer is the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in global.adoc - include::{testMain}/asteroid/global/samples/AddPropertyToInnerClass.groovy[]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Because this transformer targets class nodes it extends <code>ClassNodeTransformer</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Every <code>ClassNodeTransformer</code> requires a <code>SourceUnit</code> and a
+criteria to filter class nodes</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Then the programmer should only be focused on develop de
+transformation within the <code>transformClass</code> method</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_node_transformers">Node transformers</h3>
+<div class="paragraph">
+<p>This type of transformers should be used when trying to transform a
+given <code>ASTNode</code>. Think of a node as a method, a field, a class
+everything that encloses code.</p>
+</div>
+<div class="sect3">
+<h4 id="_classnodetransformer">ClassNodeTransformer</h4>
+<div class="paragraph">
+<p>#TODO</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expression_transformers">Expression transformers</h3>
+<div class="paragraph">
+<p>#TODO</p>
+</div>
+<div class="sect3">
+<h4 id="_expressiontransformer">ExpressionTransformer</h4>
+<div class="paragraph">
+<p>#TODO</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-03-16 15:39:50 +00:00
+Last updated 2016-03-17 13:02:49 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
