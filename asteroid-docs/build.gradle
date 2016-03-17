@@ -1,0 +1,24 @@
+buildscript {
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    }
+}
+
+apply plugin: 'org.asciidoctor.convert'
+
+asciidoctor {
+    attributes 'source-highlighter': 'prettify',
+            toc                 : 'left',
+            icons               : 'font',
+            toclevels           : 3,
+            'pdf-style'         : 'default'
+}
+
+task copyJavadocs(type: Copy) {
+    from "../asteroid-core/build/docs/javadoc/"
+    into "build/asciidoc/html5/javadocs/"
+}
+
+build.dependsOn 'copyJavadocs'
+copyJavadocs.dependsOn 'asciidoctor'
+asciidoctor.dependsOn ':asteroid-core:javadoc'
