@@ -1,1 +1,5 @@
 rootProject.name = 'asteroid'
+
+include 'asteroid-core'
+include 'asteroid-docs'
+include 'asteroid-test'
