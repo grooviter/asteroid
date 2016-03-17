@@ -425,6 +425,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_local_transformations">Local Transformations</a>
 <ul class="sectlevel2">
+<li><a href="#_introduction">Introduction</a></li>
 <li><a href="#__local">@Local</a></li>
 <li><a href="#__apply">@Apply</a></li>
 <li><a href="#__localtransformation">@LocalTransformation</a></li>
@@ -438,6 +439,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_local_transformations">Local Transformations</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction">Introduction</h3>
 <div class="quoteblock">
 <blockquote>
 Local AST transformations are relative to the context they are applied to. In most cases, the context is defined by an
@@ -458,7 +461,7 @@ class.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/WithLoggingTest.groovy[tags=testCode, indent=0]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testTest}/asteroid/local/samples/WithLoggingTest.groovy[tags=testCode, indent=0]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -490,7 +493,7 @@ stop greet</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/WithLogging.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/WithLogging.groovy[]</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -535,7 +538,7 @@ arguments:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/WithLoggingTransformationImpl.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/WithLoggingTransformationImpl.groovy[]</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -573,6 +576,7 @@ enumeration <code>A.PHASE_LOCAL</code> will show <code>ONLY</code> those compila
 <p>The <code>@CompileStatic</code> annotation is not required it&#8217;s only used here to highlight that all the code used in this
 transformation is safely typed and can be optimized by this annotation.</p>
 </div>
+</div>
 <div class="sect2">
 <h3 id="__local">@Local</h3>
 <div class="paragraph">
@@ -582,7 +586,7 @@ classes should always extend <code>asteroid.LocalTransformationImpl</code> class
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/AsList.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/AsList.groovy[]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -600,7 +604,7 @@ annotation, field&#8230;&#8203;etc.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/WithLogging.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/WithLogging.groovy[]</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -625,7 +629,7 @@ needed to implement an instance of <code>asteroid.LocalTransformationImpl</code>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/AsListImpl.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/AsListImpl.groovy[]</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -660,7 +664,7 @@ used in elements of type <code>FIELD</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/ToMD5.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/ToMD5.groovy[]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -672,7 +676,7 @@ returning the MD5 signature of the content of that field.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{test}/examples/ToMD5Impl.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/ToMD5Impl.groovy[]</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -704,7 +708,7 @@ second node passed to your transformation anymore.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-03-14 08:37:51 +00:00
+Last updated 2016-03-17 13:02:49 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
