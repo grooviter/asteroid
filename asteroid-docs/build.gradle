@@ -14,11 +14,10 @@ asciidoctor {
             'pdf-style'         : 'default'
 }
 
-task copyJavadocs(type: Copy) {
+task allDocs(type: Copy) {
     from "../asteroid-core/build/docs/javadoc/"
     into "build/asciidoc/html5/javadocs/"
 }
 
-build.dependsOn 'copyJavadocs'
-copyJavadocs.dependsOn 'asciidoctor'
+allDocs.dependsOn 'asciidoctor'
 asciidoctor.dependsOn ':asteroid-core:javadoc'
