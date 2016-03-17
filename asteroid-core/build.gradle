@@ -1,0 +1,54 @@
+buildscript {
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+dependencies {
+    compile libs.groovy
+}
+
+publishing {
+    publications {
+        mavenCustom(MavenPublication) {
+            groupId    releaseGroup
+            artifactId 'asteroid'
+            version    releaseVersion
+
+            from components.java
+        }
+    }
+}
+
+bintray {
+ /* Normally taken from ~/.gradle/gradle.properties */
+    user         = bintrayUser
+    key          = bintrayKey
+    publish      = false
+    publications = ['mavenCustom']
+    pkg {
+        repo            = 'maven'
+        name            = 'asteroid'
+        desc            =  releaseDesc
+        websiteUrl      = 'http://januslynd.github.io/asteroid/'
+        issueTrackerUrl = 'https://github.com/januslynd/asteroid/issues'
+        licenses        = ['Apache-2.0']
+        vcsUrl          = 'https://github.com/januslynd/asteroid.git'
+        labels          = ['groovy', 'ast']
+        version {
+            name      = releaseVersion
+            desc      = 'Asteroid Release'
+            released  = new Date()
+            vcsTag    = releaseVersion
+        }
+    }
+}

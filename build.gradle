@@ -1,20 +1,20 @@
-buildscript {
+subprojects {
+    buildscript {
+        repositories {
+            mavenLocal()
+            jcenter()
+            maven {
+                url "https://plugins.gradle.org/m2/"
+            }
+            mavenCentral()
+        }
+    }
+
     repositories {
         jcenter()
-    }
-
-    dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        maven { url "https://oss.sonatype.org/content/groups/public" }
     }
 }
-
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'org.asciidoctor.convert'
 
 ext.versions = [
     groovy: "2.4.4"
@@ -24,76 +24,6 @@ ext.libs = [
     groovy: "org.codehaus.groovy:groovy:${versions.groovy}",
     groovy_test: "org.codehaus.groovy:groovy-test:${versions.groovy}",
     groovy_all: "org.codehaus.groovy:groovy-all:${versions.groovy}",
-    junit: "junit:junit:4.12"
+    junit: "junit:junit:4.12",
+    spock: 'org.spockframework:spock-core:1.0-groovy-2.4'
 ]
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-repositories {
-    jcenter()
-}
-
-dependencies {
-    compile libs.groovy
-
-    testCompile libs.groovy_test
-    testCompile libs.junit
-}
-
-asciidoctor {
-    attributes 'source-highlighter': 'prettify',
-            toc                 : 'left',
-            icons               : 'font',
-            toclevels           : 3,
-            'pdf-style'         : 'default'
-}
-
-asciidoctor.dependsOn 'javadoc'
-
-task copyJavadocs(type: Copy, dependsOn: 'asciidoctor') {
-    from "build/docs/javadoc/"
-    into "build/asciidoc/html5/javadocs/"
-}
-
-task('console', type: JavaExec) {
-    main = 'groovy.ui.Console'
-    project.dependencies.add("compile", libs.groovy_all)
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-publishing {
-    publications {
-        mavenCustom(MavenPublication) {
-            groupId    releaseGroup
-            artifactId 'asteroid'
-            version    releaseVersion
-
-            from components.java
-        }
-    }
-}
-
-bintray {
- /* Normally taken from ~/.gradle/gradle.properties */
-    user         = bintrayUser
-    key          = bintrayKey
-    publish      = false
-    publications = ['mavenCustom']
-    pkg {
-        repo            = 'maven'
-        name            = 'asteroid'
-        desc            =  releaseDesc
-        websiteUrl      = 'http://januslynd.github.io/asteroid/'
-        issueTrackerUrl = 'https://github.com/januslynd/asteroid/issues'
-        licenses        = ['Apache-2.0']
-        vcsUrl          = 'https://github.com/januslynd/asteroid.git'
-        labels          = ['groovy', 'ast']
-        version {
-            name      = releaseVersion
-            desc      = 'Asteroid Release'
-            released  = new Date()
-            vcsTag    = releaseVersion
-        }
-    }
-}

@@ -1,0 +1,45 @@
+== Checkers
+
+`asteroid.A.CHECK`
+
+`Checkers` is an effort to avoid boiler plate code when checking the AST state. Many times you have to check
+whether all precoditions are correct before applying a given transformation. Without this sanity check, many things
+could go wrong.
+
+Here's an example, it's a bit silly but I think it will easy to
+understand. We have a annotation called `@Serializable`.
+
+The transformation `SerializableImpl` will make all classes annotated
+with `@Serializable` to implement `java.io.Serializable`.
+
+[source, groovy]
+----
+include::{testMain}/asteroid/local/samples/Serializable.groovy[]
+----
+
+As a constraint I want to make sure the class has not been annotated
+twice with the same annotation.
+
+[source, groovy]
+----
+include::{testMain}/asteroid/local/samples/SerializableImpl.groovy[]
+----
+<1> The `SourceUnit` is required to create compilation errors
+<2> Checking the annotated class belongs to a certain `package`
+<3> Checking that the annotated node has less than two methods
+
+The `checkTrue` method receives three parameters:
+
+- The node we are checking
+- A boolean expression: true if it's ok, false if it should fail
+- The error message
+
+To prove it, there's a test with an annotated class having two
+methods:
+
+[source, groovy]
+----
+include::{testTest}/asteroid/local/samples/SerializableTest.groovy[tags=checkersShouldFail]
+----
+
+And the test... passes :)

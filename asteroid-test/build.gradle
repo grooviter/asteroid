@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+dependencies {
+    compile project(':asteroid-core')
+
+    testCompile libs.groovy_test
+    testCompile libs.spock
+    testCompile libs.junit
+}
