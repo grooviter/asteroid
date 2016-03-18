@@ -169,6 +169,30 @@ public final class Expressions {
     }
 
     /**
+     * Creates a <b>safe</b> method call expression. It will return null if the receiver object
+     * is null.
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>A.NODES.safeCallX(ownerExpression, "toMD5", A.EXPR.constX("hello"))</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>owner?.toMD5("hello")</code></pre>
+     *
+     * @param receiver target instance expression
+     * @param methodName The name of the method to invoke
+     * @param args with different argument expressions
+     * @return an instance of {@link MethodCallExpression}
+     * @since 0.1.3
+     */
+    public static MethodCallExpression safeCallX(Expression receiver, String methodName, Expression... args) {
+        MethodCallExpression mce = GeneralUtils.callX(receiver, methodName, new ArgumentListExpression(args));
+        mce.setSafe(true);
+
+        return mce;
+    }
+
+    /**
      * Creates a static method expression
      * <br><br>
      *
