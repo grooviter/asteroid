@@ -1,10 +1,16 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 2016-03-18
+### Added
+- Safe instance method call to A.UTIL
+- Javadoc now shows version at index
+
 ## [0.1.2] - 2016-03-17
 ### Breaking changes
 - Global transformers use criterias to locate classes and expressions
 - MethodCallExpressionTransformed removed in favor of ExpressionTransformer
+- Added methods to Util to manipulate method call arguments
 
 ### Added
 - Multimodule project
