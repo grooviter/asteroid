@@ -13,7 +13,9 @@ import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
+import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 
 import java.util.List;
@@ -252,7 +254,7 @@ public final class Utils {
         return child.equals(parent) || child.isDerivedFrom(parent);
     }
 
-        /**
+    /**
      * Returns true if the classNode passed as first argument is of type `clazz` or that class extends
      * the other class, false otherwise
      *
@@ -263,5 +265,42 @@ public final class Utils {
      */
     public Boolean isOrExtends(ClassNode child, String parent) {
         return child.equals(parent) || child.isDerivedFrom(ClassHelper.make(parent));
+    }
+
+    /**
+     * Given a {@link MethodCallExpression} it returns a list of arguments
+     *
+     * @param methodCallExpression a method call we want the arguments from
+     * @return a list of expressions within a {@link ArgumentListExpression}
+     * @since 0.1.3
+     */
+    public ArgumentListExpression getArgs(final MethodCallExpression methodCallExpression) {
+        return (ArgumentListExpression) methodCallExpression.getArguments();
+    }
+
+    /**
+     * Return the first element of the {@link ArgumentListExpression}
+     * passed as parameters as the expected type.
+     *
+     * @param args the list of arguments
+     * @param asType the expected type
+     * @return the first argument casted as the expected type
+     * @since 0.1.3
+     */
+    public <U extends Expression> U getFirstArgumentAs(final ArgumentListExpression args, final Class<U> asType) {
+        return asType.cast(first(args.getExpressions()));
+    }
+
+    /**
+     * Return the last element of the {@link ArgumentListExpression}
+     * passed as parameters as the expected type.
+     *
+     * @param args the list of arguments
+     * @param asType the expected type
+     * @return the last argument casted as the expected type
+     * @since 0.1.3
+     */
+    public <U extends Expression> U getLastArgumentAs(final ArgumentListExpression args, final Class<U> asType) {
+        return asType.cast(last(args.getExpressions()));
     }
 }
