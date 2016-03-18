@@ -52,3 +52,9 @@ bintray {
         }
     }
 }
+
+
+javadoc {
+    options.windowTitle = 'Asteroid API Documentation'
+    options.docTitle = "Asteroid JavaDoc ($releaseVersion)"
+}
