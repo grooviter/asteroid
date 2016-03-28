@@ -1,6 +1,10 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] -
+### Fixes
+- Fix generic type in global transformation example
+
 ## [0.1.3] - 2016-03-18
 ### Added
 - Safe instance method call to A.UTIL
