@@ -7,6 +7,7 @@ import java.util.List;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.MethodNode;
+import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
@@ -20,6 +21,31 @@ import org.codehaus.groovy.ast.tools.GeneralUtils;
 public final class ClassNodeUtils {
 
     /**
+     * Adds the property to the class node passed as first argument
+     *
+     * @param classNode the class we want to add the property to
+     * @param propertyNode the property we want to add
+     * @since 0.1.4
+     */
+    public void addProperty(final ClassNode classNode, final PropertyNode propertyNode) {
+        classNode.addProperty(propertyNode);
+    }
+
+    /**
+     * Adds a property to the class node passed as first argument only
+     * if it wasn't present in the first place
+     *
+     * @param classNode the class we want to add the property to
+     * @param propertyNode the property we want to add
+     * @since 0.1.4
+     */
+    public void addPropertyIfNotPresent(final ClassNode classNode, final PropertyNode propertyNode) {
+        if (!classNode.hasProperty(propertyNode.getName())) {
+            classNode.addProperty(propertyNode);
+        }
+    }
+
+    /**
      * Adds the method to the class node passed as first argument
      *
      * @param classNode the class we want to add the method to
@@ -28,6 +54,20 @@ public final class ClassNodeUtils {
      */
     public void addMethod(final ClassNode classNode, final MethodNode methodNode) {
         classNode.addMethod(methodNode);
+    }
+
+    /**
+     * Adds a method to the class node passed as first argument only
+     * if it wasn't present in the first place
+     *
+     * @param classNode the class we want to add the method to
+     * @param methodNode the method we want to add
+     * @since 0.1.4
+     */
+    public void addMethodIfNotPresent(final ClassNode classNode, final MethodNode methodNode) {
+        if (!classNode.hasMethod(methodNode.getName(), methodNode.getParameters())) {
+            classNode.addMethod(methodNode);
+        }
     }
 
     /**
