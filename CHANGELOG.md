@@ -1,7 +1,14 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
-## [0.1.4] -
+## [0.1.4] - 2016-03-31
+### Breaking changes
+- Move utility functions to different modules (A.UTIL.CLASS/ANNOTATION/...)
+
+### Added
+- New utility functions to add elements to a ClassNode (methods, properties)
+- More documentation in node related classes
+
 ### Fixes
 - Fix generic type in global transformation example
 
