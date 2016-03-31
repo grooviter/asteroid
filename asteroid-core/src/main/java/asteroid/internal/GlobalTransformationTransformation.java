@@ -44,14 +44,14 @@ public class GlobalTransformationTransformation extends AbstractASTTransformatio
 
         this.sourceUnit = source;
 
-        AnnotationNode annotationNode = A.UTIL.getFirstNodeAs(nodes, AnnotationNode.class);
-        ClassNode      annotatedNode  = A.UTIL.getLastNodeAs(nodes, ClassNode.class);
+        AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
+        ClassNode      annotatedNode  = A.UTIL.MISC.getLastNodeAs(nodes, ClassNode.class);
 
         addAnnotationsFromTo(annotationNode, annotatedNode);
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        String        phaseAsString = A.UTIL.get(annotationNode, String.class);
+        String        phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
         A.PHASE_GLOBAL phaseGlobal    = A.PHASE_GLOBAL.valueOf(phaseAsString);
         CompilePhase  compilePhase  = toCompilePhase(phaseGlobal);
 

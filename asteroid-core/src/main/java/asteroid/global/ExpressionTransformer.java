@@ -51,7 +51,7 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
     /**
      * This method will transform the expression into its final version.
      *
-     * @param methodCallExpression the method expression you want to transform
+     * @param expression the method expression you want to transform
      * @return the final version of the method expression
      * @since 0.1.2
      */

@@ -114,10 +114,10 @@ public abstract class ClassNodeTransformer extends Transformer {
     }
 
     /**
-     * This method will transform the expression into its final version.
+     * Within this method developer could modify the {@link ClassNode}
+     * instance.
      *
-     * @param expression the class expression you want to transform
-     * @return the final version of the class expression
+     * @param classNode the {@link ClassNode}  you want to transform
      * @since 0.1.2
      */
     public abstract void transformClass(ClassNode classNode);

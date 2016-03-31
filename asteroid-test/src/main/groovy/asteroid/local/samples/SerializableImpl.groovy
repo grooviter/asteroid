@@ -27,6 +27,6 @@ class SerializableImpl extends LocalTransformationImpl<Serializable, ClassNode> 
                 "Invalid State...too many methods")
         }
 
-        A.UTIL.addInterfaces(classNode, java.io.Serializable, Cloneable)
+        A.UTIL.CLASS.addInterfaces(classNode, java.io.Serializable, Cloneable)
     }
 }
