@@ -60,7 +60,7 @@ public class AppliedOnceTo<T extends AnnotatedNode> implements Checker<Annotatio
         });
 
         Boolean passes = howManyTimes.intValue() == 1;
-        Result result = A.UTIL.createResult(passes, node, getErrorMessage(node));
+        Result result = A.UTIL.MISC.createResult(passes, node, getErrorMessage(node));
 
         return result;
     }

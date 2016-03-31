@@ -32,7 +32,7 @@ public class HasName implements Checker<MethodNode> {
      */
     @Override
     public Result accepts(final MethodNode node) {
-        return A.UTIL.createResult(node.getName().equals(this.name), node, getErrorMessage(node));
+        return A.UTIL.MISC.createResult(node.getName().equals(this.name), node, getErrorMessage(node));
     }
 
     /**

@@ -46,8 +46,8 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
 
         this.sourceUnit = source;
 
-        AnnotationNode annotationNode = A.UTIL.getFirstNodeAs(nodes, AnnotationNode.class);
-        ClassNode      annotatedNode  = A.UTIL.getLastNodeAs(nodes, ClassNode.class);
+        AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
+        ClassNode      annotatedNode  = A.UTIL.MISC.getLastNodeAs(nodes, ClassNode.class);
 
         addAnnotationsFromTo(annotationNode, annotatedNode);
         addClassConstructor(annotatedNode);
@@ -72,7 +72,7 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        String        phaseAsString = A.UTIL.get(annotationNode, String.class);
+        String        phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
         A.PHASE_LOCAL phaseLocal    = A.PHASE_LOCAL.valueOf(phaseAsString);
         CompilePhase  compilePhase  = toCompilePhase(phaseLocal);
 

@@ -16,7 +16,7 @@ class ExecuteMethodSafelyImpl extends LocalTransformationImpl<ExecuteMethodSafel
 
     @Override
     void doVisit(AnnotationNode annotation, MethodNode methodNode, SourceUnit source) {
-        List<FieldNode> fields = A.UTIL.getInstancePropertyFields(methodNode.declaringClass)
+        List<FieldNode> fields = A.UTIL.CLASS.getInstancePropertyFields(methodNode.declaringClass)
         String valueFieldNode = fields.find()?.name
 
         methodNode.code = A.STMT.returnS(A.EXPR.safeCallX(A.EXPR.varX(valueFieldNode), 'toString'))

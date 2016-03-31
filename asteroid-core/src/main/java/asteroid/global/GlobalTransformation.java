@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Can be used when declaring an implementation of {@link LocalTransformationImpl} to reduce
+ * Can be used when declaring an implementation of {@link GlobalTransformationImpl} to reduce
  * the boilerplate code needed:
  * <br><br>
  * <ul>
