@@ -828,7 +828,7 @@ class ToMD5Impl extends LocalTransformationImpl&lt;ToMD5, FieldNode&gt; { <i cla
             .code(block)
             .build()
 
-        A.UTIL.addMethod(node.declaringClass, methodNode)
+        A.UTIL.CLASS.addMethod(node.declaringClass, methodNode)
     }
 
     private BlockStatement buildMethodCode(final String name) {
@@ -914,7 +914,7 @@ import asteroid.global.GlobalTransformationImpl
 @GlobalTransformation(A.PHASE_GLOBAL.SEMANTIC_ANALYSIS) <i class="conum" data-value="1"></i><b>(1)</b>
 class AddTransformation extends GlobalTransformationImpl { <i class="conum" data-value="2"></i><b>(2)</b>
 
-    List&lt;Transformer&gt; getTransformers() {
+    List&lt;Class&lt;Transformer&gt;&gt; getTransformers() {
         return [AddPropertyToInnerClass] <i class="conum" data-value="3"></i><b>(3)</b>
     }
 }</code></pre>
@@ -975,7 +975,7 @@ class AddPropertyToInnerClass extends ClassNodeTransformer { <i class="conum" da
     }
 
     void transformClass(final ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
-        A.UTIL.addInterfaces(target, java.io.Serializable)
+        A.UTIL.CLASS.addInterfaces(target, java.io.Serializable)
     }
 }</code></pre>
 </div>
@@ -1319,7 +1319,7 @@ class SerializableImpl extends LocalTransformationImpl&lt;Serializable, ClassNod
                 "Invalid State...too many methods")
         }
 
-        A.UTIL.addInterfaces(classNode, java.io.Serializable, Cloneable)
+        A.UTIL.CLASS.addInterfaces(classNode, java.io.Serializable, Cloneable)
     }
 }</code></pre>
 </div>
