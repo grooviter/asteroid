@@ -17,7 +17,7 @@ import asteroid.global.GlobalTransformationImpl
 @GlobalTransformation(A.PHASE_GLOBAL.SEMANTIC_ANALYSIS) // <1>
 class AddTransformation extends GlobalTransformationImpl { // <2>
 
-    List<Transformer> getTransformers() {
+    List<Class<Transformer>> getTransformers() {
         return [AddPropertyToInnerClass] // <3>
     }
 }

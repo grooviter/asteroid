@@ -20,12 +20,12 @@ class ToMapImpl extends LocalTransformationImpl<ToMap, ClassNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, ClassNode node, SourceUnit source) {
-        List<FieldNode> instanceFields   = A.UTIL.getInstancePropertyFields(node)
+        List<FieldNode> instanceFields   = A.UTIL.CLASS.getInstancePropertyFields(node)
         List<MapEntryExpression> entries = instanceFields.collect(this.&fieldToMapEntry)
         MapExpression mapExpression      = new MapExpression(entries)
         MethodNode methodNode            = getToMapMethod(mapExpression)
 
-        A.UTIL.addMethod(node, methodNode)
+        A.UTIL.CLASS.addMethod(node, methodNode)
     }
 
     private MapEntryExpression fieldToMapEntry(final FieldNode field) {
