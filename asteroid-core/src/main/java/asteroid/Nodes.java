@@ -6,6 +6,7 @@ import asteroid.nodes.ConstructorNodeBuilder;
 import asteroid.nodes.GenericsTypeBuilder;
 import asteroid.nodes.MethodNodeBuilder;
 import asteroid.nodes.ParameterNodeBuilder;
+import asteroid.nodes.PropertyNodeBuilder;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.GenericsType;
 
@@ -95,8 +96,9 @@ public final class Nodes {
     }
 
     /**
-     * Creates an instance of {@link ParameterNodeBuilder}. This builder can create instances
-     * of type {@link org.codehaus.groovy.ast.Parameter}
+     * Creates an instance of {@link ParameterNodeBuilder}. This
+     * builder can create instances of type {@link
+     * org.codehaus.groovy.ast.Parameter}
      *
      * @param paramName of the parameter
      * @return an instance of {@link ParameterNodeBuilder}
@@ -104,5 +106,19 @@ public final class Nodes {
      */
     public ParameterNodeBuilder param(String paramName) {
         return ParameterNodeBuilder.param(paramName);
+    }
+
+    /**
+     * Creates an instnace of {@link PropertyNodeBuilder}. This
+     * builder can create instances of type {@link
+     * org.codehaus.groovy.ast.PropertyNode}
+     *
+     * @param propertyName the name of the property
+     * @return an instance of {@link PropertyNodeBuilder}
+     *
+     * @since 0.1.4
+     */
+    public PropertyNodeBuilder property(String propertyName) {
+        return PropertyNodeBuilder.property(propertyName);
     }
 }
