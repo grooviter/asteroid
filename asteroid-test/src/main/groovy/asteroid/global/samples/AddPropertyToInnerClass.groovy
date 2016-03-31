@@ -26,6 +26,6 @@ class AddPropertyToInnerClass extends ClassNodeTransformer { // <1>
     }
 
     void transformClass(final ClassNode target) { // <3>
-        A.UTIL.addInterfaces(target, java.io.Serializable)
+        A.UTIL.CLASS.addInterfaces(target, java.io.Serializable)
     }
 }

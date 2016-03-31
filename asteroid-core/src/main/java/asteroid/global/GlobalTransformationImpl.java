@@ -15,11 +15,11 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * source unit instance.
  *
  * This way you should think of an instance of {@link
- * GlobalTransformationImpl} as a set of {@link
- * ClassCodeVisitorSupport} instances.
+ * GlobalTransformationImpl} as a set of {@link Transformer}
+ * instances.
  *
  * @since 0.1.1
- * @see ClassCodeVisitorSupport
+ * @see Transformer
  */
 public abstract class GlobalTransformationImpl extends AbstractASTTransformation {
 
@@ -47,7 +47,7 @@ public abstract class GlobalTransformationImpl extends AbstractASTTransformation
      * @return all transformers that will be applied globally by this
      * AST transformation
      * @since 0.1.1
-     * @see ClassCodeVisitorSupport
+     * @see Transformer
      */
     public abstract List<Class<? extends Transformer>> getTransformers();
 
