@@ -18,7 +18,7 @@ Please check out the javadoc link:javadocs/index.html[here]
 
 === Nodes
 
-`asteroid.A.NODES`
+Check javadoc: link:javadocs/asteroid/Nodes.html[`asteroid.A.NODES`]
 
 This is entry point accesses to a set of builders to create instances of `org.codehaus.groovy.ast.ASTNode`. All builders
 in `asteroid.A.NODES` follow the same API:
@@ -59,7 +59,7 @@ you'll see the AST and the resulting code explained.
 
 === Expressions
 
-`asteroid.A.EXPR`
+Check javadoc: link:javadocs/asteroid/Expressions.html[`asteroid.A.EXPR`]
 
 This entry point accesses to a set of methods returning instances of `org.codehaus.groovy.ast.expr.Expression`.
 
@@ -91,7 +91,7 @@ through the `DefaultGroovyMethods` object.
 
 === Statements
 
-`asteroid.A.STMT`
+Check javadoc: link:javadocs/asteroid/Statements.html[`asteroid.A.STMT`]
 
 "In computer programming a statement is the smallest standalone element of an imperative programming language that
 expresses some action to be carried out. It is an instruction written in a high-level language that commands the
@@ -116,7 +116,7 @@ A.STMT.returnS(A.EXPR.constX(1))
 
 === Modifiers
 
-`asteroid.A.ACC`
+Check javadoc: link:javadocs/asteroid/Modifiers.html[`asteroid.A.ACC`]
 
 When creating a node we may want to restrict its visibility, or mark it as `static`...etc. To do that each node
 has a method called `setModifiers(int)`. That value can be built with one or more values from this entry point:
@@ -128,4 +128,4 @@ A.ACC.ACC_PUBLIC // public
 
 === Utils
 
-`asteroid.A.UTIL`
+Check javadoc: link:javadocs/asteroid/Utils.html[`asteroid.A.UTIL`]
