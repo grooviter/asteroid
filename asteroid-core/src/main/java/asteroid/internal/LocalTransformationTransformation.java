@@ -3,24 +3,31 @@ package asteroid.internal;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
-import asteroid.A;
-import asteroid.A.PHASE_LOCAL;
+import groovy.lang.Closure;
 import groovy.transform.InheritConstructors;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
+import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ConstructorNode;
 import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.stmt.Statement;
+import org.codehaus.groovy.ast.stmt.BlockStatement;
+import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.AbstractASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
-import java.util.Arrays;
+import java.util.Map;
 import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+
+import asteroid.A;
+import asteroid.A.PHASE_LOCAL;
 
 /**
  * This transformation makes easier to declare a given local transformation. It narrows the available
@@ -29,7 +36,7 @@ import java.util.List;
  *
  * @since 0.1.0
  */
-@GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
+@GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
 public class LocalTransformationTransformation extends AbstractASTTransformation {
 
     /**
@@ -51,6 +58,10 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
 
         addAnnotationsFromTo(annotationNode, annotatedNode);
         addClassConstructor(annotatedNode);
+
+        // tag::addCheckTo[]
+        A.UTIL.CHECK.addCheckTo(A.UTIL.CLASS.findMethodByName(annotatedNode, "doVisit"));
+        // end::addCheckTo[]
     }
 
     private void addClassConstructor(final ClassNode annotatedNode) {
@@ -59,14 +70,13 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
         ClassNode transformedType   = last(generics).getType();
 
         Statement callSuper = A.STMT
-                .ctorSuperS(
-                    A.EXPR.classX(annotationType),
-                    A.EXPR.classX(transformedType));
+            .ctorSuperS(A.EXPR.classX(annotationType),
+                        A.EXPR.classX(transformedType));
 
         ConstructorNode constructorNode = A.NODES
-                .constructor(A.ACC.ACC_PUBLIC)
-                .code(callSuper)
-                .build();
+            .constructor(A.ACC.ACC_PUBLIC)
+            .code(callSuper)
+            .build();
 
         annotatedNode.addConstructor(constructorNode);
     }

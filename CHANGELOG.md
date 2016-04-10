@@ -1,6 +1,16 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2016-04-XX
+### Breaking changes
+- Move from janus repo to grooviter organization
+- Remove checkers in favor of spock-like block statements
+
+### Added
+- New check statements
+- More documentation
+- Compatibility test to work with AnnotationCollector
+
 ## [0.1.4] - 2016-03-31
 ### Breaking changes
 - Move utility functions to different modules (A.UTIL.CLASS/ANNOTATION/...)

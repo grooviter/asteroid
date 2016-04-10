@@ -39,10 +39,10 @@ bintray {
         repo            = 'maven'
         name            = 'asteroid'
         desc            =  releaseDesc
-        websiteUrl      = 'http://januslynd.github.io/asteroid/'
-        issueTrackerUrl = 'https://github.com/januslynd/asteroid/issues'
+        websiteUrl      = 'http://grooviter.github.io/asteroid/'
+        issueTrackerUrl = 'https://github.com/grooviter/asteroid/issues'
         licenses        = ['Apache-2.0']
-        vcsUrl          = 'https://github.com/januslynd/asteroid.git'
+        vcsUrl          = 'https://github.com/grooviter/asteroid.git'
         labels          = ['groovy', 'ast']
         version {
             name      = releaseVersion
@@ -55,6 +55,7 @@ bintray {
 
 
 javadoc {
+    options.stylesheetFile = "$projectDir/src/javadoc/stylesheet.css" as File
     options.windowTitle = 'Asteroid API Documentation'
-    options.docTitle = "Asteroid JavaDoc ($releaseVersion)"
+    options.docTitle = "Asteroid ($releaseVersion)"
 }

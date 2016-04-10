@@ -1,4 +1,4 @@
-Asteroid is a set of utilities to make it easier to develop http://www.groovy-lang.org AST transformations.
+== Intro
 
 In order to use `Asteroid` in your Groovy code you can find it in Bintray:
 
@@ -10,6 +10,4 @@ In order to use `Asteroid` in your Groovy code you can find it in Bintray:
 
 Then you can add the dependency to your project:
 
-    compile com.github.grooviter:asteroid:0.1.5'
-
-Current documentation is available at: http://grooviter.github.io/asteroid/
+    compile 'com.github.grooviter:asteroid:0.1.5"
