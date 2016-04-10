@@ -5,7 +5,6 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<meta name="author" content="@januslynd">
 <title>Asteroid</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -423,46 +422,51 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Asteroid</h1>
 <div class="details">
-<span id="author" class="author">@januslynd</span><br>
-<span id="revnumber">version 0.1.2</span>
+<span id="revnumber">version 0.1.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_local_transformations">1. Local Transformations</a>
+<li><a href="#_intro">1. Intro</a></li>
+<li><a href="#_local_transformations">2. Local Transformations</a>
 <ul class="sectlevel2">
-<li><a href="#_introduction">1.1. Introduction</a></li>
-<li><a href="#__local">1.2. @Local</a></li>
-<li><a href="#__apply">1.3. @Apply</a></li>
-<li><a href="#__localtransformation">1.4. @LocalTransformation</a></li>
-<li><a href="#_localtransformationimpl">1.5. LocalTransformationImpl</a></li>
+<li><a href="#_introduction">2.1. Introduction</a></li>
+<li><a href="#__local">2.2. @Local</a></li>
+<li><a href="#__apply">2.3. @Apply</a></li>
+<li><a href="#__localtransformation">2.4. @LocalTransformation</a></li>
+<li><a href="#_localtransformationimpl">2.5. LocalTransformationImpl</a></li>
 </ul>
 </li>
-<li><a href="#_global_transformations">2. Global Transformations</a>
+<li><a href="#_check">3. Check</a>
 <ul class="sectlevel2">
-<li><a href="#_introduction_2">2.1. Introduction</a></li>
-<li><a href="#_node_transformers">2.2. Node transformers</a>
+<li><a href="#_local_transformations_2">3.1. Local transformations</a></li>
+<li><a href="#_your_own_transformations">3.2. Your own transformations</a></li>
+</ul>
+</li>
+<li><a href="#_global_transformations">4. Global Transformations</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_2">4.1. Introduction</a></li>
+<li><a href="#_node_transformers">4.2. Node transformers</a>
 <ul class="sectlevel3">
-<li><a href="#_classnodetransformer">2.2.1. ClassNodeTransformer</a></li>
+<li><a href="#_classnodetransformer">4.2.1. ClassNodeTransformer</a></li>
 </ul>
 </li>
-<li><a href="#_expression_transformers">2.3. Expression transformers</a>
+<li><a href="#_expression_transformers">4.3. Expression transformers</a>
 <ul class="sectlevel3">
-<li><a href="#_expressiontransformer">2.3.1. ExpressionTransformer</a></li>
+<li><a href="#_expressiontransformer">4.3.1. ExpressionTransformer</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_fluent_api">3. Fluent API</a>
+<li><a href="#_fluent_api">5. Fluent API</a>
 <ul class="sectlevel2">
-<li><a href="#_nodes">3.1. Nodes</a></li>
-<li><a href="#_expressions">3.2. Expressions</a></li>
-<li><a href="#_statements">3.3. Statements</a></li>
-<li><a href="#_modifiers">3.4. Modifiers</a></li>
-<li><a href="#_utils">3.5. Utils</a></li>
+<li><a href="#_nodes">5.1. Nodes</a></li>
+<li><a href="#_expressions">5.2. Expressions</a></li>
+<li><a href="#_statements">5.3. Statements</a></li>
+<li><a href="#_modifiers">5.4. Modifiers</a></li>
+<li><a href="#_utils">5.5. Utils</a></li>
 </ul>
 </li>
-<li><a href="#_checkers">4. Checkers</a></li>
 </ul>
 </div>
 </div>
@@ -476,10 +480,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_local_transformations">1. Local Transformations</h2>
+<h2 id="_intro">1. Intro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to use <code>Asteroid</code> in your Groovy code you can find it in Bintray:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>repositories {
+    maven {
+        url  "http://dl.bintray.com/grooviter/maven"
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you can add the dependency to your project:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>compile 'com.github.grooviter:asteroid:0.1.5"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_local_transformations">2. Local Transformations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_introduction">1.1. Introduction</h3>
+<h3 id="_introduction">2.1. Introduction</h3>
 <div class="quoteblock">
 <blockquote>
 Local AST transformations are relative to the context they are applied to. In most cases, the context is defined by an
@@ -657,7 +686,7 @@ transformation is safely typed and can be optimized by this annotation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__local">1.2. @Local</h3>
+<h3 id="__local">2.2. @Local</h3>
 <div class="paragraph">
 <p>You can use <code>@Local</code> to use an annotation as an AST marker. The only
 <strong>mandatory</strong> argument is the AST implementation class. Implementation
@@ -680,7 +709,7 @@ meaning it will be applied over an entire class.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__apply">1.3. @Apply</h3>
+<h3 id="__apply">2.3. @Apply</h3>
 <div class="paragraph">
 <p><code>@Apply</code> is used in combination with <code>@Local</code> when the transformation
 is applied to any element type other than <code>TYPE</code>: a method,
@@ -714,7 +743,7 @@ import asteroid.local.Apply
 </div>
 </div>
 <div class="sect2">
-<h3 id="__localtransformation">1.4. @LocalTransformation</h3>
+<h3 id="__localtransformation">2.4. @LocalTransformation</h3>
 <div class="paragraph">
 <p>This annotation can only be used when coding a local transformation
 implementation using Groovy. It saves some of the boilerplate code
@@ -729,12 +758,9 @@ import asteroid.local.LocalTransformation
 import asteroid.local.LocalTransformationImpl
 
 import groovy.transform.CompileStatic
-import org.codehaus.groovy.ast.ClassHelper
 import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.ClassNode
-import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.control.SourceUnit
-import org.codehaus.groovy.transform.trait.TraitComposer
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS) <i class="conum" data-value="1"></i><b>(1)</b>
@@ -762,7 +788,7 @@ annotated with <code>@AsList</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_localtransformationimpl">1.5. LocalTransformationImpl</h3>
+<h3 id="_localtransformationimpl">2.5. LocalTransformationImpl</h3>
 <div class="paragraph">
 <p><code>asteroid.LocalTransformationImpl</code> exists to avoid some of the
 defensive code that you would normally write at the beggining of an
@@ -871,10 +897,150 @@ second node passed to your transformation anymore.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_global_transformations">2. Global Transformations</h2>
+<h2 id="_check">3. Check</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Check</code> is an effort to avoid boiler plate code when checking the
+AST state. Many times you have to check whether all precoditions are
+correct before applying a given transformation. Without this sanity
+check, many things could go wrong.</p>
+</div>
+<div class="sect2">
+<h3 id="_local_transformations_2">3.1. Local transformations</h3>
+<div class="paragraph">
+<p>By default <code>Check</code> is available in Asteroid local transformations. All
+you have to do is to structure your code using labels <code>check</code> and
+<code>then</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an example, it&#8217;s a bit silly but I think it will easy to
+understand. We have a annotation called <code>@Serializable</code>.</p>
+</div>
+<div class="paragraph">
+<p>The transformation <code>SerializableImpl</code> will make all classes annotated
+with <code>@Serializable</code> to implement <code>java.io.Serializable</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
+
+import asteroid.local.Local
+
+@Local(SerializableImpl)
+@interface Serializable {}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As constraints I want to make sure:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The annotated class package name should should start by 'asteroid'</p>
+</li>
+<li>
+<p>The annotated class can only have two method at most</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
+
+import groovy.transform.CompileStatic
+import org.codehaus.groovy.ast.ClassNode
+import org.codehaus.groovy.ast.AnnotationNode
+import org.codehaus.groovy.control.SourceUnit
+
+import asteroid.A
+import asteroid.local.LocalTransformation
+import asteroid.local.LocalTransformationImpl
+
+@CompileStatic
+@LocalTransformation(A.PHASE_LOCAL.INSTRUCTION_SELECTION)
+class SerializableImpl extends LocalTransformationImpl&lt;Serializable, ClassNode&gt; {
+
+    @Override
+    void doVisit(AnnotationNode annotation, ClassNode classNode, SourceUnit source) {
+        check: 'package starts with asteroid'
+        classNode.packageName.startsWith('asteroid') <i class="conum" data-value="1"></i><b>(1)</b>
+
+        check: 'there are least than 2 methods'
+        classNode.methods.size() &lt; 2 <i class="conum" data-value="2"></i><b>(2)</b>
+
+        then: 'make it implements Serializable and Cloneable'
+        A.UTIL.CLASS.addInterfaces(classNode, java.io.Serializable, Cloneable) <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Checking the annotated class belongs to a certain <code>package</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Checking that the annotated node has less than two methods</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Transformation code</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To prove it, there&#8217;s a test with an annotated class having two
+methods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    void testSerializableCheckersWork() {
+        shouldFail '''
+        package asteroid.local.samples
+
+        @Serializable
+        class A {
+            def a() {}
+            def b() {}
+        }
+
+        A something = new A()
+
+        assert something instanceof java.io.Serializable
+        assert something instanceof Cloneable
+
+        '''
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the test&#8230;&#8203; passes :)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_your_own_transformations">3.2. Your own transformations</h3>
+<div class="paragraph">
+<p>If you would like to add this functionality in your project, you can
+use Asteroid utility functions to inject this behavior in your code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">A.UTIL.CHECK.addCheckTo(A.UTIL.CLASS.findMethodByName(annotatedNode, "doVisit"));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This call is taken from Asteroid local transformations. Checking is added to method <code>doVisit</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_global_transformations">4. Global Transformations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_introduction_2">2.1. Introduction</h3>
+<h3 id="_introduction_2">4.1. Introduction</h3>
 <div class="quoteblock">
 <blockquote>
 Global AST transformation are similar to local one with a major
@@ -1000,26 +1166,26 @@ transformation within the <code>transformClass</code> method</td>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_node_transformers">2.2. Node transformers</h3>
+<h3 id="_node_transformers">4.2. Node transformers</h3>
 <div class="paragraph">
 <p>This type of transformers should be used when trying to transform a
 given <code>ASTNode</code>. Think of a node as a method, a field, a class
 everything that encloses code.</p>
 </div>
 <div class="sect3">
-<h4 id="_classnodetransformer">2.2.1. ClassNodeTransformer</h4>
+<h4 id="_classnodetransformer">4.2.1. ClassNodeTransformer</h4>
 <div class="paragraph">
 <p>#TODO</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_expression_transformers">2.3. Expression transformers</h3>
+<h3 id="_expression_transformers">4.3. Expression transformers</h3>
 <div class="paragraph">
 <p>#TODO</p>
 </div>
 <div class="sect3">
-<h4 id="_expressiontransformer">2.3.1. ExpressionTransformer</h4>
+<h4 id="_expressiontransformer">4.3.1. ExpressionTransformer</h4>
 <div class="paragraph">
 <p>#TODO</p>
 </div>
@@ -1028,7 +1194,7 @@ everything that encloses code.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fluent_api">3. Fluent API</h2>
+<h2 id="_fluent_api">5. Fluent API</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The main goal of this project is to have a unified way to access all AST APIs through a single entry point. That
@@ -1074,9 +1240,9 @@ the javadoc.
 <p>Please check out the javadoc <a href="javadocs/index.html">here</a></p>
 </div>
 <div class="sect2">
-<h3 id="_nodes">3.1. Nodes</h3>
+<h3 id="_nodes">5.1. Nodes</h3>
 <div class="paragraph">
-<p><code>asteroid.A.NODES</code></p>
+<p>Check javadoc: <a href="javadocs/asteroid/Nodes.html"><code>asteroid.A.NODES</code></a></p>
 </div>
 <div class="paragraph">
 <p>This is entry point accesses to a set of builders to create instances of <code>org.codehaus.groovy.ast.ASTNode</code>. All builders
@@ -1142,9 +1308,9 @@ you&#8217;ll see the AST and the resulting code explained.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_expressions">3.2. Expressions</h3>
+<h3 id="_expressions">5.2. Expressions</h3>
 <div class="paragraph">
-<p><code>asteroid.A.EXPR</code></p>
+<p>Check javadoc: <a href="javadocs/asteroid/Expressions.html"><code>asteroid.A.EXPR</code></a></p>
 </div>
 <div class="paragraph">
 <p>This entry point accesses to a set of methods returning instances of <code>org.codehaus.groovy.ast.expr.Expression</code>.</p>
@@ -1199,9 +1365,9 @@ through the <code>DefaultGroovyMethods</code> object.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_statements">3.3. Statements</h3>
+<h3 id="_statements">5.3. Statements</h3>
 <div class="paragraph">
-<p><code>asteroid.A.STMT</code></p>
+<p>Check javadoc: <a href="javadocs/asteroid/Statements.html"><code>asteroid.A.STMT</code></a></p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -1233,9 +1399,9 @@ follows the same design as expressions. Each method returns an statement. For in
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modifiers">3.4. Modifiers</h3>
+<h3 id="_modifiers">5.4. Modifiers</h3>
 <div class="paragraph">
-<p><code>asteroid.A.ACC</code></p>
+<p>Check javadoc: <a href="javadocs/asteroid/Modifiers.html"><code>asteroid.A.ACC</code></a></p>
 </div>
 <div class="paragraph">
 <p>When creating a node we may want to restrict its visibility, or mark it as <code>static</code>&#8230;&#8203;etc. To do that each node
@@ -1248,149 +1414,18 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 </div>
 <div class="sect2">
-<h3 id="_utils">3.5. Utils</h3>
+<h3 id="_utils">5.5. Utils</h3>
 <div class="paragraph">
-<p><code>asteroid.A.UTIL</code></p>
+<p>Check javadoc: <a href="javadocs/asteroid/Utils.html"><code>asteroid.A.UTIL</code></a></p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_checkers">4. Checkers</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>asteroid.A.CHECK</code></p>
-</div>
-<div class="paragraph">
-<p><code>Checkers</code> is an effort to avoid boiler plate code when checking the AST state. Many times you have to check
-whether all precoditions are correct before applying a given transformation. Without this sanity check, many things
-could go wrong.</p>
-</div>
-<div class="paragraph">
-<p>Here&#8217;s an example, it&#8217;s a bit silly but I think it will easy to
-understand. We have a annotation called <code>@Serializable</code>.</p>
-</div>
-<div class="paragraph">
-<p>The transformation <code>SerializableImpl</code> will make all classes annotated
-with <code>@Serializable</code> to implement <code>java.io.Serializable</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
-
-import asteroid.local.Local
-
-@Local(SerializableImpl)
-@interface Serializable {}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As a constraint I want to make sure the class has not been annotated
-twice with the same annotation.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
-
-import asteroid.A
-import asteroid.local.LocalTransformation
-import asteroid.local.LocalTransformationImpl
-
-import groovy.transform.CompileStatic
-import org.codehaus.groovy.ast.ClassNode
-import org.codehaus.groovy.ast.AnnotationNode
-import org.codehaus.groovy.control.SourceUnit
-
-@CompileStatic
-@LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS)
-class SerializableImpl extends LocalTransformationImpl&lt;Serializable, ClassNode&gt; {
-
-    @Override
-    void doVisit(AnnotationNode annotation, ClassNode classNode, SourceUnit source) {
-        A.CHECK.source(source) { <i class="conum" data-value="1"></i><b>(1)</b>
-            checkTrue( <i class="conum" data-value="2"></i><b>(2)</b>
-                classNode,
-                classNode.packageName.startsWith("asteroid"),
-                "Invalid State...because reasons!!")
-
-            checkTrue( <i class="conum" data-value="3"></i><b>(3)</b>
-                classNode,
-                classNode.methods.size() &lt; 2,
-                "Invalid State...too many methods")
-        }
-
-        A.UTIL.CLASS.addInterfaces(classNode, java.io.Serializable, Cloneable)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The <code>SourceUnit</code> is required to create compilation errors</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Checking the annotated class belongs to a certain <code>package</code></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Checking that the annotated node has less than two methods</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The <code>checkTrue</code> method receives three parameters:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The node we are checking</p>
-</li>
-<li>
-<p>A boolean expression: true if it&#8217;s ok, false if it should fail</p>
-</li>
-<li>
-<p>The error message</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>To prove it, there&#8217;s a test with an annotated class having two
-methods:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    void testSerializableCheckersWork() {
-        shouldFail '''
-        package asteroid.local.samples
-
-        @Serializable
-        class A {
-            def a() {}
-            def b() {}
-        }
-
-        A something = new A()
-
-        assert something instanceof java.io.Serializable
-        assert something instanceof Cloneable
-
-        '''
-    }</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And the test&#8230;&#8203; passes :)</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.2<br>
-Last updated 2016-03-17 13:02:49 +00:00
+Version 0.1.5<br>
+Last updated 2016-04-10 15:47:07 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

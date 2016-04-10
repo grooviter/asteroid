@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Fluent API</title>
+<title>Intro</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -423,243 +423,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_fluent_api">Fluent API</a>
-<ul class="sectlevel2">
-<li><a href="#_nodes">Nodes</a></li>
-<li><a href="#_expressions">Expressions</a></li>
-<li><a href="#_statements">Statements</a></li>
-<li><a href="#_modifiers">Modifiers</a></li>
-<li><a href="#_utils">Utils</a></li>
-</ul>
-</li>
+<li><a href="#_intro">Intro</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_fluent_api">Fluent API</h2>
+<h2 id="_intro">Intro</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The main goal of this project is to have a unified way to access all AST APIs through a single entry point. That
-entry point is <code>asteroid.A</code>.</p>
+<p>In order to use <code>Asteroid</code> in your Groovy code you can find it in Bintray:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>NODES</strong>: Create instances of <code>org.codehaus.groovy.ast.ASTNode</code></p>
-</li>
-<li>
-<p><strong>EXPRESSIONS</strong>: Create instances of <code>org.codehaus.groovy.ast.expr.Expression</code></p>
-</li>
-<li>
-<p><strong>STATEMENTS</strong>: Create instances of <code>org.codehaus.groovy.ast.stmt.Statement</code></p>
-</li>
-<li>
-<p><strong>MODIFIERS</strong>: <code>asteroid.A.ACC</code></p>
-</li>
-<li>
-<p><strong>CHECKERS</strong>: <code>asteroid.A.CHECK</code>. Access to checkers.</p>
-</li>
-<li>
-<p><strong>UTILS</strong>: <code>asteroid.A.UTIL</code>.</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The project has been developed having in mind to get the general
-idea reading this documentation and then checking the specifics using
-the javadoc.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Please check out the javadoc <a href="javadocs/index.html">here</a></p>
-</div>
-<div class="sect2">
-<h3 id="_nodes">Nodes</h3>
-<div class="paragraph">
-<p>Check javadoc: <a href="javadocs/asteroid/Nodes.html"><code>asteroid.A.NODES</code></a></p>
-</div>
-<div class="paragraph">
-<p>This is entry point accesses to a set of builders to create instances of <code>org.codehaus.groovy.ast.ASTNode</code>. All builders
-in <code>asteroid.A.NODES</code> follow the same API:</p>
-</div>
-<div class="listingblock">
+<div class="literalblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">A.NODES.annotation("MyAnnotation") <i class="conum" data-value="1"></i><b>(1)</b>
-       .member(...) <i class="conum" data-value="2"></i><b>(2)</b>
-       .xxxxxx(...)
-       .yyyyyy(...)
-       .build()  <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+<pre>repositories {
+    maven {
+        url  "http://dl.bintray.com/grooviter/maven"
+    }
+}</pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Creates a builder of a specific type of <code>ASTNode</code>.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Then each node builder has a set of associated methods. E.g: <code>annotation</code> has <code>member(&#8230;&#8203;)</code> to add annotation members&#8230;&#8203;</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Once the node has been configured is time to create the instance calling the <code>build()</code> method of the
-current builder.</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
-<p>For instance, the following code:</p>
+<p>Then you can add the dependency to your project:</p>
 </div>
-<div class="listingblock">
+<div class="literalblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">A.NODES.annotation("MyAnnotation")
-       .member("message", A.EXPR.constX("hello"))
-       .member("sort", A.EXPR.constX("desc"))
-       .build()</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Will produce the following annotation:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">@MyAnnotation(message = "hello", sort = "desc")</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The nodes related javadoc has the same structure. Normally
-you&#8217;ll see the AST and the resulting code explained.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_expressions">Expressions</h3>
-<div class="paragraph">
-<p>Check javadoc: <a href="javadocs/asteroid/Expressions.html"><code>asteroid.A.EXPR</code></a></p>
-</div>
-<div class="paragraph">
-<p>This entry point accesses to a set of methods returning instances of <code>org.codehaus.groovy.ast.expr.Expression</code>.</p>
-</div>
-<div class="paragraph">
-<p>Unlike the <code>asteroid.A.NODES</code> this entry point only has methods creating expressions directly. So bear in mind that
-all methods from <code>asteroid.A.EXPR</code> will return instances of <code>org.codehaus.groovy.ast.Expression</code>.</p>
-</div>
-<div class="paragraph">
-<p>For instance if we would like to create an expression like:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">println "hello"</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>We should code:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">A.EXPR.callThisX( <i class="conum" data-value="1"></i><b>(1)</b>
-    "println",
-    A.EXPR.constX("hello") <i class="conum" data-value="2"></i><b>(2)</b>
-)</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Creates an instance of <code>org.codehaus.groovy.ast.expr.MethodCallExpression</code></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Creates an instance of <code>org.codehaus.groovy.ast.expr.ConstantExpression</code> used as method call argument.</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Why using <code>callThisX</code> when coding <code>println</code> ? This is because <code>println</code> is added to all JDK objects
-through the <code>DefaultGroovyMethods</code> object.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_statements">Statements</h3>
-<div class="paragraph">
-<p>Check javadoc: <a href="javadocs/asteroid/Statements.html"><code>asteroid.A.STMT</code></a></p>
-</div>
-<div class="quoteblock">
-<blockquote>
-In computer programming a statement is the smallest standalone element of an imperative programming language that
-expresses some action to be carried out. It is an instruction written in a high-level language that commands the
-computer to perform a specified action.[1] A program written in such a language is formed by a sequence of one or
-more statements. A statement may have internal components (e.g., expressions).
-</blockquote>
-<div class="attribution">
-&#8212; Wikipedia
-</div>
-</div>
-<div class="paragraph">
-<p>This entry point accesses to a set of methods returning instances of <code>org.codehaus.groovy.ast.stmt.Statement</code>. It
-follows the same design as expressions. Each method returns an statement. For instance, a return statement:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">return 1</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Can be written as:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">A.STMT.returnS(A.EXPR.constX(1))</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_modifiers">Modifiers</h3>
-<div class="paragraph">
-<p>Check javadoc: <a href="javadocs/asteroid/Modifiers.html"><code>asteroid.A.ACC</code></a></p>
-</div>
-<div class="paragraph">
-<p>When creating a node we may want to restrict its visibility, or mark it as <code>static</code>&#8230;&#8203;etc. To do that each node
-has a method called <code>setModifiers(int)</code>. That value can be built with one or more values from this entry point:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">A.ACC.ACC_PUBLIC // public</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_utils">Utils</h3>
-<div class="paragraph">
-<p>Check javadoc: <a href="javadocs/asteroid/Utils.html"><code>asteroid.A.UTIL</code></a></p>
+<pre>compile 'com.github.grooviter:asteroid:0.1.5"</pre>
 </div>
 </div>
 </div>
