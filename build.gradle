@@ -22,6 +22,7 @@ ext.versions = [
 
 ext.libs = [
     groovy: "org.codehaus.groovy:groovy:${versions.groovy}",
+    groovy_json: "org.codehaus.groovy:groovy-json:${versions.groovy}",
     groovy_test: "org.codehaus.groovy:groovy-test:${versions.groovy}",
     groovy_all: "org.codehaus.groovy:groovy-all:${versions.groovy}",
     junit: "junit:junit:4.12",
