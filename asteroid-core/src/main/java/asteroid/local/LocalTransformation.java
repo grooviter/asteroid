@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 /**
  * Can be used when declaring an implementation of {@link LocalTransformationImpl} to reduce
  * the boilerplate code needed:
- * <br><br>t
+ * <br><br>
  * <ul>
  *     <li>No need to implement constructor ()</li>
  *     <li>No need to provide {@link org.codehaus.groovy.transform.GroovyASTTransformation}</li>

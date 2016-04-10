@@ -26,7 +26,7 @@ public class PropertyNodeBuilder {
     /**
      * Creates a builder from the property name
      *
-     * @param name the name of the property
+     * @param propertyName the name of the property
      * @return an instance of {@link PropertyNodeBuilder}
      * @since 0.1.4
      */
