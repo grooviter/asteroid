@@ -38,6 +38,7 @@ bintray {
     pkg {
         repo            = 'maven'
         name            = 'asteroid'
+        userOrg         = 'grooviter'
         desc            =  releaseDesc
         websiteUrl      = 'http://grooviter.github.io/asteroid/'
         issueTrackerUrl = 'https://github.com/grooviter/asteroid/issues'
