@@ -12,13 +12,12 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
 
 /**
  * This class is an abstraction to process certain nodes annotated with a specific annotation node type
- *
- * @param <ANNOTATION> The annotation type used to mark the transformation
- * @param <ANNOTATED> The annotated node type. It has to be a subtype of {@link AnnotatedNode}
+ * <br><br>
+ * <b class="note">Types indicate wich nodes are affected:</b>
  * <br><br>
  * Lets say we wanted to build a transformation to transform methods annotated by {@literal @}MyAnnotation
- *
- * <pre><code>
+ * <br><br>
+ * <pre class="inner"><code>
  * public class MyCustomTransformation extends LocalTransformationImpl&lt;MyAnnotation, MethodNode&gt; {
  *     public abstract void doVisit(AnnotationNode annotation, final MethodNode annotated, final SourceUnit source){
  *         // implementation
@@ -27,7 +26,34 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * </code></pre>
  * In this example transformation will be applied only to those {@link ASTNode} instances of type
  * {@link org.codehaus.groovy.ast.MethodNode} annotated by {@literal @}MyAnnotation
+ * <br><br>
+ * <b class="note">Checks (since 0.1.5):</b>
+ * <br><br>
+ * If you would like to check something before applying the
+ * transformation you can use a contract-like programming
+ * structure. If you have worked with <a
+ * href="https://github.com/spockframework">Spock</a> or <a
+ * href="https://github.com/andresteingress/gcontracts">GContracts</a>
+ * you are already used to it. The idea is to have two blocks within
+ * {@link LocalTransformationImpl#doVisit} method, one for assertions,
+ * the other to call the transformation.
  *
+ * <pre class="inner"><code>
+ *     public abstract void doVisit(AnnotationNode annotation, final ClassNode annotated, final SourceUnit source){
+ *         check: 'class has correct name'
+ *         annotated.name == 'MyBusinessService'
+ *
+ *         then: 'we will add a new method'
+ *         // transformation code
+ *     }
+ * </code></pre>
+ * Any expression within the <b>check</b> block will be treated as an
+ * assertion statement. If any of the assertion fails the compilation
+ * will fail.
+ * @param <ANNOTATION> The annotation type used to mark the transformation
+ * @param <ANNOTATED> The annotated node type. It has to be a subtype
+ * of {@link AnnotatedNode}. As a rule of thumb think of any type that
+ * can be annotated (a method, a type...)
  * @since 0.1.0
  *
  */
@@ -68,6 +94,9 @@ public abstract class LocalTransformationImpl<ANNOTATION,ANNOTATED extends Annot
      */
     public abstract void doVisit(AnnotationNode annotation, final ANNOTATED annotated, final SourceUnit source);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void visit(final ASTNode[] nodes, final SourceUnit source) {
         if (nodes == null) return;

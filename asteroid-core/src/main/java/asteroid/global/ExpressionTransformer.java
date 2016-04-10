@@ -78,4 +78,18 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
             }
         };
     }
+
+    /**
+     * This criteria will make the transformer to process every {@link Expression}
+     *
+     * @return a criteria to process everything
+     * @since 0.1.5
+     */
+    public static Closure<Boolean> everything() {
+        return new Closure<Boolean>(null) {
+            public Boolean doCall(Expression expression) {
+                return true;
+            }
+        };
+    }
 }

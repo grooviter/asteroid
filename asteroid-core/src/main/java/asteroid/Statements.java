@@ -1,12 +1,19 @@
 package asteroid;
 
+import java.util.List;
+
+import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.stmt.AssertStatement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.builder.AstBuilder;
+import org.codehaus.groovy.ast.expr.BooleanExpression;
+
+import asteroid.A;
 
 /**
  * This class hides the different implementations to create expressions through the Groovy api to provide a unified
@@ -84,12 +91,49 @@ public final class Statements {
     /**
      * Returns an  instance of {@link BlockStatement}.
      *
+     * @param statements a list of type Statement
+     * @return an instance of {@link BlockStatement}
+     * @since 0.1.0
+     */
+    public static BlockStatement blockS(final List<Statement> statements) {
+        return GeneralUtils.block(statements.toArray(new Statement[statements.size()]));
+    }
+
+    /**
+     * Returns an  instance of {@link BlockStatement}.
+     *
      * @param statements a varargs of type Statement
      * @return an instance of {@link BlockStatement}
      * @since 0.1.0
      */
     public static BlockStatement blockS(final Statement... statements) {
         return GeneralUtils.block(statements);
+    }
+
+    /**
+     * Returns an  instance of {@link BlockStatement}.
+     *
+     * @param variableScope scope containing ref/local variables
+     * @param statements a varargs of type Statement
+     * @return an instance of {@link BlockStatement}
+     * @since 0.1.5
+     */
+    public static BlockStatement blockS(final VariableScope variableScope, final Statement... statements) {
+        return GeneralUtils.block(variableScope, statements);
+    }
+
+    /**
+     * Returns an  instance of {@link BlockStatement}.
+     *
+     * @param variableScope scope containing ref/local variables
+     * @param statements a list of type Statement
+     * @return an instance of {@link BlockStatement}
+     * @since 0.1.5
+     */
+    public static BlockStatement blockS(final VariableScope variableScope, final List<Statement> statements) {
+        Statement[] stmtArray = new Statement[statements.size()];
+
+        return GeneralUtils.block(variableScope, statements.toArray(stmtArray));
     }
 
     /**
@@ -105,4 +149,40 @@ public final class Statements {
         return (BlockStatement) new AstBuilder().buildFromString(code).get(0);
     }
 
+    /**
+     * Returns an instance of {@link AssertStatement}
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>assertS(booleanExpr)</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>assert 1 == 1</code></pre>
+     *
+     * @param booleanExpr the expression we want to check
+     * @return an instance of {@link AssertStatement}
+     * @since 0.1.5
+     */
+    public static AssertStatement assertS(BooleanExpression booleanExpr) {
+        return new AssertStatement(booleanExpr, A.EXPR.constX("Compilation assertion error"));
+    }
+
+    /**
+     * Returns an instance of {@link AssertStatement}
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>assertS(booleanExpr, "checking something important")</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>assert 1 == 1 : "checking something important"</code></pre>
+     *
+     * @param booleanExpr the expression we want to check
+     * @param errorMessage the error message in case assertion fails
+     * @return an instance of {@link AssertStatement}
+     * @since 0.1.5
+     */
+    public static AssertStatement assertS(final BooleanExpression booleanExpr, final String errorMessage) {
+        return new AssertStatement(booleanExpr, A.EXPR.constX(errorMessage));
+    }
 }

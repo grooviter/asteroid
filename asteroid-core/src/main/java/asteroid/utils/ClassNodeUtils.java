@@ -192,4 +192,30 @@ public final class ClassNodeUtils {
     public Boolean isOrExtends(ClassNode child, String parent) {
         return child.equals(parent) || child.isDerivedFrom(ClassHelper.make(parent));
     }
+
+    /**
+     * Returns the first {@link MethodNode} found with a given name in
+     * a specific {@link ClassNode}
+     *
+     * @param classNode the {@link ClassNode} the method should be found
+     * @param methodName the method name
+     * @return an instance of {@link MethodNode} if found
+     * @since 0.1.5
+     */
+    public MethodNode findMethodByName(final ClassNode classNode, final String methodName) {
+        return first(findAllMethodByName(classNode, methodName));
+    }
+
+    /**
+     * Returns all {@link MethodNode} found with a given name in a
+     * specific {@link ClassNode}
+     *
+     * @param classNode the {@link ClassNode} the method should be found
+     * @param methodName the method name
+     * @return an instance of {@link MethodNode} if found
+     * @since 0.1.5
+     */
+    public List<MethodNode> findAllMethodByName(final ClassNode classNode, final String methodName) {
+        return classNode.getMethods(methodName);
+    }
 }

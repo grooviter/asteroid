@@ -3,7 +3,7 @@ package asteroid.utils;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
-import asteroid.check.Result;
+import groovy.lang.Closure;
 import org.codehaus.groovy.ast.ASTNode;
 
 /**
@@ -38,18 +38,5 @@ public final class MiscellaneousUtils {
      */
     public <T> T getLastNodeAs(final ASTNode[] nodes, final Class<T> clazz) {
         return (T) last(nodes);
-    }
-
-    /**
-     * When executing a checker the result will be wrapped in a {@link Result} instance. This
-     * method ease the way of creating a {@link Result} instance.
-     *
-     * @param passes whether the result is successful or not
-     * @param node the node under test
-     * @param errorMessage The message in case result was not successful
-     * @since 0.1.4
-     */
-    public Result createResult(Boolean passes, ASTNode node, String errorMessage) {
-        return new Result(node, passes ? Result.Status.PASSED : Result.Status.ERROR, errorMessage);
     }
 }

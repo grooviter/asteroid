@@ -1,7 +1,9 @@
 package asteroid;
 
+import org.codehaus.groovy.ast.Parameter;
+import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassNode;
-import org.codehaus.groovy.ast.ClassHelper;;
+import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
@@ -11,9 +13,14 @@ import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.FieldExpression;
+import org.codehaus.groovy.ast.expr.BooleanExpression;
+import org.codehaus.groovy.ast.expr.BinaryExpression;
 import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.expr.VariableExpression;
+import org.codehaus.groovy.ast.expr.ClosureExpression;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
+import org.codehaus.groovy.ast.stmt.Statement;
+import org.codehaus.groovy.ast.VariableScope;
 
 import java.util.Arrays;
 
@@ -32,6 +39,300 @@ import java.util.Arrays;
  * @since 0.1.0
  */
 public final class Expressions {
+
+    /**
+     * Builds an instance of {@link BooleanExpression} from a {@link Expression}
+     * passed as argument.
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolX(expr); // imagine expression is 1 == 1
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * 1 == 1 // as a boolean expression
+     * </code></pre>
+     *
+     * @param expr the expression we want to evaluate as true or false
+     * @return an instance of {@link BooleanExpression}
+     * @see Expressions#binEqX
+     * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
+     * @since 0.1.5
+     */
+    public static BooleanExpression boolX(final Expression expr) {
+        return new BooleanExpression(expr);
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolEqualsNullX(constX("some"));
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * "some" == null // as a boolean expression
+     * </code></pre>
+     *
+     * @param argExpr the operand we want to check
+     * @return an instance of {@link BooleanExpression}
+     * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
+     * @since 0.1.5
+     */
+    public BooleanExpression boolEqualsNullX(Expression argExpr) {
+        return GeneralUtils.equalsNullX(argExpr);
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolHasSameFieldX(personNameFieldNode, anotherPersonRef);
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * name is (peter.name) // as a boolean expression
+     * </code></pre>
+     *
+     * @param fNode the node we would like to check
+     * @param other Another expression having as a result another
+     * field we would like to check against
+     * @return an instance of {@link BooleanExpression}
+     * @since 0.1.5
+     */
+    public BooleanExpression boolHasSameFieldX(FieldNode fNode, Expression other) {
+        return GeneralUtils.hasSameFieldX(fNode, other);
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolHasSamePropertyX(personNamePropertyNode, anotherPersonRef);
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * name is (peter.name) // as a boolean expression
+     * </code></pre>
+     *
+     * @param pNode the node we would like to check
+     * @param other Another expression having as a result another
+     * property we would like to check against
+     * @return an instance of {@link BooleanExpression}
+     * @since 0.1.5
+     */
+    public BooleanExpression boolHasSamePropertyX(PropertyNode pNode, Expression other) {
+        return GeneralUtils.hasSamePropertyX(pNode, other);
+    }
+
+    /**
+     * Use it to create an "instanceof" expression to know whether an
+     * instance is of a given type or not. Builds an instance of
+     * {@link BooleanExpression} of type: <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolIsInstanceOfX(stringExpression, stringClassNode);
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * "hello" instanceof String // as a boolean expression
+     * </code></pre>
+     *
+     * @param objectExpression expression to evaluate
+     * @param cNode a {@link ClassNode}
+     * @return an instance of {@link BooleanExpression}
+     * @since 0.1.5
+     */
+    public BooleanExpression boolIsInstanceOfX(Expression objectExpression, ClassNode cNode) {
+        return GeneralUtils.isInstanceOfX(objectExpression, cNode);
+    }
+
+    /**
+     * Use it to create an "instanceof" expression to know whether an
+     * instance is of a given type or not. Builds an instance of
+     * {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>boolIsInstanceOfX(stringExpression, stringClass)</code></pre>
+     * <strong>Result</strong>
+     * <pre><code>"hello" instanceof String // as a boolean expression</code></pre>
+     *
+     * <b class="warning">WARNING!:</b> Bear in mind that a given class might not be
+     * available when using it in an AST transformation.
+     *
+     * @param objectExpression expression to evaluate
+     * @param cNode a {@link java.lang.Class}. This
+     * @return an instance of {@link BooleanExpression}
+     * @since 0.1.5
+     */
+    public BooleanExpression boolIsInstanceOfX(Expression objectExpression, Class cNode) {
+        return GeneralUtils.isInstanceOfX(objectExpression, A.NODES.clazz(cNode).build());
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolIsOneX(numberExpression);
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * 10 == 1 // as a boolean expression
+     * </code></pre>
+     *
+     * Utility class to check a given expression equals to the constant
+     * expression 1.
+     *
+     * @param expr expression to check against 1
+     * @return an instance of {@link BooleanExpression}
+     * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
+     * @since 0.1.5
+     */
+    public BooleanExpression boolIsOneX(Expression expr) {
+        return GeneralUtils.isOneX(expr);
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolIsTrueX(anyExpression);
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * "something" == Boolean.TRUE // as a boolean expression or...
+     * (1 == 1) == Boolean.TRUE
+     * </code></pre>
+     *
+     * Utility class to check a given expression equals to true
+     *
+     * @param argExpr expression checked to be true
+     * @return an instance of {@link BooleanExpression}
+     * @since 0.1.5
+     */
+    public BooleanExpression boolIsTrueX(Expression argExpr) {
+        return GeneralUtils.isTrueX(argExpr);
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolIsZeroX(numberExpression);
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * 10 == 0 // as a boolean expression
+     * </code></pre>
+     *
+     * Utility class to check a given expression equals to the constant
+     * expression 0.
+     *
+     * @param expr expression to check against 0
+     * @return an instance of {@link BooleanExpression}
+     * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
+     * @since 0.1.5
+     */
+    public BooleanExpression boolIsZeroX(Expression expr) {
+        return GeneralUtils.isZeroX(expr);
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolEqualsNotNullX(constX("some"));
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * "some" != null // as a boolean expression
+     * </code></pre>
+     *
+     * @param argExpr the expression   we want to check
+     * @return an instance of {@link BooleanExpression}
+     * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
+     * @since 0.1.5
+     */
+    public BooleanExpression boolNotNullX(Expression argExpr) {
+        return GeneralUtils.notNullX(argExpr);
+    }
+
+    /**
+     * Builds an instance of {@link BooleanExpression} of type:
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * boolSameX(self, another)
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * thisInstance is otherInstance
+     * </code></pre>
+     *
+     * Use it to create expressions asking whether a given instance is
+     * the same as another (like the == operator used in Java).
+     *
+     * @param self the expression we want to check against
+     * @param other another expression
+     * @return an instance of {@link BooleanExpression} answering
+     * whether a given instance is the same as another.
+     * @see org.codehaus.groovy.syntax.Types
+     * @since 0.1.5
+     */
+    public BooleanExpression boolSameX(Expression self, Expression other) {
+        return GeneralUtils.sameX(self, other);
+    }
+
+    /**
+     * Builds an instance of {@link BinaryExpression} of type
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * binEqX(constX(1), constX(1));
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>1 == 1</code></pre>
+     *
+     * @param leftExpr left hand side operand
+     * @param rightExpr right hand side operand
+     * @return an instance of {@link BinaryExpression} representing an
+     * equals expression
+     * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
+     * @since 0.1.5
+     */
+    public static BinaryExpression binEqX(final Expression leftExpr, final Expression rightExpr) {
+        return GeneralUtils.eqX(leftExpr, rightExpr);
+    }
 
     /**
      * Builds an instance of {@link ConstantExpression} from the constant value
@@ -212,7 +513,7 @@ public final class Expressions {
         return GeneralUtils.callX(clazz, methodName, new ArgumentListExpression(args));
     }
 
-        /**
+    /**
      * Creates a static method expression
      * <br><br>
      *
@@ -389,4 +690,29 @@ public final class Expressions {
         return GeneralUtils.varX(varName, type);
     }
 
+    /**
+     * Creates a closure expression. The statement passed as first parameter
+     * becomes the closure's body.
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * closureX(returnS(constantX("hello"))) // without params
+     * closureX(statement, param("n",Integer)) // with a param
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * { -> "hello" } // without params
+     * { Integer n -> n + 1 } // n + 1 is the statement
+     * </code></pre>
+     *
+     * @param stmt the body of the closure
+     * @param params the closure parameters
+     * @return an instance of {@link ClosureExpression}
+     * @since 0.1.5
+     */
+    public static ClosureExpression closureX(final Statement stmt, Parameter... params) {
+        return GeneralUtils.closureX(params, stmt);
+    }
 }

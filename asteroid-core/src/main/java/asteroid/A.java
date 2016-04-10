@@ -23,14 +23,14 @@ public final class A {
     public static final Modifiers ACC = new Modifiers();
 
     /**
-     * Entry point to get statement builders.
+     * Entry point to create statements.
      *
      * @since 0.1.0
      */
     public static final Statements STMT = new Statements();
 
     /**
-     * Entry point to get expression builders
+     * Entry point to create expressions
      *
      * @since 0.1.0
      */
@@ -42,13 +42,6 @@ public final class A {
      * @since 0.1.0
      */
     public static final Utils UTIL = new Utils();
-
-    /**
-     * Entry point to build {@link org.codehaus.groovy.ast.ASTNode} checkers
-     *
-     * @since 0.1.0
-     */
-    public static final Checks CHECK = new Checks();
 
     /**
      * Compilation phases available for local transformations. Local transformations are only allowed to
