@@ -1,6 +1,7 @@
 package asteroid;
 
 import org.codehaus.groovy.ast.Parameter;
+import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ClassHelper;
@@ -713,6 +714,9 @@ public final class Expressions {
      * @since 0.1.5
      */
     public static ClosureExpression closureX(final Statement stmt, Parameter... params) {
-        return GeneralUtils.closureX(params, stmt);
+        ClosureExpression expr = GeneralUtils.closureX(params, stmt);
+        expr.setVariableScope(new VariableScope());
+
+        return expr;
     }
 }
