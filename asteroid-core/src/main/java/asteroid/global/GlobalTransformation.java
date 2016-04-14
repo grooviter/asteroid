@@ -1,7 +1,5 @@
 package asteroid.global;
 
-import org.codehaus.groovy.transform.GroovyASTTransformationClass;
-
 import asteroid.A;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

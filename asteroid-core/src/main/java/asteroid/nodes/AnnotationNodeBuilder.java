@@ -9,7 +9,7 @@ import org.codehaus.groovy.ast.expr.Expression;
  *
  * @since 0.1.0
  */
-public class AnnotationNodeBuilder {
+final public class AnnotationNodeBuilder {
 
     private final AnnotationNode annotationNode;
 

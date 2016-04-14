@@ -41,11 +41,13 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      */
     @Override
     public Expression transform(Expression expression) {
-        if (expression == null) return null;
+        if (expression == null) {
+            return null;
+        }
 
-        return criteria.call(expression) ?
-            this.transformExpression((T) expression) :
-            expression.transformExpression(this);
+        boolean proceed = criteria.call(expression);
+
+        return proceed ? this.transformExpression((T) expression) : expression.transformExpression(this);
     }
 
     /**
@@ -68,7 +70,7 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
     public static Closure<Boolean> methodCallByNameEq(final String name) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(Expression expression) {
-                if (expression == null || !(expression instanceof MethodCallExpression)) {
+                if (!(expression instanceof MethodCallExpression)) {
                     return false;
                 }
 

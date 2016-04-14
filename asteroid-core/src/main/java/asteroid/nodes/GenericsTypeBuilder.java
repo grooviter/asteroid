@@ -8,7 +8,7 @@ import org.codehaus.groovy.ast.GenericsType;
  *
  * @since 0.1.0
  */
-public class GenericsTypeBuilder {
+final public class GenericsTypeBuilder {
 
     private final GenericsType genericsType;
 

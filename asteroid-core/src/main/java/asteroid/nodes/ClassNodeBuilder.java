@@ -10,7 +10,7 @@ import org.codehaus.groovy.ast.tools.GenericsUtils;
  *
  * @since 0.1.0
  */
-public class ClassNodeBuilder {
+final public class ClassNodeBuilder {
 
     private final ClassNode classNode;
 
