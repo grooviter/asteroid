@@ -21,7 +21,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-@GroovyASTTransformationClass("asteroid.internal.GlobalTransformationTransformation")
 public @interface GlobalTransformation {
     /**
      * Sets the global phase compilation
