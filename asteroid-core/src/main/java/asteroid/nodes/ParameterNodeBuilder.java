@@ -10,7 +10,7 @@ import org.codehaus.groovy.ast.Parameter;
  */
 public class ParameterNodeBuilder {
 
-    private String name;
+    private final String name;
     private ClassNode type;
 
     /**

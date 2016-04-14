@@ -8,7 +8,6 @@ import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 
 import java.util.Map;
 import java.util.List;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import asteroid.A;
@@ -54,7 +53,7 @@ public class CheckUtils {
         List<Statement> statements = A.UTIL.STMT.applyToStatementsByLabelFlatten(groups, getMappings());
 
         // #TODO it will remove to enforce the use of checks
-        if (groups.size() > 0) {
+        if (!groups.isEmpty()) {
             methodNode.setCode(A.STMT.blockS(statements));
         }
     }

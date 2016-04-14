@@ -1,11 +1,9 @@
 package asteroid.global;
 
-import groovyjarjarasm.asm.Opcodes;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.ClassCodeExpressionTransformer;
-import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.syntax.SyntaxException;
 
 /**
@@ -20,7 +18,7 @@ import org.codehaus.groovy.syntax.SyntaxException;
  */
 public abstract class Transformer extends ClassCodeExpressionTransformer {
 
-    private SourceUnit sourceUnit;
+    private final SourceUnit sourceUnit;
 
     /**
      * This constructor needs a source unit
@@ -78,7 +76,11 @@ public abstract class Transformer extends ClassCodeExpressionTransformer {
     public String getModulePackageName() {
         ModuleNode module = getModule();
 
-        return module != null && module.getPackageName() != null ? module.getPackageName() : "";
+        if (module != null && module.getPackageName() != null) {
+            return module.getPackageName();
+        }
+
+        return null;
     }
 
 }

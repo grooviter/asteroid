@@ -60,6 +60,8 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
 public abstract class LocalTransformationImpl<ANNOTATION,ANNOTATED extends AnnotatedNode>
     extends AbstractASTTransformation {
 
+    private final Class<ANNOTATION> annotation;
+
     /**
      * Default constructor
      *
@@ -69,19 +71,14 @@ public abstract class LocalTransformationImpl<ANNOTATION,ANNOTATED extends Annot
         throw new RuntimeException("This method should never be used. It will be re-created by a local AST transformation");
     }
 
-    private final Class<ANNOTATION> annotation;
-    private final Class<ANNOTATED> annotated;
-
     /**
      * Default constructor
      *
      * @param annotation The type of the annotatino used to trigger the transformation
-     * @param annotated The type of node marked to be transformed
-     * @since 0.1.0
+     * @since 0.1.6
      */
-    public LocalTransformationImpl(final Class<ANNOTATION> annotation, final Class<ANNOTATED> annotated) {
+    public LocalTransformationImpl(final Class<ANNOTATION> annotation) {
         this.annotation = annotation;
-        this.annotated = annotated;
     }
 
     /**

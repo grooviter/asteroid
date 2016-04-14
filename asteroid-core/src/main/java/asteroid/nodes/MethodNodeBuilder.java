@@ -2,9 +2,6 @@ package asteroid.nodes;
 
 import asteroid.A;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import org.codehaus.groovy.ast.Parameter;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.MethodNode;
@@ -15,7 +12,7 @@ import org.codehaus.groovy.ast.stmt.Statement;
  *
  * @since 0.1.0
  */
-public class MethodNodeBuilder {
+final public class MethodNodeBuilder {
 
     private final String name;
     private int modifiers;

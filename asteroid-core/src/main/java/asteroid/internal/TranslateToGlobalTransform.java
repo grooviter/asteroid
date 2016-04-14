@@ -1,28 +1,13 @@
 package asteroid.internal;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.find;
-
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.control.CompilePhase;
-import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.ClassNode;
-import groovy.lang.Closure;
 
 import groovy.transform.InheritConstructors;
 import org.codehaus.groovy.GroovyBugError;
-import org.codehaus.groovy.ast.ASTNode;
-import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
-import org.codehaus.groovy.ast.ClassNode;
-import org.codehaus.groovy.ast.ConstructorNode;
-import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
-import org.codehaus.groovy.ast.stmt.Statement;
-import org.codehaus.groovy.control.CompilePhase;
-import org.codehaus.groovy.control.SourceUnit;
-import org.codehaus.groovy.transform.AbstractASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 import asteroid.A;
@@ -80,9 +65,9 @@ public class TranslateToGlobalTransform extends ClassNodeTransformer {
         try {
             return extractCompilePhaseFrom(annotationNode);
         } catch(IllegalArgumentException iaex){
-            throw new GroovyBugError(GLOBAL_PHASE_WRONG);
+            throw new GroovyBugError(GLOBAL_PHASE_WRONG, iaex);
         } catch(Exception ex) {
-            throw new GroovyBugError(GLOBAL_PHASE_MISSING);
+            throw new GroovyBugError(GLOBAL_PHASE_MISSING, ex);
         }
     }
 

@@ -13,8 +13,6 @@ import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.builder.AstBuilder;
 import org.codehaus.groovy.ast.expr.BooleanExpression;
 
-import asteroid.A;
-
 /**
  * This class hides the different implementations to create expressions through the Groovy api to provide a unified
  * an easier way to create statements when coding an AST transformation.

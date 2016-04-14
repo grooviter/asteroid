@@ -2,13 +2,11 @@ package asteroid.global;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
 
-import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 
 import org.codehaus.groovy.control.SourceUnit;
 import groovy.lang.Closure;
-import asteroid.A;
 
 /**
  * This {@link Transformer} can be used to transform {@link ClassNode}
@@ -30,7 +28,7 @@ import asteroid.A;
  */
 public abstract class ClassNodeTransformer extends Transformer {
 
-    private Closure<Boolean> criteria;
+    private final Closure<Boolean> criteria;
 
     /**
      * Every instance needs the source unit and the name of the class
@@ -141,7 +139,9 @@ public abstract class ClassNodeTransformer extends Transformer {
      */
     @Override
     public void visitClass(final ClassNode classNode) {
-        if (classNode == null || !this.criteria.call(classNode)) return;
+        if (classNode == null || !this.criteria.call(classNode)) {
+            return;
+        }
 
         transformClass(classNode);
     }

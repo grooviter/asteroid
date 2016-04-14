@@ -90,9 +90,11 @@ public class LocalTransformation extends AbstractASTTransformation {
     }
 
     private AnnotationNode getTargetAnnotation(AnnotationNode applyAnnotation) {
-        String             targetString = applyAnnotation != null ?
-            A.UTIL.ANNOTATION.get(applyAnnotation, String.class) :
-            A.TO.TYPE.toString();
+        String targetString = A.TO.TYPE.toString();
+
+        if (applyAnnotation != null) {
+            targetString = A.UTIL.ANNOTATION.get(applyAnnotation, String.class);
+        }
 
         ConstantExpression constantExpression = A.EXPR.constX(targetString);
         ClassExpression    classExpression    = A.EXPR.classX(ElementType.class);

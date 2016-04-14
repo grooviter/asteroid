@@ -3,28 +3,22 @@ package asteroid.internal;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
-import groovy.lang.Closure;
 import groovy.transform.InheritConstructors;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
-import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ConstructorNode;
 import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.stmt.Statement;
-import org.codehaus.groovy.ast.stmt.BlockStatement;
-import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.AbstractASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
-import java.util.Map;
 import java.util.List;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import asteroid.A;
 import asteroid.A.PHASE_LOCAL;
@@ -67,11 +61,9 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
     private void addClassConstructor(final ClassNode annotatedNode) {
         List<GenericsType> generics = Arrays.asList(annotatedNode.getSuperClass().getGenericsTypes());
         ClassNode annotationType    = first(generics).getType();
-        ClassNode transformedType   = last(generics).getType();
 
         Statement callSuper = A.STMT
-            .ctorSuperS(A.EXPR.classX(annotationType),
-                        A.EXPR.classX(transformedType));
+            .ctorSuperS(A.EXPR.classX(annotationType));
 
         ConstructorNode constructorNode = A.NODES
             .constructor(A.ACC.ACC_PUBLIC)

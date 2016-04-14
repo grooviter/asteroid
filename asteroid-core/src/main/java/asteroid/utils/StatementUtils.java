@@ -1,23 +1,18 @@
 package asteroid.utils;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collectMany;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.inject;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import groovy.lang.Closure;
 
-import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.expr.ConstantExpression;
 
 /**
  * General utility methods to deal with {@link Statement} instances
@@ -43,8 +38,8 @@ public final class StatementUtils {
          * @param statements the statements that belong to this group
          */
         Group(final Label label, final List<Statement> statements) {
-            this.label      = label != null ? label : new Label("", "");
-            this.statements = statements != null ? statements : new ArrayList<Statement>();
+            this.label      = label;
+            this.statements = statements;
         }
 
         /**
@@ -74,8 +69,8 @@ public final class StatementUtils {
          * @param desc a longer description
          */
         Label(String name, String desc) {
-            this.name = name != null ? name : "";
-            this.desc = desc != null ? desc : "";
+            this.name = name;
+            this.desc = desc;
         }
     }
 
@@ -133,13 +128,17 @@ public final class StatementUtils {
         boolean isExpressionStatement = stmt instanceof ExpressionStatement;
 
         /* If the expression is not an expression statement there is nothing to do */
-        if (!isExpressionStatement) return null;
+        if (!isExpressionStatement) {
+            return null;
+        }
 
         ExpressionStatement exprStmt = (ExpressionStatement) stmt;
         boolean isThereAnyLabel = exprStmt.getStatementLabel() != null;
 
         /* If there is no label detected there is nothing to do either */
-        if (!isThereAnyLabel) return null;
+        if (!isThereAnyLabel) {
+            return null;
+        }
 
         String labelName    = exprStmt.getStatementLabel();
         Expression descExpr = exprStmt.getExpression();

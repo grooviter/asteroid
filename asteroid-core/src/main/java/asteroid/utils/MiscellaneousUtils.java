@@ -3,7 +3,6 @@ package asteroid.utils;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
-import groovy.lang.Closure;
 import org.codehaus.groovy.ast.ASTNode;
 
 /**

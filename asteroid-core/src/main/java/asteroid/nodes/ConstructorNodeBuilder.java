@@ -24,9 +24,9 @@ import org.codehaus.groovy.ast.stmt.Statement;
  *
  * @since 0.1.5
  */
-public class ConstructorNodeBuilder {
+final public class ConstructorNodeBuilder {
 
-    private int modifiers;
+    private final int modifiers;
     private Statement code;
 
     private ConstructorNodeBuilder(int modifiers) {

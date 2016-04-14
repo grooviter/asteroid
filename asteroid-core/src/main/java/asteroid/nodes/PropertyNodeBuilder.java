@@ -10,9 +10,9 @@ import org.codehaus.groovy.ast.expr.Expression;
  *
  * @since 0.1.4
  */
-public class PropertyNodeBuilder {
+final public class PropertyNodeBuilder {
 
-    private String name;
+    private final String name;
     private int modifiers;
     private ClassNode type;
     private ClassNode owner;
