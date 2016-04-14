@@ -25,7 +25,10 @@ public final class AnnotationNodeUtils {
      * @since 0.1.4
      */
     public String getStringValue(final AnnotationNode annotationNode) {
-        return annotationNode.getMember(ANNOTATION_VALUE).getText();
+        Expression expr = annotationNode.getMember(ANNOTATION_VALUE);
+        String annValue = expr != null ? annotationNode.getMember(ANNOTATION_VALUE).getText() : null;
+
+        return annValue;
     }
 
     /**
