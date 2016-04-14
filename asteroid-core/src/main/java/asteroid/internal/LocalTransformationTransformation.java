@@ -22,6 +22,8 @@ import java.util.Arrays;
 
 import asteroid.A;
 import asteroid.A.PHASE_LOCAL;
+import asteroid.local.LocalTransformation;
+import asteroid.local.LocalTransformationImpl;
 
 /**
  * This transformation makes easier to declare a given local transformation. It narrows the available
@@ -31,25 +33,25 @@ import asteroid.A.PHASE_LOCAL;
  * @since 0.1.0
  */
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-public class LocalTransformationTransformation extends AbstractASTTransformation {
+public class LocalTransformationTransformation extends LocalTransformationImpl<LocalTransformation,ClassNode> {
+
+
+    /**
+     * Constructor using abstraction {@link LocalTransformationImpl}
+     *
+     * @since 0.1.6
+     */
+    public LocalTransformationTransformation() {
+        super(LocalTransformation.class);
+    }
 
     /**
      * {@inheritDoc}
      *
-     * @since 0.1.0
+     * @since 0.1.6
      */
     @Override
-    public void visit(final ASTNode[] nodes, final SourceUnit source) {
-        if (nodes == null) return;
-        if (nodes.length != 2) return;
-        if (!(nodes[0] instanceof AnnotationNode)) return;
-        if (!(nodes[1] instanceof AnnotatedNode)) return;
-
-        this.sourceUnit = source;
-
-        AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
-        ClassNode      annotatedNode  = A.UTIL.MISC.getLastNodeAs(nodes, ClassNode.class);
-
+    public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode, final SourceUnit source) {
         addAnnotationsFromTo(annotationNode, annotatedNode);
         addClassConstructor(annotatedNode);
 
