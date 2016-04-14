@@ -1,5 +1,7 @@
 package asteroid.utils;
 
+import static org.codehaus.groovy.runtime.StringGroovyMethods.take;
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.find;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 
 import java.util.List;
@@ -11,6 +13,8 @@ import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
+
+import groovy.lang.Closure;
 
 /**
  * Utility classes to deal with {@link ClassNode} instances
@@ -108,9 +112,29 @@ public final class ClassNodeUtils {
      * @since 0.1.4
      */
     public AnnotationNode getAnnotationFrom(ClassNode classNode, ClassNode annotationType) {
-        List<AnnotationNode> list = classNode.getAnnotations(annotationType);
+        return find(classNode.getAnnotations(annotationType));
+    }
 
-        return list != null && !list.isEmpty() ? first(list) : null;
+    /**
+     * Retrieves an annotation with a specific simple name. A simple name stands for
+     * the qualified name of the type minus the package name, e.g if we had a type
+     * "groovy.transform.ToString" the simple name would be "ToString".
+     *
+     * @param classNode the class node annotated with the annotation we're looking for
+     * @param simpleName the annotation type simple name
+     * @return the annotation node if found, null otherwise
+     * @since 0.1.6
+     */
+    public AnnotationNode getAnnotationFrom(ClassNode classNode, String simpleName) {
+        return find(classNode.getAnnotations(), byName(simpleName));
+    }
+
+    private Closure<Boolean> byName(final String annotationName) {
+        return new Closure(null) {
+            public boolean doCall(AnnotationNode node) {
+                return node.getClassNode().getName().equals(annotationName);
+            }
+        };
     }
 
     /**
@@ -162,7 +186,7 @@ public final class ClassNodeUtils {
      * @since 0.1.4
      */
     public Boolean isOrExtends(ClassNode child, Class parent) {
-        ClassNode extendedType = ClassHelper.make(parent,false);
+        ClassNode extendedType = ClassHelper.make(parent, false);
 
         return isOrExtends(child, extendedType);
     }
@@ -217,5 +241,66 @@ public final class ClassNodeUtils {
      */
     public List<MethodNode> findAllMethodByName(final ClassNode classNode, final String methodName) {
         return classNode.getMethods(methodName);
+    }
+
+    /**
+     * Adds an import to the {@link ModuleNode} containing the {@link
+     * ClassNode} passed as first argument.
+     *
+     * @param classNode the {@link ClassNode}  where the import will be added
+     * @param clazz the type {@link Class} of the import
+     * @since 0.1.6
+     */
+    public void addImport(final ClassNode classNode, Class clazz) {
+        classNode.getModule().addImport(clazz.getSimpleName(), ClassHelper.make(clazz, false));
+    }
+
+    /**
+     * Adds an import to the {@link ModuleNode} containing the {@link
+     * ClassNode} passed as first argument.
+     *
+     * @param classNode the {@link ClassNode}  where the import will be added
+     * @param clazz the string representing the qualified class of the import
+     * @since 0.1.6
+     */
+    public void addImport(final ClassNode classNode, String clazz) {
+        classNode.getModule().addImport(getClassNameFromString(clazz), ClassHelper.make(clazz));
+    }
+
+    private String getClassNameFromString(final String clazz) {
+        if (clazz == null || clazz.isEmpty()) {
+            return clazz;
+        }
+
+        int clazzPackage  = clazz.lastIndexOf(".");
+        CharSequence name = take(clazz, clazzPackage);
+
+        return name.toString();
+    }
+
+    /**
+     * Adds an import to the {@link ModuleNode} containing the {@link
+     * ClassNode} passed as first argument.
+     *
+     * @param classNode the {@link ClassNode}  where the import will be added
+     * @param clazz the type {@link Class} of the import
+     * @param alias an alias to avoid class collisions
+     * @since 0.1.6
+     */
+    public void addImport(final ClassNode classNode, Class clazz, String alias) {
+        classNode.getModule().addImport(alias, ClassHelper.make(clazz, false));
+    }
+
+    /**
+     * Adds an import to the {@link ModuleNode} containing the {@link
+     * ClassNode} passed as first argument.
+     *
+     * @param classNode the {@link ClassNode}  where the import will be added
+     * @param clazz the string representing the qualified class of the import
+     * @param alias an alias to avoid class collisions
+     * @since 0.1.6
+     */
+    public void addImport(final ClassNode classNode, String clazz, String alias) {
+        classNode.getModule().addImport(alias, ClassHelper.make(clazz));
     }
 }

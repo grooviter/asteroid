@@ -1,10 +1,14 @@
 package asteroid.global;
 
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
+
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.ast.AnnotationNode;
 
 import org.codehaus.groovy.control.SourceUnit;
 import groovy.lang.Closure;
+import asteroid.A;
 
 /**
  * This {@link Transformer} can be used to transform {@link ClassNode}
@@ -99,6 +103,35 @@ public abstract class ClassNodeTransformer extends Transformer {
         return new Closure<Boolean>(null) {
             public Boolean doCall(ClassNode node) {
                 return node.getName().startsWith(term);
+            }
+        };
+    }
+
+    /**
+     * Criteria to find those classes with an annotation with a {@link
+     * Class} with a name as the passed argument. This name should be
+     * the same as using {@link Class#getSimpleName}
+     * <br><br>
+     * This method doesn't use a {@link Class} as argument cause the
+     * package (type information) won't be available for earlier
+     * {@link CompilePhase}
+     *
+     * @param the simple name of the {@link Class} of the annotation used as marker
+     * @return a criteria to use in the {@link ClassNodeTransformer} constructor
+     * @since 0.1.6
+     */
+    public static Closure<Boolean> byAnnotationName(final String simpleName) {
+        return new Closure<Boolean>(null) {
+            public Boolean doCall(ClassNode node) {
+                java.util.List<AnnotationNode> list = node.getAnnotations();
+                boolean cond  = list != null && !list.isEmpty();
+                boolean total = cond && any(list, new Closure(null) {
+                        public boolean doCall(AnnotationNode node) {
+                            return node.getClassNode().getName().equals(simpleName);
+                        }
+                    });
+
+                return total;
             }
         };
     }
