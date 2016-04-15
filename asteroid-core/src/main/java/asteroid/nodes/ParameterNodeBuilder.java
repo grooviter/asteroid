@@ -18,7 +18,7 @@ public class ParameterNodeBuilder {
      *
      * @param name of the parameter
      */
-    public ParameterNodeBuilder(String name) {
+    public ParameterNodeBuilder(final String name) {
         this.name = name;
     }
 
@@ -28,7 +28,7 @@ public class ParameterNodeBuilder {
      * @param name of the parameter
      * @return a new instance of {@link ParameterNodeBuilder}
      */
-    public static ParameterNodeBuilder param(String name) {
+    public static ParameterNodeBuilder param(final String name) {
         return new ParameterNodeBuilder(name);
     }
 
@@ -37,7 +37,7 @@ public class ParameterNodeBuilder {
      *
      * @param type the {@link ClassNode} of the
      */
-    public ParameterNodeBuilder type(ClassNode type) {
+    public ParameterNodeBuilder type(final ClassNode type) {
         this.type = type;
         return this;
     }
@@ -50,5 +50,4 @@ public class ParameterNodeBuilder {
     public Parameter build() {
         return new Parameter(type, name);
     }
-
 }

@@ -48,9 +48,9 @@ public class CheckUtils {
      * @since 0.1.5
      */
     public void addCheckTo(final MethodNode methodNode) {
-        BlockStatement blockStmt   = A.UTIL.NODE.getCodeBlock(methodNode);
-        List<Group> groups         = A.UTIL.STMT.groupStatementsByLabel(blockStmt);
-        List<Statement> statements = A.UTIL.STMT.applyToStatementsByLabelFlatten(groups, getMappings());
+        final BlockStatement blockStmt   = A.UTIL.NODE.getCodeBlock(methodNode);
+        final List<Group> groups         = A.UTIL.STMT.groupStatementsByLabel(blockStmt);
+        final List<Statement> statements = A.UTIL.STMT.applyToStatementsByLabelFlatten(groups, getMappings());
 
         // #TODO it will remove to enforce the use of checks
         if (!groups.isEmpty()) {
@@ -59,7 +59,7 @@ public class CheckUtils {
     }
 
     private Map<String, Closure<Statement>> getMappings() {
-        Map<String, Closure<Statement>> mappings = new HashMap<String, Closure<Statement>>();
+        final Map<String, Closure<Statement>> mappings = new HashMap<String, Closure<Statement>>();
         mappings.put("check", buildAssertionStmt());
 
         return mappings;
@@ -76,5 +76,4 @@ public class CheckUtils {
     private Statement createAssertStatement(final Group group, final ExpressionStatement stmt) {
         return A.STMT.assertS(A.EXPR.boolX(stmt.getExpression()), group.label.desc);
     }
-
 }

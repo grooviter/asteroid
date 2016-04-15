@@ -74,57 +74,57 @@ public class LocalTransformation extends AbstractASTTransformation {
             return;
         }
 
-        AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
-        ClassNode      annotatedNode  = A.UTIL.MISC.getLastNodeAs(nodes, ClassNode.class);
+        final AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
+        final ClassNode      annotatedNode  = A.UTIL.MISC.getLastNodeAs(nodes, ClassNode.class);
 
         addAnnotationsFromTo(annotationNode, annotatedNode);
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        String clazzQualifiedName      = A.UTIL.ANNOTATION.get(annotationNode, String.class);
-        AnnotationNode applyAnnotation = A.UTIL.CLASS.getAnnotationFrom(annotatedNode, make(Apply.class));
+        final String qualifiedName      = A.UTIL.ANNOTATION.get(annotationNode, String.class);
+        final AnnotationNode annotation = A.UTIL.CLASS.getAnnotationFrom(annotatedNode, make(Apply.class));
 
-        annotatedNode.addAnnotation(getTargetAnnotation(applyAnnotation));
+        annotatedNode.addAnnotation(getTargetAnnotation(annotation));
         annotatedNode.addAnnotation(getRetentionAnnotation());
-        annotatedNode.addAnnotation(getGroovyAnnotationWith(clazzQualifiedName));
+        annotatedNode.addAnnotation(getGroovyAnnotationWith(qualifiedName));
     }
 
-    private AnnotationNode getTargetAnnotation(AnnotationNode applyAnnotation) {
+    private AnnotationNode getTargetAnnotation(final AnnotationNode applyAnnotation) {
         String targetString = A.TO.TYPE.toString();
 
         if (applyAnnotation != null) {
             targetString = A.UTIL.ANNOTATION.get(applyAnnotation, String.class);
         }
 
-        ConstantExpression constantExpression = A.EXPR.constX(targetString);
-        ClassExpression    classExpression    = A.EXPR.classX(ElementType.class);
-        PropertyExpression propertyExpression = A.EXPR.propX(classExpression, constantExpression);
-        ListExpression     listExpression     = A.EXPR.listX(propertyExpression);
+        final ConstantExpression constantExpr = A.EXPR.constX(targetString);
+        final ClassExpression    classExpr    = A.EXPR.classX(ElementType.class);
+        final PropertyExpression propertyExpr = A.EXPR.propX(classExpr, constantExpr);
+        final ListExpression     listExpr     = A.EXPR.listX(propertyExpr);
 
         return A.NODES.annotation(Target.class)
-                .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, listExpression)
+                .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, listExpr)
                 .build();
     }
 
     private AnnotationNode getRetentionAnnotation() {
-        ClassExpression    classExpression    = A.EXPR.classX(RetentionPolicy.class);
-        ConstantExpression constantExpression = A.EXPR.constX(RetentionPolicy.SOURCE.toString());
-        PropertyExpression propertyExpression = A.EXPR.propX(classExpression, constantExpression);
+        final ClassExpression    classExpr    = A.EXPR.classX(RetentionPolicy.class);
+        final ConstantExpression constantExpr = A.EXPR.constX(RetentionPolicy.SOURCE.toString());
+        final PropertyExpression propertyExpr = A.EXPR.propX(classExpr, constantExpr);
 
         return A.NODES.annotation(Retention.class)
-                .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, propertyExpression)
+                .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, propertyExpr)
                 .build();
     }
 
     private AnnotationNode getGroovyAnnotationWith(final String qualifiedName) {
-        ConstantExpression constant = A.EXPR.constX(qualifiedName);
+        final ConstantExpression constant = A.EXPR.constX(qualifiedName);
 
         return A.NODES.annotation(GroovyASTTransformationClass.class)
                 .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, constant)
                 .build();
     }
 
-    private boolean check(final ASTNode[] nodes) {
+    private boolean check(final ASTNode... nodes) {
         return !(thereIsNoNodes(nodes)                               ||
                 thereAreOtherThanTwo(nodes)                          ||
                 firstNodeIsNotAnAnnotation(nodes)                    ||
@@ -132,27 +132,27 @@ public class LocalTransformation extends AbstractASTTransformation {
                 lastNodeIsNotAnAnnotatedNode(nodes));
     }
 
-    private boolean thereIsNoNodes(final ASTNode[] nodes) {
+    private boolean thereIsNoNodes(final ASTNode... nodes) {
         return nodes == null;
     }
 
-    private boolean thereAreOtherThanTwo(final ASTNode[] nodes) {
+    private boolean thereAreOtherThanTwo(final ASTNode... nodes) {
         return nodes.length != 2;
     }
 
-    private boolean firstNodeIsNotAnAnnotation(final ASTNode[] nodes) {
+    private boolean firstNodeIsNotAnAnnotation(final ASTNode... nodes) {
         return !(first(nodes) instanceof AnnotationNode);
     }
 
-    private boolean lastNodeIsNotAnAnnotatedNode(final ASTNode[] nodes) {
+    private boolean lastNodeIsNotAnAnnotatedNode(final ASTNode... nodes) {
         return !(last(nodes) instanceof AnnotatedNode);
     }
 
     private boolean firstNodeIsNotAnAnnotationOfType(final ASTNode[] nodes, final Class annotationType) {
-        AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
-        ClassNode annotationClassNode = A.NODES.clazz(annotationType).build();
+        final AnnotationNode annotation = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
+        final ClassNode annotationClass = A.NODES.clazz(annotationType).build();
 
-        return !annotationNode.getClassNode().isDerivedFrom(annotationClassNode);
+        return !annotation.getClassNode().isDerivedFrom(annotationClass);
     }
 
 }

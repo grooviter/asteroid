@@ -14,15 +14,15 @@ final public class ClassNodeBuilder {
 
     private final ClassNode classNode;
 
-    private ClassNodeBuilder(Class clazz) {
+    private ClassNodeBuilder(final Class clazz) {
         classNode = new ClassNode(clazz);
     }
 
-    private ClassNodeBuilder(String fullyQualifiedName) {
-        this.classNode = ClassHelper.make(fullyQualifiedName);
+    private ClassNodeBuilder(final String qualifiedName) {
+        this.classNode = ClassHelper.make(qualifiedName);
     }
 
-    private ClassNodeBuilder(ClassNode classNode) {
+    private ClassNodeBuilder(final ClassNode classNode) {
         this.classNode = classNode;
     }
 
@@ -42,7 +42,7 @@ final public class ClassNodeBuilder {
      * @return an instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public static ClassNodeBuilder clazz(Class<?> clazz) {
+    public static ClassNodeBuilder clazz(final Class<?> clazz) {
         return new ClassNodeBuilder(clazz);
     }
 
@@ -58,13 +58,13 @@ final public class ClassNodeBuilder {
      * <strong>Result</strong>
      * <pre><code>String.class</code></pre>
      *
-     * @param fullyQualifiedName a {@link String} withe the complete
+     * @param qualifiedName a {@link String} withe the complete
      * name of the class
      * @return current instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public static ClassNodeBuilder clazz(String fullyQualifiedName) {
-        return new ClassNodeBuilder(fullyQualifiedName);
+    public static ClassNodeBuilder clazz(final String qualifiedName) {
+        return new ClassNodeBuilder(qualifiedName);
     }
 
     /**
@@ -76,7 +76,7 @@ final public class ClassNodeBuilder {
      * @return current instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public static ClassNodeBuilder clazzWithGenerics(Class<?> clazz, GenericsType... genericsTypes) {
+    public static ClassNodeBuilder clazzWithGenerics(final Class<?> clazz, final GenericsType... genericsTypes) {
         return new ClassNodeBuilder(GenericsUtils
                 .makeClassSafeWithGenerics(
                         ClassHelper.make(clazz),
@@ -92,7 +92,7 @@ final public class ClassNodeBuilder {
      * @return current instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public ClassNodeBuilder usingGenerics(Boolean useGenerics) {
+    public ClassNodeBuilder usingGenerics(final Boolean useGenerics) {
         this.classNode.setUsingGenerics(useGenerics);
         return this;
     }
@@ -105,7 +105,7 @@ final public class ClassNodeBuilder {
      * @return current instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public ClassNodeBuilder genericsPlaceHolder(Boolean usePlaceholder) {
+    public ClassNodeBuilder genericsPlaceHolder(final Boolean usePlaceholder) {
         this.classNode.setGenericsPlaceHolder(usePlaceholder);
         return this;
     }
@@ -117,7 +117,7 @@ final public class ClassNodeBuilder {
      * @return current instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public ClassNodeBuilder genericsTypes(GenericsType... genericsTypes) {
+    public ClassNodeBuilder genericsTypes(final GenericsType... genericsTypes) {
         this.classNode.setGenericsTypes(genericsTypes);
         return this;
     }

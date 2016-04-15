@@ -9,6 +9,7 @@ import java.util.List;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.MethodNode;
+import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.AnnotationNode;
@@ -83,9 +84,9 @@ public final class ClassNodeUtils {
      * implementing
      * @since 0.1.4
      */
-    public void addInterfaces(final ClassNode classNode, Class... interfaces) {
-        for (Class clazz : interfaces) {
-            ClassNode nextInterface = ClassHelper.make(clazz, false);
+    public void addInterfaces(final ClassNode classNode, final Class... interfaces) {
+        for (final Class clazz : interfaces) {
+            final ClassNode nextInterface = ClassHelper.make(clazz, false);
             classNode.addInterface(nextInterface);
         }
     }
@@ -99,7 +100,7 @@ public final class ClassNodeUtils {
      * {@link ClassNode}
      * @since 0.1.4
      */
-    public List<FieldNode> getInstancePropertyFields(ClassNode classNode) {
+    public List<FieldNode> getInstancePropertyFields(final ClassNode classNode) {
         return GeneralUtils.getInstancePropertyFields(classNode);
     }
 
@@ -111,7 +112,7 @@ public final class ClassNodeUtils {
      * @return the annotation type if found, null otherwise
      * @since 0.1.4
      */
-    public AnnotationNode getAnnotationFrom(ClassNode classNode, ClassNode annotationType) {
+    public AnnotationNode getAnnotationFrom(final ClassNode classNode, final ClassNode annotationType) {
         return find(classNode.getAnnotations(annotationType));
     }
 
@@ -125,13 +126,13 @@ public final class ClassNodeUtils {
      * @return the annotation node if found, null otherwise
      * @since 0.1.6
      */
-    public AnnotationNode getAnnotationFrom(ClassNode classNode, String simpleName) {
+    public AnnotationNode getAnnotationFrom(final ClassNode classNode, final String simpleName) {
         return find(classNode.getAnnotations(), byName(simpleName));
     }
 
     private Closure<Boolean> byName(final String annotationName) {
         return new Closure(null) {
-            public boolean doCall(AnnotationNode node) {
+            public boolean doCall(final AnnotationNode node) {
                 return node.getClassNode().getName().equals(annotationName);
             }
         };
@@ -146,7 +147,7 @@ public final class ClassNodeUtils {
      * @return true if the classNode is of type `clazz`
      * @since 0.1.4
      */
-    public Boolean isOrImplements(Class child, Class parent) {
+    public Boolean isOrImplements(final Class child, final Class parent) {
         return isOrImplements(ClassHelper.make(child, false), parent);
     }
 
@@ -159,7 +160,7 @@ public final class ClassNodeUtils {
      * @return true if the classNode is of type `parent`
      * @since 0.1.4
      */
-    public Boolean isOrImplements(ClassNode child, Class parent) {
+    public Boolean isOrImplements(final ClassNode child, final Class parent) {
         return GeneralUtils.isOrImplements(child, ClassHelper.make(parent,false));
     }
 
@@ -172,7 +173,7 @@ public final class ClassNodeUtils {
      * @return true if the classNode is of type `clazz`
      * @since 0.1.4
      */
-    public Boolean isOrImplements(ClassNode child, String parent) {
+    public Boolean isOrImplements(final ClassNode child, final String parent) {
         return GeneralUtils.isOrImplements(child, ClassHelper.make(parent));
     }
 
@@ -185,8 +186,8 @@ public final class ClassNodeUtils {
      * @return true if the classNode is of type `parent`
      * @since 0.1.4
      */
-    public Boolean isOrExtends(ClassNode child, Class parent) {
-        ClassNode extendedType = ClassHelper.make(parent, false);
+    public Boolean isOrExtends(final ClassNode child, final Class parent) {
+        final ClassNode extendedType = ClassHelper.make(parent, false);
 
         return isOrExtends(child, extendedType);
     }
@@ -200,7 +201,7 @@ public final class ClassNodeUtils {
      * @return true if the classNode is of type `parent`
      * @since 0.1.4
      */
-    public Boolean isOrExtends(ClassNode child, ClassNode parent) {
+    public Boolean isOrExtends(final ClassNode child, final ClassNode parent) {
         return child.equals(parent) || child.isDerivedFrom(parent);
     }
 
@@ -213,7 +214,7 @@ public final class ClassNodeUtils {
      * @return true if the classNode is of type `parent`
      * @since 0.1.4
      */
-    public Boolean isOrExtends(ClassNode child, String parent) {
+    public Boolean isOrExtends(final ClassNode child, final String parent) {
         return child.equals(parent) || child.isDerivedFrom(ClassHelper.make(parent));
     }
 
@@ -251,7 +252,7 @@ public final class ClassNodeUtils {
      * @param clazz the type {@link Class} of the import
      * @since 0.1.6
      */
-    public void addImport(final ClassNode classNode, Class clazz) {
+    public void addImport(final ClassNode classNode, final Class clazz) {
         classNode.getModule().addImport(clazz.getSimpleName(), ClassHelper.make(clazz, false));
     }
 
@@ -263,7 +264,7 @@ public final class ClassNodeUtils {
      * @param clazz the string representing the qualified class of the import
      * @since 0.1.6
      */
-    public void addImport(final ClassNode classNode, String clazz) {
+    public void addImport(final ClassNode classNode, final String clazz) {
         classNode.getModule().addImport(getClassNameFromString(clazz), ClassHelper.make(clazz));
     }
 
@@ -272,8 +273,8 @@ public final class ClassNodeUtils {
             return clazz;
         }
 
-        int clazzPackage  = clazz.lastIndexOf(".");
-        CharSequence name = take(clazz, clazzPackage);
+        final int clazzPackage  = clazz.lastIndexOf('.');
+        final CharSequence name = take(clazz, clazzPackage);
 
         return name.toString();
     }
@@ -287,7 +288,7 @@ public final class ClassNodeUtils {
      * @param alias an alias to avoid class collisions
      * @since 0.1.6
      */
-    public void addImport(final ClassNode classNode, Class clazz, String alias) {
+    public void addImport(final ClassNode classNode, final Class clazz, final String alias) {
         classNode.getModule().addImport(alias, ClassHelper.make(clazz, false));
     }
 
@@ -300,7 +301,7 @@ public final class ClassNodeUtils {
      * @param alias an alias to avoid class collisions
      * @since 0.1.6
      */
-    public void addImport(final ClassNode classNode, String clazz, String alias) {
+    public void addImport(final ClassNode classNode, final String clazz, final String alias) {
         classNode.getModule().addImport(alias, ClassHelper.make(clazz));
     }
 }

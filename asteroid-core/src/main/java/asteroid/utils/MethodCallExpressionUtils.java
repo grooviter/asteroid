@@ -22,8 +22,8 @@ public final class MethodCallExpressionUtils {
      * @return a list of expressions within a {@link ArgumentListExpression}
      * @since 0.1.4
      */
-    public ArgumentListExpression getArgs(final MethodCallExpression methodCallExpression) {
-        return (ArgumentListExpression) methodCallExpression.getArguments();
+    public ArgumentListExpression getArgs(final MethodCallExpression methodCallExpr) {
+        return (ArgumentListExpression) methodCallExpr.getArguments();
     }
 
     /**

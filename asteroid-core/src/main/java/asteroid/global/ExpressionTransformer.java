@@ -31,7 +31,7 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      * {@link Expression}
      * @since 0.1.2
      */
-    public ExpressionTransformer(SourceUnit sourceUnit, Closure<Boolean> criteria) {
+    public ExpressionTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -40,12 +40,12 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      * {@inheritDoc}
      */
     @Override
-    public Expression transform(Expression expression) {
+    public Expression transform(final Expression expression) {
         if (expression == null) {
             return null;
         }
 
-        boolean proceed = criteria.call(expression);
+        final boolean proceed = criteria.call(expression);
 
         return proceed ? this.transformExpression((T) expression) : expression.transformExpression(this);
     }
@@ -69,12 +69,12 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      */
     public static Closure<Boolean> methodCallByNameEq(final String name) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(Expression expression) {
+            public Boolean doCall(final Expression expression) {
                 if (!(expression instanceof MethodCallExpression)) {
                     return false;
                 }
 
-                MethodCallExpression expr = (MethodCallExpression) expression;
+                final MethodCallExpression expr = (MethodCallExpression) expression;
 
                 return expr.getMethodAsString().equals(name);
             }
@@ -89,7 +89,7 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      */
     public static Closure<Boolean> everything() {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(Expression expression) {
+            public Boolean doCall(final Expression expression) {
                 return true;
             }
         };
