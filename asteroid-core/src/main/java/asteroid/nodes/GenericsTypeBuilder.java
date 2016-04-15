@@ -12,7 +12,7 @@ final public class GenericsTypeBuilder {
 
     private final GenericsType genericsType;
 
-    private GenericsTypeBuilder(ClassNode classNode) {
+    private GenericsTypeBuilder(final ClassNode classNode) {
         this.genericsType = new GenericsType(classNode);
     }
 
@@ -20,7 +20,7 @@ final public class GenericsTypeBuilder {
      * @param classNode
      * @return an instance of type {@link GenericsTypeBuilder}
      */
-    public static GenericsTypeBuilder generics(ClassNode classNode) {
+    public static GenericsTypeBuilder generics(final ClassNode classNode) {
         return new GenericsTypeBuilder(classNode);
     }
 

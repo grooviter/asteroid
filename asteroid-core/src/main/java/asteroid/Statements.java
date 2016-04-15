@@ -19,6 +19,7 @@ import org.codehaus.groovy.ast.expr.BooleanExpression;
  *
  * @since 0.1.0
  */
+@SuppressWarnings("PMD.UseUtilityClass")
 public final class Statements {
 
     /**
@@ -129,7 +130,7 @@ public final class Statements {
      * @since 0.1.5
      */
     public static BlockStatement blockS(final VariableScope variableScope, final List<Statement> statements) {
-        Statement[] stmtArray = new Statement[statements.size()];
+        final Statement[] stmtArray = new Statement[statements.size()];
 
         return GeneralUtils.block(variableScope, statements.toArray(stmtArray));
     }
@@ -143,7 +144,7 @@ public final class Statements {
      * @return an instance of {@link BlockStatement}
      * @since 0.1.0
      */
-    public static BlockStatement blockSFromString(String code) {
+    public static BlockStatement blockSFromString(final String code) {
         return (BlockStatement) new AstBuilder().buildFromString(code).get(0);
     }
 
@@ -161,7 +162,7 @@ public final class Statements {
      * @return an instance of {@link AssertStatement}
      * @since 0.1.5
      */
-    public static AssertStatement assertS(BooleanExpression booleanExpr) {
+    public static AssertStatement assertS(final BooleanExpression booleanExpr) {
         return new AssertStatement(booleanExpr, A.EXPR.constX("Compilation assertion error"));
     }
 

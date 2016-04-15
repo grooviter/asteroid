@@ -30,7 +30,7 @@ public abstract class StatementTransformer<T extends Statement> extends Transfor
      * {@link Statement}
      * @since 0.1.5
      */
-    public StatementTransformer(SourceUnit sourceUnit, Closure<Boolean> criteria) {
+    public StatementTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }

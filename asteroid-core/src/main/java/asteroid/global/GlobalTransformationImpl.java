@@ -28,12 +28,12 @@ public abstract class GlobalTransformationImpl extends AbstractASTTransformation
      *
      * @since 0.1.1
      */
-    @SuppressWarnings("UnusedMethodParameter")
-    public void visit(ASTNode[] nodes, SourceUnit sourceUnit) {
-        List<ClassNode> classNodeList = (List<ClassNode>) collect(sourceUnit.getAST().getClasses());
+    @SuppressWarnings({"PMD.UnusedMethodParameter", "PMD.AvoidInstantiatingObjectsInLoops"})
+    public void visit(final ASTNode[] nodes, final SourceUnit sourceUnit) {
+        final List<ClassNode> classNodeList = (List<ClassNode>) collect(sourceUnit.getAST().getClasses());
 
-        for (ClassNode clazzNode : classNodeList) {
-            for (Class<? extends Transformer> clazz : getTransformers()) {
+        for (final ClassNode clazzNode : classNodeList) {
+            for (final Class<? extends Transformer> clazz : getTransformers()) {
                 newInstance(clazz, new Object[] { sourceUnit })
                     .visitClass(clazzNode);
             }

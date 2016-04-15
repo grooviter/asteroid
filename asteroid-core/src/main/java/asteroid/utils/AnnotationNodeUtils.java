@@ -25,7 +25,7 @@ public final class AnnotationNodeUtils {
      * @since 0.1.4
      */
     public String getStringValue(final AnnotationNode annotationNode) {
-        Expression expr = annotationNode.getMember(ANNOTATION_VALUE);
+        final Expression expr = annotationNode.getMember(ANNOTATION_VALUE);
 
         if (expr != null) {
             return expr.getText();
@@ -44,8 +44,8 @@ public final class AnnotationNodeUtils {
      * @return an instance of type T
      * @since 0.1.4
      */
-    public <T> T get(AnnotationNode annotationNode, final Class<T> clazz) {
-        Object value = resolveValueFrom(annotationNode.getMember(ANNOTATION_VALUE));
+    public <T> T get(final AnnotationNode annotationNode, final Class<T> clazz) {
+        final Object value = resolveValueFrom(annotationNode.getMember(ANNOTATION_VALUE));
 
         return clazz.cast(value);
     }
@@ -66,8 +66,8 @@ public final class AnnotationNodeUtils {
      * @param clazz the clazz of the expected value
      * @since 0.1.4
      */
-    public <T> T get(AnnotationNode annotationNode, String name, Class<T> clazz) {
-        Object value = resolveValueFrom(annotationNode.getMember(name));
+    public <T> T get(final AnnotationNode annotationNode, final String name, final Class<T> clazz) {
+        final Object value = resolveValueFrom(annotationNode.getMember(name));
 
         return clazz.cast(value);
     }

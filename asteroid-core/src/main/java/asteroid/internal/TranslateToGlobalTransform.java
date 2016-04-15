@@ -29,10 +29,10 @@ import asteroid.global.GlobalTransformation;
 public class TranslateToGlobalTransform extends ClassNodeTransformer {
 
     private static final String BLANK = "";
-    private static final String GLOBAL_TX_NAME = "GlobalTransformation";
-    private static final String GLOBAL_PHASE_PREFIX = "A.PHASE_GLOBAL.";
-    private static final String GLOBAL_PHASE_WRONG = "GlobalAnnotation compilation phase is wrong!!";
-    private static final String GLOBAL_PHASE_MISSING = "GlobalAnnotation compilation phase is missing!!";
+    private static final String TX_NAME = "GlobalTransformation";
+    private static final String PHASE_PREFIX = "A.PHASE_GLOBAL.";
+    private static final String PHASE_WRONG = "GlobalAnnotation compilation phase is wrong!!";
+    private static final String PHASE_MISSING = "GlobalAnnotation compilation phase is missing!!";
 
     /**
      * Constructor receiving the {@link SourceUnit}
@@ -41,41 +41,42 @@ public class TranslateToGlobalTransform extends ClassNodeTransformer {
      * @since 0.1.6
      */
     public TranslateToGlobalTransform(final SourceUnit sourceUnit) {
-        super(sourceUnit, byAnnotationName(GLOBAL_TX_NAME));
+        super(sourceUnit, byAnnotationName(TX_NAME));
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void transformClass(final ClassNode annotatedNode) {
-        AnnotationNode annotationNode = A.UTIL.CLASS.getAnnotationFrom(annotatedNode, GLOBAL_TX_NAME);
+        final AnnotationNode annotationNode = A.UTIL.CLASS.getAnnotationFrom(annotatedNode, TX_NAME);
 
         addAnnotationsFromTo(annotationNode, annotatedNode);
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        CompilePhase compilePhase = extractCompilePhaseFromSafely(annotationNode);
+        final CompilePhase compilePhase = extractCompilePhaseFromSafely(annotationNode);
 
         annotatedNode.addAnnotation(getInheritConstructorsAnnotation());
         annotatedNode.addAnnotation(getGroovyAnnotation(compilePhase));
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     private CompilePhase extractCompilePhaseFromSafely(final AnnotationNode annotationNode) {
         try {
             return extractCompilePhaseFrom(annotationNode);
         } catch(IllegalArgumentException iaex){
-            throw new GroovyBugError(GLOBAL_PHASE_WRONG, iaex);
+            throw new GroovyBugError(PHASE_WRONG, iaex);
         } catch(Exception ex) {
-            throw new GroovyBugError(GLOBAL_PHASE_MISSING, ex);
+            throw new GroovyBugError(PHASE_MISSING, ex);
         }
     }
 
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
-        String        value         = A.UTIL.ANNOTATION.getStringValue(annotationNode);
-        String        phaseAsString = value.replace(GLOBAL_PHASE_PREFIX, BLANK);
-        A.PHASE_GLOBAL phaseGlobal  = A.PHASE_GLOBAL.valueOf(phaseAsString);
-        CompilePhase  compilePhase  = toCompilePhase(phaseGlobal);
+        final String        value         = A.UTIL.ANNOTATION.getStringValue(annotationNode);
+        final String        phaseAsString = value.replace(PHASE_PREFIX, BLANK);
+        final A.PHASE_GLOBAL phaseGlobal  = A.PHASE_GLOBAL.valueOf(phaseAsString);
+        final CompilePhase  compilePhase  = toCompilePhase(phaseGlobal);
 
         return compilePhase;
     }
@@ -116,13 +117,13 @@ public class TranslateToGlobalTransform extends ClassNodeTransformer {
     }
 
     private AnnotationNode getGroovyAnnotation(final CompilePhase compilationPhase) {
-        PropertyExpression propertyExpression =
+        final PropertyExpression propertyExpr =
                 A.EXPR.propX(
                     A.EXPR.classX(CompilePhase.class),
                     A.EXPR.constX(compilationPhase.toString()));
 
         return A.NODES.annotation(GroovyASTTransformation.class)
-                .member("phase", propertyExpression)
+                .member("phase", propertyExpr)
                 .build();
     }
 }

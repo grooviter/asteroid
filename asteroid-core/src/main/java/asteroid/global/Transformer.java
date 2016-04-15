@@ -74,7 +74,7 @@ public abstract class Transformer extends ClassCodeExpressionTransformer {
      * @since 0.1.2
      */
     public String getModulePackageName() {
-        ModuleNode module = getModule();
+        final ModuleNode module = getModule();
 
         if (module != null && module.getPackageName() != null) {
             return module.getPackageName();
@@ -82,5 +82,4 @@ public abstract class Transformer extends ClassCodeExpressionTransformer {
 
         return null;
     }
-
 }

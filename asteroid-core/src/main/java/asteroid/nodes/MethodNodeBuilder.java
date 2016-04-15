@@ -21,41 +21,41 @@ final public class MethodNodeBuilder {
     private Parameter[] parameters = new Parameter[0];
     private ClassNode[] exceptions = new ClassNode[0];
 
-    private MethodNodeBuilder(String name) {
+    private MethodNodeBuilder(final String name) {
         this.name = name;
     }
 
-    public static MethodNodeBuilder method(String name) {
+    public static MethodNodeBuilder method(final String name) {
         return new MethodNodeBuilder(name);
     }
 
-    public MethodNodeBuilder returnType(Class returnType) {
+    public MethodNodeBuilder returnType(final Class returnType) {
         this.returnType = A.NODES.clazz(returnType).build();
         return this;
     }
 
-    public MethodNodeBuilder modifiers(int modifiers) {
+    public MethodNodeBuilder modifiers(final int modifiers) {
         this.modifiers = modifiers;
         return this;
     }
 
-    public MethodNodeBuilder parameters(Parameter... parameters) {
+    public MethodNodeBuilder parameters(final Parameter... parameters) {
         this.parameters = parameters;
         return this;
     }
 
-    public MethodNodeBuilder exceptions(ClassNode... exceptions) {
+    public MethodNodeBuilder exceptions(final ClassNode... exceptions) {
         this.exceptions = exceptions;
         return this;
     }
 
-    public MethodNodeBuilder code(Statement code) {
+    public MethodNodeBuilder code(final Statement code) {
         this.code = code;
         return this;
     }
 
     public MethodNode build() {
-        MethodNode methodNode =
+        final MethodNode methodNode =
             new MethodNode(name,
                            modifiers,
                            returnType,

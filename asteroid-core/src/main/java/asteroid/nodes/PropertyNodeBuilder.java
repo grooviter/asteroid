@@ -16,10 +16,10 @@ final public class PropertyNodeBuilder {
     private int modifiers;
     private ClassNode type;
     private ClassNode owner;
-    private Expression initialValueExpression;
+    private Expression initValueExpr;
 
     /* Private constructor */
-    private PropertyNodeBuilder(String name) {
+    private PropertyNodeBuilder(final String name) {
         this.name = name;
     }
 
@@ -30,7 +30,7 @@ final public class PropertyNodeBuilder {
      * @return an instance of {@link PropertyNodeBuilder}
      * @since 0.1.4
      */
-    public static PropertyNodeBuilder property(String propertyName) {
+    public static PropertyNodeBuilder property(final String propertyName) {
         return new PropertyNodeBuilder(propertyName);
     }
 
@@ -50,7 +50,7 @@ final public class PropertyNodeBuilder {
      * @return current instance of {@link PropertyNodeBuilder}
      * @since 0.1.4
      */
-    public PropertyNodeBuilder modifiers(int modifiers) {
+    public PropertyNodeBuilder modifiers(final int modifiers) {
         this.modifiers = modifiers;
         return this;
     }
@@ -72,7 +72,7 @@ final public class PropertyNodeBuilder {
      * @return current instance of {@link PropertyNodeBuilder}
      * @since 0.1.4
      */
-    public PropertyNodeBuilder type(Class type) {
+    public PropertyNodeBuilder type(final Class type) {
         this.type = A.NODES.clazz(type).build();
         return this;
     }
@@ -84,7 +84,7 @@ final public class PropertyNodeBuilder {
      * @return current instance of {@link PropertyNodeBuilder}
      * @since 0.1.4
      */
-    public PropertyNodeBuilder owner(ClassNode owner) {
+    public PropertyNodeBuilder owner(final ClassNode owner) {
         this.owner = owner;
         return this;
     }
@@ -101,12 +101,12 @@ final public class PropertyNodeBuilder {
      * <strong>Result</strong>
      * <pre><code>public String solution = "42"</code></pre>
      *
-     * @param initialValueExpression the initial value of the property
+     * @param initValueExpr the initial value of the property
      * @return current instance of {@link PropertyNodeBuilder}
      * @since 0.1.4
      */
-    public PropertyNodeBuilder initialValueExpression(Expression initialValueExpression) {
-        this.initialValueExpression = initialValueExpression;
+    public PropertyNodeBuilder initialValueExpression(final Expression initValueExpr) {
+        this.initValueExpr = initValueExpr;
         return this;
     }
 
@@ -121,6 +121,6 @@ final public class PropertyNodeBuilder {
             type = A.NODES.clazz(Object.class).build();
         }
 
-        return new PropertyNode(name, modifiers, type, owner, initialValueExpression, null, null);
+        return new PropertyNode(name, modifiers, type, owner, initValueExpr, null, null);
     }
 }

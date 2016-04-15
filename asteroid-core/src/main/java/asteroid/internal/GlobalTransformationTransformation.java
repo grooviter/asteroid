@@ -19,7 +19,7 @@ public class GlobalTransformationTransformation extends GlobalTransformationImpl
 
     @Override
     public List<Class<? extends Transformer>> getTransformers() {
-        List<Class<? extends Transformer>> list = new ArrayList<>();
+        final List<Class<? extends Transformer>> list = new ArrayList<>();
         list.add(TranslateToGlobalTransform.class);
         return list;
     }

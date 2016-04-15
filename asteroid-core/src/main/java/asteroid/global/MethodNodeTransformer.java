@@ -49,7 +49,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      * @since 0.1.5
      * @see MethodNodeTransformer#byNameContains
      */
-    public MethodNodeTransformer(SourceUnit sourceUnit, Closure<Boolean> criteria) {
+    public MethodNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -64,7 +64,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameContains(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(MethodNode node) {
+            public Boolean doCall(final MethodNode node) {
                 return node.getName().contains(term);
             }
         };
@@ -80,7 +80,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameEndsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(MethodNode node) {
+            public Boolean doCall(final MethodNode node) {
                 return node.getName().endsWith(term);
             }
         };
@@ -96,7 +96,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameStartsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(MethodNode node) {
+            public Boolean doCall(final MethodNode node) {
                 return node.getName().startsWith(term);
             }
         };

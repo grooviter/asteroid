@@ -6,6 +6,7 @@ import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 
 import org.codehaus.groovy.control.SourceUnit;
+import org.codehaus.groovy.control.CompilePhase;
 import groovy.lang.Closure;
 
 /**
@@ -52,7 +53,7 @@ public abstract class ClassNodeTransformer extends Transformer {
      * @since 0.1.2
      * @see ClassNodeTransformer#byNameContains
      */
-    public ClassNodeTransformer(SourceUnit sourceUnit, Closure<Boolean> criteria) {
+    public ClassNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -67,7 +68,7 @@ public abstract class ClassNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameContains(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(ClassNode node) {
+            public Boolean doCall(final ClassNode node) {
                 return node.getName().contains(term);
             }
         };
@@ -83,7 +84,7 @@ public abstract class ClassNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameEndsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(ClassNode node) {
+            public Boolean doCall(final ClassNode node) {
                 return node.getName().endsWith(term);
             }
         };
@@ -99,7 +100,7 @@ public abstract class ClassNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameStartsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(ClassNode node) {
+            public Boolean doCall(final ClassNode node) {
                 return node.getName().startsWith(term);
             }
         };
@@ -114,17 +115,17 @@ public abstract class ClassNodeTransformer extends Transformer {
      * package (type information) won't be available for earlier
      * {@link CompilePhase}
      *
-     * @param the simple name of the {@link Class} of the annotation used as marker
+     * @param simpleName the simple name of the {@link Class} of the annotation used as marker
      * @return a criteria to use in the {@link ClassNodeTransformer} constructor
      * @since 0.1.6
      */
     public static Closure<Boolean> byAnnotationName(final String simpleName) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(ClassNode node) {
-                java.util.List<AnnotationNode> list = node.getAnnotations();
-                boolean cond  = list != null && !list.isEmpty();
-                boolean total = cond && any(list, new Closure(null) {
-                        public boolean doCall(AnnotationNode node) {
+            public Boolean doCall(final ClassNode node) {
+                final java.util.List<AnnotationNode> list = node.getAnnotations();
+                final boolean cond  = list != null && !list.isEmpty();
+                final boolean total = cond && any(list, new Closure(null) {
+                        public boolean doCall(final AnnotationNode node) {
                             return node.getClassNode().getName().equals(simpleName);
                         }
                     });
@@ -153,6 +154,6 @@ public abstract class ClassNodeTransformer extends Transformer {
      * @param classNode the {@link ClassNode}  you want to transform
      * @since 0.1.2
      */
-    public abstract void transformClass(ClassNode classNode);
+    public abstract void transformClass(final ClassNode classNode);
 
 }
