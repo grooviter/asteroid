@@ -18,7 +18,7 @@ public final class MethodCallExpressionUtils {
     /**
      * Given a {@link MethodCallExpression} it returns a list of arguments
      *
-     * @param methodCallExpression a method call we want the arguments from
+     * @param methodCallExpr a method call we want the arguments from
      * @return a list of expressions within a {@link ArgumentListExpression}
      * @since 0.1.4
      */
