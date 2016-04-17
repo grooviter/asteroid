@@ -6,6 +6,7 @@ package asteroid;
  *
  * @since 0.1.0
  */
+@SuppressWarnings("PMD.ShortClassName")
 public final class A {
 
     /**

@@ -4,6 +4,8 @@ import static org.codehaus.groovy.ast.ClassHelper.make;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
+import java.lang.annotation.Annotation;
+
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
@@ -15,8 +17,8 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * <br><br>
  * <b class="note">Types indicate wich nodes are affected:</b>
  * <br><br>
- * Lets say we wanted to build a transformation to transform methods annotated by {@literal @}MyAnnotation
- * <br><br>
+ * Lets say we wanted to build a transformation to transform methods annotated by {@literal @}br
+ * <MyAnnotation><br>
  * <pre class="inner"><code>
  * public class MyCustomTransformation extends LocalTransformationImpl&lt;MyAnnotation, MethodNode&gt; {
  *     public abstract void doVisit(AnnotationNode annotation, final MethodNode annotated, final SourceUnit source){
@@ -50,38 +52,37 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * Any expression within the <b>check</b> block will be treated as an
  * assertion statement. If any of the assertion fails the compilation
  * will fail.
- * @param <ANNOTATION> The annotation type used to mark the transformation
- * @param <ANNOTATED> The annotated node type. It has to be a subtype
+ * @param <T> The annotation type used to mark the transformation
+ * @param <S> The annotated node type. It has to be a subtype
  * of {@link AnnotatedNode}. As a rule of thumb think of any type that
  * can be annotated (a method, a type...)
  * @since 0.1.0
  *
  */
-public abstract class LocalTransformationImpl<ANNOTATION,ANNOTATED extends AnnotatedNode>
+public abstract class LocalTransformationImpl<T extends Annotation,S extends AnnotatedNode>
     extends AbstractASTTransformation {
+
+    private final Class<T> annotation;
 
     /**
      * Default constructor
      *
+     * @throws IllegalAccessException
      * @since 0.1.0
      */
-    public LocalTransformationImpl() throws Exception {
-        throw new RuntimeException("This method should never be used. It will be re-created by a local AST transformation");
+    @SuppressWarnings("PMD.SignatureDeclaredThrowsException")
+    public LocalTransformationImpl() throws IllegalAccessException {
+        throw new IllegalAccessException("This method should never be used. It will be re-created by a local AST transformation");
     }
-
-    private final Class<ANNOTATION> annotation;
-    private final Class<ANNOTATED> annotated;
 
     /**
      * Default constructor
      *
      * @param annotation The type of the annotatino used to trigger the transformation
-     * @param annotated The type of node marked to be transformed
-     * @since 0.1.0
+     * @since 0.1.6
      */
-    public LocalTransformationImpl(final Class<ANNOTATION> annotation, final Class<ANNOTATED> annotated) {
+    public LocalTransformationImpl(final Class<T> annotation) {
         this.annotation = annotation;
-        this.annotated = annotated;
     }
 
     /**
@@ -92,7 +93,7 @@ public abstract class LocalTransformationImpl<ANNOTATION,ANNOTATED extends Annot
      * @param source the current source unit available. It could be needed to for instance add a compilation error.
      * @since 0.1.0
      */
-    public abstract void doVisit(AnnotationNode annotation, final ANNOTATED annotated, final SourceUnit source);
+    public abstract void doVisit(AnnotationNode annotation, final S annotated, final SourceUnit source);
 
     /**
      * {@inheritDoc}
@@ -106,10 +107,11 @@ public abstract class LocalTransformationImpl<ANNOTATION,ANNOTATED extends Annot
 
         this.sourceUnit = source;
 
-        AnnotationNode annotationNode = (AnnotationNode) first(nodes);
-        ANNOTATED annotatedNode = (ANNOTATED) last(nodes);
+        final AnnotationNode annotationNode = (AnnotationNode) first(nodes);
 
         if (!annotationNode.getClassNode().isDerivedFrom(make(annotation))) return;
+
+        final S annotatedNode = (S) last(nodes);
 
         doVisit(annotationNode, annotatedNode, source);
     }

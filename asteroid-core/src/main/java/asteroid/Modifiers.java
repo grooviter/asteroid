@@ -1,9 +1,5 @@
 package asteroid;
 
-import org.codehaus.groovy.ast.ASTNode;
-import org.codehaus.groovy.control.SourceUnit;
-import org.codehaus.groovy.transform.AbstractASTTransformation;
-
 /**
  * This class acts as a proxy to access modifier codes found at {@link groovyjarjarasm.asm.Opcodes}.
  * Normally you should access them through {@link A} with the <strong>ACC</strong> key. E.g:

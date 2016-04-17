@@ -16,13 +16,16 @@ import asteroid.global.ExpressionTransformer
  * @since 0.1.2
  */
 @CompileStatic
-class ChangeTripleXToPlusOne extends ExpressionTransformer<MethodCallExpression> {
+// tag::expressiontransformer[]
+class ChangeTripleXToPlusOne
+    extends ExpressionTransformer<MethodCallExpression> { // <1>
 
     ChangeTripleXToPlusOne(final SourceUnit sourceUnit) {
-        super(sourceUnit, methodCallByNameEq('xxx'))
+        super(sourceUnit, methodCallByNameEq('xxx')) // <2>
     }
 
-    Expression transformExpression(final MethodCallExpression target) {
-        return A.EXPR.constX(1)
+    Expression transformExpression(final MethodCallExpression target) { // <3>
+        return A.EXPR.constX(1)  // <4>
     }
 }
+// end::expressiontransformer[]

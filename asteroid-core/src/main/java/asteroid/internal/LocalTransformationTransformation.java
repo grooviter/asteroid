@@ -1,33 +1,25 @@
 package asteroid.internal;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
-import groovy.lang.Closure;
 import groovy.transform.InheritConstructors;
-import org.codehaus.groovy.ast.ASTNode;
-import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
-import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ConstructorNode;
 import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.stmt.Statement;
-import org.codehaus.groovy.ast.stmt.BlockStatement;
-import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
-import org.codehaus.groovy.transform.AbstractASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
-import java.util.Map;
 import java.util.List;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import asteroid.A;
 import asteroid.A.PHASE_LOCAL;
+import asteroid.local.LocalTransformation;
+import asteroid.local.LocalTransformationImpl;
 
 /**
  * This transformation makes easier to declare a given local transformation. It narrows the available
@@ -37,25 +29,25 @@ import asteroid.A.PHASE_LOCAL;
  * @since 0.1.0
  */
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-public class LocalTransformationTransformation extends AbstractASTTransformation {
+public class LocalTransformationTransformation extends LocalTransformationImpl<LocalTransformation,ClassNode> {
+
+
+    /**
+     * Constructor using abstraction {@link LocalTransformationImpl}
+     *
+     * @since 0.1.6
+     */
+    public LocalTransformationTransformation() {
+        super(LocalTransformation.class);
+    }
 
     /**
      * {@inheritDoc}
      *
-     * @since 0.1.0
+     * @since 0.1.6
      */
     @Override
-    public void visit(final ASTNode[] nodes, final SourceUnit source) {
-        if (nodes == null) return;
-        if (nodes.length != 2) return;
-        if (!(nodes[0] instanceof AnnotationNode)) return;
-        if (!(nodes[1] instanceof AnnotatedNode)) return;
-
-        this.sourceUnit = source;
-
-        AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
-        ClassNode      annotatedNode  = A.UTIL.MISC.getLastNodeAs(nodes, ClassNode.class);
-
+    public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode, final SourceUnit source) {
         addAnnotationsFromTo(annotationNode, annotatedNode);
         addClassConstructor(annotatedNode);
 
@@ -65,15 +57,13 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
     }
 
     private void addClassConstructor(final ClassNode annotatedNode) {
-        List<GenericsType> generics = Arrays.asList(annotatedNode.getSuperClass().getGenericsTypes());
-        ClassNode annotationType    = first(generics).getType();
-        ClassNode transformedType   = last(generics).getType();
+        final List<GenericsType> generics = Arrays.asList(annotatedNode.getSuperClass().getGenericsTypes());
+        final ClassNode annotationType    = first(generics).getType();
 
-        Statement callSuper = A.STMT
-            .ctorSuperS(A.EXPR.classX(annotationType),
-                        A.EXPR.classX(transformedType));
+        final Statement callSuper = A.STMT
+            .ctorSuperS(A.EXPR.classX(annotationType));
 
-        ConstructorNode constructorNode = A.NODES
+        final ConstructorNode constructorNode = A.NODES
             .constructor(A.ACC.ACC_PUBLIC)
             .code(callSuper)
             .build();
@@ -82,9 +72,9 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        String        phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
-        A.PHASE_LOCAL phaseLocal    = A.PHASE_LOCAL.valueOf(phaseAsString);
-        CompilePhase  compilePhase  = toCompilePhase(phaseLocal);
+        final String        phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
+        final A.PHASE_LOCAL phaseLocal    = A.PHASE_LOCAL.valueOf(phaseAsString);
+        final CompilePhase  compilePhase  = toCompilePhase(phaseLocal);
 
         annotatedNode.addAnnotation(A.NODES.annotation(InheritConstructors.class).build());
         annotatedNode.addAnnotation(getGroovyAnnotation(compilePhase));
@@ -113,13 +103,13 @@ public class LocalTransformationTransformation extends AbstractASTTransformation
     }
 
     private AnnotationNode getGroovyAnnotation(final CompilePhase compilationPhase) {
-        PropertyExpression propertyExpression =
+        final PropertyExpression propertyExpr =
                 A.EXPR.propX(
                     A.EXPR.classX(CompilePhase.class),
                     A.EXPR.constX(compilationPhase.toString()));
 
         return A.NODES.annotation(GroovyASTTransformation.class)
-                .member("phase", propertyExpression)
+                .member("phase", propertyExpr)
                 .build();
     }
 

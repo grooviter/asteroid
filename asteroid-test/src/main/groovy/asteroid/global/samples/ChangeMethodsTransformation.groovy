@@ -17,7 +17,8 @@ import asteroid.global.GlobalTransformationImpl
 @GlobalTransformation(A.PHASE_GLOBAL.SEMANTIC_ANALYSIS)
 class ChangeMethodsTransformation extends GlobalTransformationImpl {
 
-    List<Transformer> getTransformers() {
+    @Override
+    List<Class<Transformer>> getTransformers() {
         return [ChangeTripleXToPlusOne]
     }
 }

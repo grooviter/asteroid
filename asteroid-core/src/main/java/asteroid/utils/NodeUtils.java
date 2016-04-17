@@ -5,7 +5,7 @@ import org.codehaus.groovy.ast.stmt.BlockStatement;
 
 public class NodeUtils {
 
-    public BlockStatement getCodeBlock(MethodNode methodNode) {
+    public BlockStatement getCodeBlock(final MethodNode methodNode) {
         return (BlockStatement) methodNode.getCode();
     }
 

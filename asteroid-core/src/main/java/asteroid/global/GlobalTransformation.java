@@ -1,7 +1,5 @@
 package asteroid.global;
 
-import org.codehaus.groovy.transform.GroovyASTTransformationClass;
-
 import asteroid.A;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,7 +19,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-@GroovyASTTransformationClass("asteroid.internal.GlobalTransformationTransformation")
 public @interface GlobalTransformation {
     /**
      * Sets the global phase compilation
