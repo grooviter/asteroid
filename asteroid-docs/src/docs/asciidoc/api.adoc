@@ -1,5 +1,9 @@
 == Fluent API
 
+WARNING: With the upcoming `groovy-macro` module in Groovy 2.5.0 most
+of the code in Asteroid, used for creating `expressions` and
+`statements` may be gone for good in favor of the `macro` method.
+
 The main goal of this project is to have a unified way to access all AST APIs through a single entry point. That
 entry point is `asteroid.A`.
 

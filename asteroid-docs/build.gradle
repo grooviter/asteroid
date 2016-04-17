@@ -10,6 +10,8 @@ dependencies {
     gems 'rubygems:asciidoctor-diagram:1.4.0'
 }
 
+version = releaseVersion
+
 asciidoctor {
     dependsOn jrubyPrepare
 
