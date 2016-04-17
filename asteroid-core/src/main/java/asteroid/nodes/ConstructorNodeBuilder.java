@@ -24,12 +24,12 @@ import org.codehaus.groovy.ast.stmt.Statement;
  *
  * @since 0.1.5
  */
-public class ConstructorNodeBuilder {
+final public class ConstructorNodeBuilder {
 
-    private int modifiers;
+    private final int modifiers;
     private Statement code;
 
-    private ConstructorNodeBuilder(int modifiers) {
+    private ConstructorNodeBuilder(final int modifiers) {
         this.modifiers = modifiers;
     }
 
@@ -41,7 +41,7 @@ public class ConstructorNodeBuilder {
      * @return an instance of type {@link ConstructorNodeBuilder}
      * @since 0.1.5
      */
-    public static ConstructorNodeBuilder constructor(int modifiers) {
+    public static ConstructorNodeBuilder constructor(final int modifiers) {
         return new ConstructorNodeBuilder(modifiers);
     }
 
@@ -52,7 +52,7 @@ public class ConstructorNodeBuilder {
      * @return an instance of type {@link ConstructorNodeBuilder}
      * @since 0.1.5
      */
-    public ConstructorNodeBuilder code(Statement code) {
+    public ConstructorNodeBuilder code(final Statement code) {
         this.code = code;
         return this;
     }

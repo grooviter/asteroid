@@ -1,23 +1,18 @@
 package asteroid.utils;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collectMany;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.inject;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import groovy.lang.Closure;
 
-import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.expr.ConstantExpression;
 
 /**
  * General utility methods to deal with {@link Statement} instances
@@ -32,6 +27,7 @@ public final class StatementUtils {
      *
      * @since 0.1.5
      */
+    @SuppressWarnings("PMD.BeanMembersShouldSerialize")
     public static class Group {
         public final Label label;
         public final List<Statement> statements;
@@ -43,8 +39,8 @@ public final class StatementUtils {
          * @param statements the statements that belong to this group
          */
         Group(final Label label, final List<Statement> statements) {
-            this.label      = label != null ? label : new Label("", "");
-            this.statements = statements != null ? statements : new ArrayList<Statement>();
+            this.label      = label;
+            this.statements = statements;
         }
 
         /**
@@ -63,6 +59,7 @@ public final class StatementUtils {
      *
      * @since 0.1.5
      */
+    @SuppressWarnings("PMD.BeanMembersShouldSerialize")
     public static class Label {
         public final String name;
         public final String desc;
@@ -73,9 +70,9 @@ public final class StatementUtils {
          * @param name the name found in the label
          * @param desc a longer description
          */
-        Label(String name, String desc) {
-            this.name = name != null ? name : "";
-            this.desc = desc != null ? desc : "";
+        Label(final String name, final String desc) {
+            this.name = name;
+            this.desc = desc;
         }
     }
 
@@ -102,8 +99,8 @@ public final class StatementUtils {
     private Closure<List<Group>> groupByLabel() {
         return new Closure<List<Group>>(null) {
             public List<Group> doCall(final List<Group> acc, final Statement stmt) {
-                Label label        = extractLabelFrom(stmt);
-                Group currentGroup = acc.isEmpty() ? null : last(acc);
+                final Label label        = extractLabelFrom(stmt);
+                final Group currentGroup = acc.isEmpty() ? null : last(acc);
 
                 /* If there is no label and there is a current group then add
                    the statement to the current group */
@@ -130,20 +127,24 @@ public final class StatementUtils {
      * @return an instance of {@link Label}
      */
     public Label extractLabelFrom(final Statement stmt) {
-        boolean isExpressionStatement = stmt instanceof ExpressionStatement;
+        final boolean isExprStmt = stmt instanceof ExpressionStatement;
 
         /* If the expression is not an expression statement there is nothing to do */
-        if (!isExpressionStatement) return null;
+        if (!isExprStmt) {
+            return null;
+        }
 
-        ExpressionStatement exprStmt = (ExpressionStatement) stmt;
-        boolean isThereAnyLabel = exprStmt.getStatementLabel() != null;
+        final ExpressionStatement exprStmt = (ExpressionStatement) stmt;
+        final boolean isThereAnyLabel = exprStmt.getStatementLabel() != null;
 
         /* If there is no label detected there is nothing to do either */
-        if (!isThereAnyLabel) return null;
+        if (!isThereAnyLabel) {
+            return null;
+        }
 
-        String labelName    = exprStmt.getStatementLabel();
-        Expression descExpr = exprStmt.getExpression();
-        String description  = descExpr != null ? descExpr.toString() : "";
+        final String labelName    = exprStmt.getStatementLabel();
+        final Expression descExpr = exprStmt.getExpression();
+        final String description  = descExpr == null ? "" : descExpr.toString();
 
         return new Label(labelName, description);
     }
@@ -165,10 +166,10 @@ public final class StatementUtils {
      * @return all statements (transformed and not transformed) returned in order.
      */
     public List<Statement> applyToStatementsByLabelFlatten(final List<Group> source, final Map<String,Closure<Statement>> mappings) {
-        List<Group> stmtGroupList       = applyToStatementsByLabel(source, mappings);
-        List<Statement> flattenStmtList = new ArrayList<Statement>();
+        final List<Group> stmtGroupList       = applyToStatementsByLabel(source, mappings);
+        final List<Statement> flattenStmtList = new ArrayList<Statement>();
 
-        for (Group group : stmtGroupList) {
+        for (final Group group : stmtGroupList) {
             flattenStmtList.addAll(group.statements);
         }
 
@@ -197,10 +198,10 @@ public final class StatementUtils {
 
     private Closure<List<Group>> transformByLabelName(final Map<String, Closure<Statement>> mappings) {
         return new Closure<List<Group>>(null) {
-            public List<Group> doCall(List<Group> acc, Group group)  {
-                Closure<Statement> trx = mappings.get(group.label.name);
-                List<Statement> source = group.statements;
-                List<Statement> destin = trx != null ? collect(source, trx.curry(group)) : collect(source);
+            public List<Group> doCall(final List<Group> acc, final Group group)  {
+                final Closure<Statement> trx = mappings.get(group.label.name);
+                final List<Statement> source = group.statements;
+                final List<Statement> destin = trx == null ? collect(source) : collect(source, trx.curry(group));
 
                 acc.add(group.copyWithStatements(destin));
 

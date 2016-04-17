@@ -1,6 +1,5 @@
 package asteroid.global;
 
-import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.MethodNode;
 
 import org.codehaus.groovy.control.SourceUnit;
@@ -26,7 +25,7 @@ import groovy.lang.Closure;
  */
 public abstract class MethodNodeTransformer extends Transformer {
 
-    private Closure<Boolean> criteria;
+    private final Closure<Boolean> criteria;
 
     /**
      * Every instance needs the source unit and the name of the class
@@ -50,7 +49,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      * @since 0.1.5
      * @see MethodNodeTransformer#byNameContains
      */
-    public MethodNodeTransformer(SourceUnit sourceUnit, Closure<Boolean> criteria) {
+    public MethodNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -65,7 +64,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameContains(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(MethodNode node) {
+            public Boolean doCall(final MethodNode node) {
                 return node.getName().contains(term);
             }
         };
@@ -81,7 +80,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameEndsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(MethodNode node) {
+            public Boolean doCall(final MethodNode node) {
                 return node.getName().endsWith(term);
             }
         };
@@ -97,7 +96,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      */
     public static Closure<Boolean> byNameStartsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(MethodNode node) {
+            public Boolean doCall(final MethodNode node) {
                 return node.getName().startsWith(term);
             }
         };
@@ -108,7 +107,9 @@ public abstract class MethodNodeTransformer extends Transformer {
      */
     @Override
     public void visitMethod(final MethodNode methodNode) {
-        if (methodNode == null || !this.criteria.call(methodNode)) return;
+        if (methodNode == null || !this.criteria.call(methodNode)) {
+            return;
+        }
 
         transformMethod(methodNode);
     }

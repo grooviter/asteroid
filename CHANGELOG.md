@@ -1,6 +1,22 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - 2016-04-13
+### Breaking changes
+- Global transformations implementation has changed and may break previous uses
+
+### Fixes
+- Adding default VariableScope to closure produced by A.EXPR.closureX()
+- Fixing type in example: ChangeMethodsTransformations
+- Possible NPE when retrieving value from annotation
+- Javadoc typos
+
+### Added
+- Adding imports through A.CLASS.addImport
+- New ClassNodeTransformer critera "byAnnotationName"
+- PMD for core project
+- Updated documentation
+
 ## [0.1.5] - 2016-04-XX
 ### Breaking changes
 - Move from janus repo to grooviter organization

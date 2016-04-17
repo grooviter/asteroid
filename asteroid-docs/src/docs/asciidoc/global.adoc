@@ -1,6 +1,6 @@
 == Global Transformations
 
-=== Introduction
+=== Example
 
 "Global AST transformation are similar to local one with a major
 difference: they do not need an annotation, meaning that they are
@@ -40,20 +40,75 @@ criteria to filter class nodes
 <3> Then the programmer should only be focused on develop de
 transformation within the `transformClass` method
 
-=== Node transformers
+Finally add the descriptor file to your classpath at
+`META-INF/services/` the descriptor file should be named
+`org.codehaus.groovy.transform.ASTTransformation`, and it will
+contain the fully qualified name of your AST transformation implementation:
+`asteroid.global.samples.AddTransformationImpl`.
 
-This type of transformers should be used when trying to transform a
-given `ASTNode`. Think of a node as a method, a field, a class
-everything that encloses code.
+NOTE: If you are using `Gradle` or `Maven` the transformation
+descriptor will be normally found at
+`src/main/resources/META-INF/org.codehaus.groovy.transform.ASTTransformation`.
+
+NOTE: Remember that for any new global transformation you should add
+the new qualified class in a new line.
+
+=== Transformers
+
+Because a global AST transformation can act over the whole source
+code, we use transformers to focus only on certain parts of
+it. Transformers theirselves declare which type of nodes they are
+interested in, but, they also use `criterias` to narrow the search.
 
 ==== ClassNodeTransformer
 
-#TODO
+This type of transformers only focuses on transforming a specific set
+of `ClassNode` instances from the AST.
 
-=== Expression transformers
+[source, groovy]
+.ClassNodeTransformer
+----
+include::{testMain}/asteroid/utils/AddImportTransformer.groovy[tags=classnodetransformer]
+----
 
-#TODO
+<1> Extending `ClassNodeTransformer` we are only interested in
+`ClassNode` instances
+<2> Then we use a `criteria` to declare we're only interested in
+`ClassNode` instances annotated by an annotation which has a simple
+name `AddImport`
+<3> Overriding the `transformClass` method we will be receiving the
+expected `ClassNode`
+<4> We don't return anything because we are modifying the node, we are
+not supposed to replace it in the AST.
 
-==== ExpressionTransformer
+NOTE: Why `simple name` ? Well depending on the compilation phase you
+are targeting the information about the class may be not available,
+that means it's fully qualified name.
 
-#TODO
+WARNING: Transforming an AST node here means to add/remove elements
+from the AST node.
+
+==== Expression transformers
+
+This type of transformers only focuses on **replacing** certain
+expressions found along the AST.
+
+In the following example, we are interested in replacing all method
+calls `xxx()` by a constant number `1`.
+
+[source, groovy]
+.ExpressionTransformer
+----
+include::{testMain}/asteroid/global/samples/ChangeTripleXToPlusOne.groovy[tags=expressiontransformer]
+----
+
+<1> We declare this transformer is focused on `MethodCallExpression`
+elements
+<2> We declare we are only interested on method calls with name `xxx`
+<3> Overriding the transformExpression operation we will be receiving
+the expected node
+<4> Finally will be returning the expression that will replace the
+former expression in the AST
+
+WARNING: It's very important to notice the fact that we are here
+replacing an expression cause expressions are considered as values.

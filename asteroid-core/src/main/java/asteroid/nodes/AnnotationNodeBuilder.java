@@ -9,7 +9,7 @@ import org.codehaus.groovy.ast.expr.Expression;
  *
  * @since 0.1.0
  */
-public class AnnotationNodeBuilder {
+final public class AnnotationNodeBuilder {
 
     private final AnnotationNode annotationNode;
 
@@ -30,7 +30,7 @@ public class AnnotationNodeBuilder {
      * @param clazz the annotation type
      * @return an instance of {@link AnnotationNodeBuilder}
      */
-    public static AnnotationNodeBuilder annotation(Class clazz) {
+    public static AnnotationNodeBuilder annotation(final Class clazz) {
         return new AnnotationNodeBuilder(new AnnotationNode(A.NODES.clazz(clazz).build()));
     }
 
@@ -51,7 +51,7 @@ public class AnnotationNodeBuilder {
      * {@link org.codehaus.groovy.ast.expr.ClassExpression}, or a {@link org.codehaus.groovy.ast.expr.ConstantExpression}
      * @return the current instance of {@link AnnotationNodeBuilder}
      */
-    public AnnotationNodeBuilder member(String name, Expression expression) {
+    public AnnotationNodeBuilder member(final String name, final Expression expression) {
         this.annotationNode.addMember(name, expression);
 
         return this;

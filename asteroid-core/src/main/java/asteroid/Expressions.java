@@ -1,6 +1,7 @@
 package asteroid;
 
 import org.codehaus.groovy.ast.Parameter;
+import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ClassHelper;
@@ -20,7 +21,6 @@ import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.ast.expr.ClosureExpression;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.stmt.Statement;
-import org.codehaus.groovy.ast.VariableScope;
 
 import java.util.Arrays;
 
@@ -84,7 +84,7 @@ public final class Expressions {
      * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
      * @since 0.1.5
      */
-    public BooleanExpression boolEqualsNullX(Expression argExpr) {
+    public BooleanExpression boolEqualsNullX(final Expression argExpr) {
         return GeneralUtils.equalsNullX(argExpr);
     }
 
@@ -108,7 +108,7 @@ public final class Expressions {
      * @return an instance of {@link BooleanExpression}
      * @since 0.1.5
      */
-    public BooleanExpression boolHasSameFieldX(FieldNode fNode, Expression other) {
+    public BooleanExpression boolHasSameFieldX(final FieldNode fNode, final Expression other) {
         return GeneralUtils.hasSameFieldX(fNode, other);
     }
 
@@ -132,7 +132,7 @@ public final class Expressions {
      * @return an instance of {@link BooleanExpression}
      * @since 0.1.5
      */
-    public BooleanExpression boolHasSamePropertyX(PropertyNode pNode, Expression other) {
+    public BooleanExpression boolHasSamePropertyX(final PropertyNode pNode, final Expression other) {
         return GeneralUtils.hasSamePropertyX(pNode, other);
     }
 
@@ -156,7 +156,7 @@ public final class Expressions {
      * @return an instance of {@link BooleanExpression}
      * @since 0.1.5
      */
-    public BooleanExpression boolIsInstanceOfX(Expression objectExpression, ClassNode cNode) {
+    public BooleanExpression boolIsInstanceOfX(final Expression objectExpression, final ClassNode cNode) {
         return GeneralUtils.isInstanceOfX(objectExpression, cNode);
     }
 
@@ -179,7 +179,7 @@ public final class Expressions {
      * @return an instance of {@link BooleanExpression}
      * @since 0.1.5
      */
-    public BooleanExpression boolIsInstanceOfX(Expression objectExpression, Class cNode) {
+    public BooleanExpression boolIsInstanceOfX(final Expression objectExpression, final Class cNode) {
         return GeneralUtils.isInstanceOfX(objectExpression, A.NODES.clazz(cNode).build());
     }
 
@@ -205,7 +205,7 @@ public final class Expressions {
      * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
      * @since 0.1.5
      */
-    public BooleanExpression boolIsOneX(Expression expr) {
+    public BooleanExpression boolIsOneX(final Expression expr) {
         return GeneralUtils.isOneX(expr);
     }
 
@@ -230,7 +230,7 @@ public final class Expressions {
      * @return an instance of {@link BooleanExpression}
      * @since 0.1.5
      */
-    public BooleanExpression boolIsTrueX(Expression argExpr) {
+    public BooleanExpression boolIsTrueX(final Expression argExpr) {
         return GeneralUtils.isTrueX(argExpr);
     }
 
@@ -256,7 +256,7 @@ public final class Expressions {
      * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
      * @since 0.1.5
      */
-    public BooleanExpression boolIsZeroX(Expression expr) {
+    public BooleanExpression boolIsZeroX(final Expression expr) {
         return GeneralUtils.isZeroX(expr);
     }
 
@@ -279,7 +279,7 @@ public final class Expressions {
      * @see org.codehaus.groovy.syntax.Types#COMPARE_EQUAL
      * @since 0.1.5
      */
-    public BooleanExpression boolNotNullX(Expression argExpr) {
+    public BooleanExpression boolNotNullX(final Expression argExpr) {
         return GeneralUtils.notNullX(argExpr);
     }
 
@@ -307,7 +307,7 @@ public final class Expressions {
      * @see org.codehaus.groovy.syntax.Types
      * @since 0.1.5
      */
-    public BooleanExpression boolSameX(Expression self, Expression other) {
+    public BooleanExpression boolSameX(final Expression self, final Expression other) {
         return GeneralUtils.sameX(self, other);
     }
 
@@ -372,7 +372,7 @@ public final class Expressions {
      * @return an instance of {@link PropertyExpression}
      * @since 0.1.0
      */
-    public static PropertyExpression propX(Expression owner, Expression property) {
+    public static PropertyExpression propX(final Expression owner, final Expression property) {
         return PropertyExpression.class.cast(GeneralUtils.propX(owner, property));
     }
 
@@ -390,7 +390,7 @@ public final class Expressions {
      * @return an instance of {@link ListExpression}
      * @since 0.1.0
      */
-    public static ListExpression listX(Expression... expressions) {
+    public static ListExpression listX(final Expression... expressions) {
         return new ListExpression(Arrays.asList(expressions));
     }
 
@@ -408,7 +408,7 @@ public final class Expressions {
      * @return an instance of {@link ClassExpression}
      * @since 0.1.0
      */
-    public static ClassExpression classX(Class clazz) {
+    public static ClassExpression classX(final Class clazz) {
         return GeneralUtils.classX(clazz);
     }
 
@@ -426,7 +426,7 @@ public final class Expressions {
      * @return an instance of {@link ClassNode}
      * @since 0.1.0
      */
-    public static ClassExpression classX(ClassNode classNode) {
+    public static ClassExpression classX(final ClassNode classNode) {
         return GeneralUtils.classX(classNode);
     }
 
@@ -445,7 +445,7 @@ public final class Expressions {
       * @return an instance of {@link MethodCallExpression}
       * @since 0.1.0
       */
-    public static MethodCallExpression callThisX(String methodName, Expression... args) {
+    public static MethodCallExpression callThisX(final String methodName, final Expression... args) {
         return GeneralUtils.callThisX(methodName, new ArgumentListExpression(args));
     }
 
@@ -465,7 +465,7 @@ public final class Expressions {
      * @return an instance of {@link MethodCallExpression}
      * @since 0.1.0
      */
-    public static MethodCallExpression callX(Expression receiver, String methodName, Expression... args) {
+    public static MethodCallExpression callX(final Expression receiver, final String methodName, final Expression... args) {
         return GeneralUtils.callX(receiver, methodName, new ArgumentListExpression(args));
     }
 
@@ -486,8 +486,8 @@ public final class Expressions {
      * @return an instance of {@link MethodCallExpression}
      * @since 0.1.3
      */
-    public static MethodCallExpression safeCallX(Expression receiver, String methodName, Expression... args) {
-        MethodCallExpression mce = GeneralUtils.callX(receiver, methodName, new ArgumentListExpression(args));
+    public static MethodCallExpression safeCallX(final Expression receiver, final String methodName, final Expression... args) {
+        final MethodCallExpression mce = GeneralUtils.callX(receiver, methodName, new ArgumentListExpression(args));
         mce.setSafe(true);
 
         return mce;
@@ -509,7 +509,7 @@ public final class Expressions {
      * @return an instance of {@link StaticMethodCallExpression}
      * @since 0.1.0
      */
-    public static StaticMethodCallExpression staticCallX(ClassNode clazz, String methodName, Expression... args) {
+    public static StaticMethodCallExpression staticCallX(final ClassNode clazz, final String methodName, final Expression... args) {
         return GeneralUtils.callX(clazz, methodName, new ArgumentListExpression(args));
     }
 
@@ -529,7 +529,7 @@ public final class Expressions {
      * @return an instance of {@link StaticMethodCallExpression}
      * @since 0.1.0
      */
-    public static StaticMethodCallExpression staticCallX(Class clazz, String methodName, Expression... args) {
+    public static StaticMethodCallExpression staticCallX(final Class clazz, final String methodName, final Expression... args) {
         return GeneralUtils.callX(ClassHelper.make(clazz, false), methodName, new ArgumentListExpression(args));
     }
 
@@ -556,7 +556,7 @@ public final class Expressions {
      * @return an instance of {@link FieldExpression}
      * @since 0.1.0
      */
-    public static FieldExpression fieldX(FieldNode fieldNode) {
+    public static FieldExpression fieldX(final FieldNode fieldNode) {
         return GeneralUtils.fieldX(fieldNode);
     }
 
@@ -586,7 +586,7 @@ public final class Expressions {
      * @return an instance of {@link MethodCallExpression}
      * @since 0.1.0
      */
-    public static MethodCallExpression callSuperX(String methodName) {
+    public static MethodCallExpression callSuperX(final String methodName) {
         return GeneralUtils.callSuperX(methodName);
     }
 
@@ -618,7 +618,7 @@ public final class Expressions {
      * @return an instance of {@link MethodCallExpression}
      * @since 0.1.0
      */
-    public static MethodCallExpression callSuperX(String methodName, Expression... args) {
+    public static MethodCallExpression callSuperX(final String methodName, final Expression... args) {
         return GeneralUtils.callSuperX(methodName, GeneralUtils.args(args));
     }
 
@@ -651,7 +651,7 @@ public final class Expressions {
      * @return an instance of {@link VariableExpression}
      * @since 0.1.0
      */
-    public static VariableExpression varX(String varName) {
+    public static VariableExpression varX(final String varName) {
         return GeneralUtils.varX(varName);
     }
 
@@ -686,7 +686,7 @@ public final class Expressions {
      * @return an instance of {@link VariableExpression}
      * @since 0.1.0
      */
-    public static VariableExpression varX(String varName, ClassNode type) {
+    public static VariableExpression varX(final String varName, final ClassNode type) {
         return GeneralUtils.varX(varName, type);
     }
 
@@ -712,7 +712,10 @@ public final class Expressions {
      * @return an instance of {@link ClosureExpression}
      * @since 0.1.5
      */
-    public static ClosureExpression closureX(final Statement stmt, Parameter... params) {
-        return GeneralUtils.closureX(params, stmt);
+    public static ClosureExpression closureX(final Statement stmt, final Parameter... params) {
+        final ClosureExpression expr = GeneralUtils.closureX(params, stmt);
+        expr.setVariableScope(new VariableScope());
+
+        return expr;
     }
 }

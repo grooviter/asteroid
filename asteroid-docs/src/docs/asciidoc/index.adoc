@@ -1,5 +1,5 @@
 = Asteroid
-:revnumber: 0.1.5
+:revnumber: {project-version}
 :numbered:
 :imagesDir: images/
 :baseDir: ../../
@@ -13,6 +13,8 @@ Asteroid is a set of utilities to make it easier to develop
 http://www.groovy-lang.org[Groovy] AST transformations.
 
 include::intro.adoc[]
+
+include::theory.adoc[]
 
 include::local.adoc[]
 

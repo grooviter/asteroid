@@ -24,7 +24,7 @@ public final class Nodes {
      * @return an instance of {@link AnnotationNodeBuilder}
      * @since 0.1.0
      */
-    public AnnotationNodeBuilder annotation(Class annotationClazz) {
+    public AnnotationNodeBuilder annotation(final Class annotationClazz) {
        return AnnotationNodeBuilder.annotation(annotationClazz);
     }
 
@@ -35,19 +35,19 @@ public final class Nodes {
      * @return an instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public ClassNodeBuilder clazz(Class type) {
+    public ClassNodeBuilder clazz(final Class type) {
         return ClassNodeBuilder.clazz(type);
     }
 
     /**
      * Creates an instance of {@link ClassNodeBuilder}
      *
-     * @param fullyQualifiedName the class full qualified name
+     * @param qualifiedName the class full qualified name
      * @return and instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public ClassNodeBuilder clazz(String fullyQualifiedName) {
-        return ClassNodeBuilder.clazz(fullyQualifiedName);
+    public ClassNodeBuilder clazz(final String qualifiedName) {
+        return ClassNodeBuilder.clazz(qualifiedName);
     }
 
     /**
@@ -58,7 +58,7 @@ public final class Nodes {
      * @return and instance of {@link ClassNodeBuilder}
      * @since 0.1.0
      */
-    public ClassNodeBuilder clazzWithGenerics(Class type, GenericsType... generics) {
+    public ClassNodeBuilder clazzWithGenerics(final Class type, final GenericsType... generics) {
         return ClassNodeBuilder.clazzWithGenerics(type, generics);
     }
 
@@ -69,7 +69,7 @@ public final class Nodes {
      * @return an instance of {@link GenericsTypeBuilder}
      * @since 0.1.0
      */
-    public GenericsTypeBuilder generics(ClassNode classNode) {
+    public GenericsTypeBuilder generics(final ClassNode classNode) {
         return GenericsTypeBuilder.generics(classNode);
     }
 
@@ -80,7 +80,7 @@ public final class Nodes {
      * @return an instance of {@link ConstructorNodeBuilder}
      * @since 0.1.0
      */
-    public ConstructorNodeBuilder constructor(int modifiers) {
+    public ConstructorNodeBuilder constructor(final int modifiers) {
         return ConstructorNodeBuilder.constructor(modifiers);
     }
 
@@ -91,7 +91,7 @@ public final class Nodes {
      * @return an instance of {@link MethodNodeBuilder}
      * @since 0.1.0
      */
-    public MethodNodeBuilder method(String methodName) {
+    public MethodNodeBuilder method(final String methodName) {
         return MethodNodeBuilder.method(methodName);
     }
 
@@ -104,7 +104,7 @@ public final class Nodes {
      * @return an instance of {@link ParameterNodeBuilder}
      * @since 0.1.0
      */
-    public ParameterNodeBuilder param(String paramName) {
+    public ParameterNodeBuilder param(final String paramName) {
         return ParameterNodeBuilder.param(paramName);
     }
 
@@ -118,7 +118,7 @@ public final class Nodes {
      *
      * @since 0.1.4
      */
-    public PropertyNodeBuilder property(String propertyName) {
+    public PropertyNodeBuilder property(final String propertyName) {
         return PropertyNodeBuilder.property(propertyName);
     }
 }

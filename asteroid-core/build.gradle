@@ -4,8 +4,8 @@ buildscript {
     }
 }
 
+apply plugin: 'pmd'
 apply plugin: 'java'
-apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
@@ -59,4 +59,22 @@ javadoc {
     options.stylesheetFile = "$projectDir/src/javadoc/stylesheet.css" as File
     options.windowTitle = 'Asteroid API Documentation'
     options.docTitle = "Asteroid ($releaseVersion)"
+}
+
+
+pmd {
+    ruleSets = [
+        'java-design',
+        'java-empty',
+        'java-finalizers',
+        'java-imports',
+        'java-naming',
+        'java-optimizations',
+        'java-strictexception',
+        'java-strings',
+        'java-typeresolution',
+        'java-unnecessary',
+        'java-unusedcode'
+    ]
+    ignoreFailures = true
 }
