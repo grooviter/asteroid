@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
+<meta name="generator" content="Asciidoctor 1.5.4">
 <title>Local Transformations</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -416,7 +416,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -425,7 +425,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_local_transformations">Local Transformations</a>
 <ul class="sectlevel2">
-<li><a href="#_introduction">Introduction</a></li>
 <li><a href="#__local">@Local</a></li>
 <li><a href="#__apply">@Apply</a></li>
 <li><a href="#__localtransformation">@LocalTransformation</a></li>
@@ -439,8 +438,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_local_transformations">Local Transformations</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_introduction">Introduction</h3>
 <div class="quoteblock">
 <blockquote>
 Local AST transformations are relative to the context they are applied to. In most cases, the context is defined by an
@@ -450,131 +447,6 @@ class.
 </blockquote>
 <div class="attribution">
 &#8212; Groovy official site
-</div>
-</div>
-<div class="paragraph">
-<p>To show the benefit of using Asteroid, I will be following the tutorial about local transformation available at the
-<a href="http://www.groovy-lang.org/metaprogramming.html#transforms-local">Groovy official site</a>.</p>
-</div>
-<div class="paragraph">
-<p>Given a code like the following:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testTest}/asteroid/local/samples/WithLoggingTest.groovy[tags=testCode, indent=0]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>We would like to print a start and stop message along with the message printed by the method itself. So in this
-example we&#8217;ll be expecting an output like:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-text" data-lang="text">start greet
-Hello World
-stop greet</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For a local transformation only two things are required:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The annotation used as a marker. In this example the <code>@WithLogging</code> annotation</p>
-</li>
-<li>
-<p>The transformation implementation</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Lets see first the <code>@WithLogging</code> annotation declaration:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/WithLogging.groovy[]</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>This annotation will be applied to method elements.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <code>@Local</code> annotation only requires the class of the AST transformation implementation</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-By default <code>@Local</code> annotation assumes the annotation is applied to a <code>type</code> (classes). If you would like to apply the
-annotation to any other type of node, please use <code>@Apply</code> annotation and the correspondent element type.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Now it&#8217;s time to implement the transformation. The transformation should be an instance of
-<code>asteroid.LocalTransformationImpl</code>. We have to extend <code>LocalTransformationImpl</code> and provide two important generic
-arguments:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The annotation class used to mark our transformation: <code>WithLogging</code></p>
-</li>
-<li>
-<p>The type of nodes that will be affected by this transformation. In this example <code>org.codehaus.groovy.ast.MethodNode</code></p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/WithLoggingTransformationImpl.groovy[]</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The <code>@LocalTransformation</code> annotation indicates that the following class is an implementation of a local
-transformation. It also requires to specify the compilation phase this AST transformation will be applied. The
-enumeration <code>A.PHASE_LOCAL</code> will show <code>ONLY</code> those compilation phases available for local transformations.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Storing temporary the old code we want to transform which is an <code>org.codehaus.groovy.ast.stmt.Statement</code></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Building <code>println "start"</code> code, which is wrapped in a <code>org.codehaus.groovy.ast.stmt.Statement</code></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Building <code>println "end"</code> code, which is wrapped in a <code>org.codehaus.groovy.ast.stmt.Statement</code></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>Building the new method code re-arranging the new and old code in order. We are adding all previous in a
-<code>BlockStatement</code> in the order we want them to execute.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>Building a generic <code>println constantValue</code> expression</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The <code>@CompileStatic</code> annotation is not required it&#8217;s only used here to highlight that all the code used in this
-transformation is safely typed and can be optimized by this annotation.</p>
 </div>
 </div>
 <div class="sect2">
@@ -708,7 +580,7 @@ second node passed to your transformation anymore.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-03-17 13:02:49 +00:00
+Last updated 2016-04-17 21:21:54 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

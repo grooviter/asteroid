@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
-<title>Intro</title>
+<meta name="generator" content="Asciidoctor 1.5.4">
+<title>What is Asteroid</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -416,39 +416,289 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_intro">Intro</a></li>
+<li><a href="#_what_is_asteroid">What is Asteroid</a></li>
+<li><a href="#_show_me_the_code">Show me the code</a>
+<ul class="sectlevel2">
+<li><a href="#_gradle">Gradle</a></li>
+<li><a href="#_example">Example</a></li>
+</ul>
+</li>
+<li><a href="#_overview">Overview</a>
+<ul class="sectlevel2">
+<li><a href="#_transform_abstractions">Transform abstractions</a></li>
+<li><a href="#_ast_nodes_functions">AST nodes functions</a>
+<ul class="sectlevel3">
+<li><a href="#_the_a_class">The A class</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_intro">Intro</h2>
+<h2 id="_what_is_asteroid">What is Asteroid</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>AST transformations, have been historically a hard topic in
+Groovy. Asteroid is a set of utilities trying to reduce the complexity
+of dealing with transformations.</p>
+</div>
+<div class="paragraph">
+<p>If you have never done any AST transformation I&#8217;d recommend you to
+take a look both the
+<a href="http://groovy-lang.org/metaprogramming.html#developing-ast-xforms">Groovy</a>
+documentation and the theory chapter. If you already now the stuff
+then read on.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_show_me_the_code">Show me the code</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_gradle">Gradle</h3>
 <div class="paragraph">
 <p>In order to use <code>Asteroid</code> in your Groovy code you can find it in Bintray:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>repositories {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">repositories {
     maven {
         url  "http://dl.bintray.com/grooviter/maven"
     }
-}</pre>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Then you can add the dependency to your project:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>compile 'com.github.grooviter:asteroid:0.1.5"</pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.1.6'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example">Example</h3>
+<div class="paragraph">
+<p>To show the benefit of using Asteroid, I will be following the
+tutorial about local transformation available at the
+<a href="http://www.groovy-lang.org/metaprogramming.html#transforms-local">Groovy
+official site</a>. The code of the following example is available at the
+<code>asteroid-test</code> module at
+<a href="https://github.com/grooviter/asteroid/tree/master/asteroid-test">Github</a>.</p>
+</div>
+<div class="paragraph">
+<p>Given a code like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in intro.adoc - include::{testTest}/asteroid/local/samples/WithLoggingTest.groovy[tags=testCode, indent=0]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We would like to print a start and stop message along with the message printed by the method itself. So in this
+example we&#8217;ll be expecting an output like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-text" data-lang="text">start greet
+Hello World
+stop greet</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a local transformation only two things are required:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The annotation used as a marker. In this example the <code>@WithLogging</code> annotation</p>
+</li>
+<li>
+<p>The transformation implementation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Lets see first the <code>@WithLogging</code> annotation declaration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in intro.adoc - include::{testMain}/asteroid/local/samples/WithLogging.groovy[]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This annotation will be applied to method elements.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>@Local</code> annotation only requires the class of the AST transformation implementation</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+By default <code>@Local</code> annotation assumes the annotation is applied to a <code>type</code> (classes). If you would like to apply the
+annotation to any other type of node, please use <code>@Apply</code> annotation and the correspondent element type.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now it&#8217;s time to implement the transformation. The transformation should be an instance of
+<code>asteroid.LocalTransformationImpl</code>. We have to extend <code>LocalTransformationImpl</code> and provide two important generic
+arguments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The annotation class used to mark our transformation: <code>WithLogging</code></p>
+</li>
+<li>
+<p>The type of nodes that will be affected by this transformation. In this example <code>org.codehaus.groovy.ast.MethodNode</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in intro.adoc - include::{testMain}/asteroid/local/samples/WithLoggingTransformationImpl.groovy[]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>@LocalTransformation</code> annotation indicates that the following class is an implementation of a local
+transformation. It also requires to specify the compilation phase this AST transformation will be applied. The
+enumeration <code>A.PHASE_LOCAL</code> will show <code>ONLY</code> those compilation phases available for local transformations.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Storing temporary the old code we want to transform which is an <code>org.codehaus.groovy.ast.stmt.Statement</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Building <code>println "start"</code> code, which is wrapped in a <code>org.codehaus.groovy.ast.stmt.Statement</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Building <code>println "end"</code> code, which is wrapped in a <code>org.codehaus.groovy.ast.stmt.Statement</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Building the new method code re-arranging the new and old code in order. We are adding all previous in a
+<code>BlockStatement</code> in the order we want them to execute.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Building a generic <code>println constantValue</code> expression</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>@CompileStatic</code> annotation is not required it&#8217;s only used here to highlight that all the code used in this
+transformation is safely typed and can be optimized by this annotation.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>At the moment Asteroid is composed by two main groups, abstractions to
+reduce the complexity of creating a new transformation, and utility
+classes helping to create new Abstract Syntaxt Tree nodes.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="diag-6d64dcb7873d023edc4d9ca1ea01fdbb.png" alt="diag 6d64dcb7873d023edc4d9ca1ea01fdbb" width="1000" height="224">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transform_abstractions">Transform abstractions</h3>
+<div class="paragraph">
+<p>So far abstractions used to deal with the AST were too low level. For
+instance, you needed to check whether the nodes passed to your
+transformation were the ones you wanted to act over or not, and then
+proceed.</p>
+</div>
+<div class="paragraph">
+<p>Asteroid tries to provide higher abstractions in order to reduce some
+of the boiler plate code, and make the developer to focus on the
+transformation only.</p>
+</div>
+<div class="paragraph">
+<p>Both local and global abstractions are located in <code>asteroid.local</code> and
+<code>asteroid.global</code> packages.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ast_nodes_functions">AST nodes functions</h3>
+<div class="paragraph">
+<p>The other main part of Asteroid are functions dealing directly with
+AST nodes. Functions responsible for modifying AST nodes.</p>
+</div>
+<div class="paragraph">
+<p>They&#8217;re divided in four groups:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Expressions</strong>: Functions responsible for creating expressions</p>
+</li>
+<li>
+<p><strong>Statements</strong>: Functions responsible for creating statements</p>
+</li>
+<li>
+<p><strong>Nodes</strong>: Builders responsible for creating high level nodes</p>
+</li>
+<li>
+<p><strong>Utils</strong>: Functions responsible for querying and querying any type of nodes</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+With the upcoming <code>groovy-macro</code> module in Groovy 2.5.0 most
+of the code in Asteroid, used for creating <code>expressions</code> and
+<code>statements</code> may be gone for good in favor of the <code>macro</code> method.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_the_a_class">The A class</h4>
+<div class="paragraph">
+<p>All functions available in Asteroid are accessible through the
+<code>asteroid.A</code> class.</p>
+</div>
+<div class="paragraph">
+<p>Check javadoc: <a href="javadocs/asteroid/A.html"><code>asteroid.A</code></a></p>
+</div>
 </div>
 </div>
 </div>
@@ -456,7 +706,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-04-10 15:47:07 +00:00
+Last updated 2016-04-17 21:21:54 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

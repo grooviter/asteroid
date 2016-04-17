@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
+<meta name="generator" content="Asciidoctor 1.5.4">
 <title>Global Transformations</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -416,7 +416,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -425,15 +425,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_global_transformations">Global Transformations</a>
 <ul class="sectlevel2">
-<li><a href="#_introduction">Introduction</a></li>
-<li><a href="#_node_transformers">Node transformers</a>
+<li><a href="#_example">Example</a></li>
+<li><a href="#_transformers">Transformers</a>
 <ul class="sectlevel3">
 <li><a href="#_classnodetransformer">ClassNodeTransformer</a></li>
-</ul>
-</li>
-<li><a href="#_expression_transformers">Expression transformers</a>
-<ul class="sectlevel3">
-<li><a href="#_expressiontransformer">ExpressionTransformer</a></li>
+<li><a href="#_expression_transformers">Expression transformers</a></li>
 </ul>
 </li>
 </ul>
@@ -446,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_global_transformations">Global Transformations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_introduction">Introduction</h3>
+<h3 id="_example">Example</h3>
 <div class="quoteblock">
 <blockquote>
 Global AST transformation are similar to local one with a major
@@ -518,30 +514,165 @@ transformation within the <code>transformClass</code> method</td>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Finally add the descriptor file to your classpath at
+<code>META-INF/services/</code> the descriptor file should be named
+<code>org.codehaus.groovy.transform.ASTTransformation</code>, and it will
+contain the fully qualified name of your AST transformation implementation:
+<code>asteroid.global.samples.AddTransformationImpl</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you are using <code>Gradle</code> or <code>Maven</code> the transformation
+descriptor will be normally found at
+<code>src/main/resources/META-INF/org.codehaus.groovy.transform.ASTTransformation</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Remember that for any new global transformation you should add
+the new qualified class in a new line.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_node_transformers">Node transformers</h3>
+<h3 id="_transformers">Transformers</h3>
 <div class="paragraph">
-<p>This type of transformers should be used when trying to transform a
-given <code>ASTNode</code>. Think of a node as a method, a field, a class
-everything that encloses code.</p>
+<p>Because a global AST transformation can act over the whole source
+code, we use transformers to focus only on certain parts of
+it. Transformers theirselves declare which type of nodes they are
+interested in, but, they also use <code>criterias</code> to narrow the search.</p>
 </div>
 <div class="sect3">
 <h4 id="_classnodetransformer">ClassNodeTransformer</h4>
 <div class="paragraph">
-<p>#TODO</p>
+<p>This type of transformers only focuses on transforming a specific set
+of <code>ClassNode</code> instances from the AST.</p>
+</div>
+<div class="listingblock">
+<div class="title">ClassNodeTransformer</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in global.adoc - include::{testMain}/asteroid/utils/AddImportTransformer.groovy[tags=classnodetransformer]</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Extending <code>ClassNodeTransformer</code> we are only interested in
+<code>ClassNode</code> instances</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Then we use a <code>criteria</code> to declare we&#8217;re only interested in
+<code>ClassNode</code> instances annotated by an annotation which has a simple
+name <code>AddImport</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Overriding the <code>transformClass</code> method we will be receiving the
+expected <code>ClassNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>We don&#8217;t return anything because we are modifying the node, we are
+not supposed to replace it in the AST.</td>
+</tr>
+</table>
 </div>
-<div class="sect2">
-<h3 id="_expression_transformers">Expression transformers</h3>
-<div class="paragraph">
-<p>#TODO</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Why <code>simple name</code> ? Well depending on the compilation phase you
+are targeting the information about the class may be not available,
+that means it&#8217;s fully qualified name.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Transforming an AST node here means to add/remove elements
+from the AST node.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_expressiontransformer">ExpressionTransformer</h4>
+<h4 id="_expression_transformers">Expression transformers</h4>
 <div class="paragraph">
-<p>#TODO</p>
+<p>This type of transformers only focuses on <strong>replacing</strong> certain
+expressions found along the AST.</p>
+</div>
+<div class="paragraph">
+<p>In the following example, we are interested in replacing all method
+calls <code>xxx()</code> by a constant number <code>1</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">ExpressionTransformer</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in global.adoc - include::{testMain}/asteroid/global/samples/ChangeTripleXToPlusOne.groovy[tags=expressiontransformer]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We declare this transformer is focused on <code>MethodCallExpression</code>
+elements</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We declare we are only interested on method calls with name <code>xxx</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Overriding the transformExpression operation we will be receiving
+the expected node</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Finally will be returning the expression that will replace the
+former expression in the AST</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+It&#8217;s very important to notice the fact that we are here
+replacing an expression cause expressions are considered as values.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -550,7 +681,7 @@ everything that encloses code.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-03-17 13:02:49 +00:00
+Last updated 2016-04-17 21:21:54 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

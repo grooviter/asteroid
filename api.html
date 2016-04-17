@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
+<meta name="generator" content="Asciidoctor 1.5.4">
 <title>Fluent API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -416,7 +416,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -439,6 +439,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_fluent_api">Fluent API</h2>
 <div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+With the upcoming <code>groovy-macro</code> module in Groovy 2.5.0 most
+of the code in Asteroid, used for creating <code>expressions</code> and
+<code>statements</code> may be gone for good in favor of the <code>macro</code> method.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The main goal of this project is to have a unified way to access all AST APIs through a single entry point. That
 entry point is <code>asteroid.A</code>.</p>
@@ -667,7 +681,7 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-04-10 15:47:07 +00:00
+Last updated 2016-04-17 21:21:54 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

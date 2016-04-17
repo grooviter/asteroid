@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
+<meta name="generator" content="Asciidoctor 1.5.4">
 <title>Asteroid</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -416,55 +416,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
 <h1>Asteroid</h1>
 <div class="details">
-<span id="revnumber">version 0.1.5</span>
+<span id="revnumber">version 0.1.6</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_intro">1. Intro</a></li>
-<li><a href="#_local_transformations">2. Local Transformations</a>
+<li><a href="#_what_is_asteroid">1. What is Asteroid</a></li>
+<li><a href="#_show_me_the_code">2. Show me the code</a>
 <ul class="sectlevel2">
-<li><a href="#_introduction">2.1. Introduction</a></li>
-<li><a href="#__local">2.2. @Local</a></li>
-<li><a href="#__apply">2.3. @Apply</a></li>
-<li><a href="#__localtransformation">2.4. @LocalTransformation</a></li>
-<li><a href="#_localtransformationimpl">2.5. LocalTransformationImpl</a></li>
+<li><a href="#_gradle">2.1. Gradle</a></li>
+<li><a href="#_example">2.2. Example</a></li>
 </ul>
 </li>
-<li><a href="#_check">3. Check</a>
+<li><a href="#_overview">3. Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_local_transformations_2">3.1. Local transformations</a></li>
-<li><a href="#_your_own_transformations">3.2. Your own transformations</a></li>
-</ul>
-</li>
-<li><a href="#_global_transformations">4. Global Transformations</a>
-<ul class="sectlevel2">
-<li><a href="#_introduction_2">4.1. Introduction</a></li>
-<li><a href="#_node_transformers">4.2. Node transformers</a>
+<li><a href="#_transform_abstractions">3.1. Transform abstractions</a></li>
+<li><a href="#_ast_nodes_functions">3.2. AST nodes functions</a>
 <ul class="sectlevel3">
-<li><a href="#_classnodetransformer">4.2.1. ClassNodeTransformer</a></li>
-</ul>
-</li>
-<li><a href="#_expression_transformers">4.3. Expression transformers</a>
-<ul class="sectlevel3">
-<li><a href="#_expressiontransformer">4.3.1. ExpressionTransformer</a></li>
+<li><a href="#_the_a_class">3.2.1. The A class</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_fluent_api">5. Fluent API</a>
+<li><a href="#_theory">4. Theory</a>
 <ul class="sectlevel2">
-<li><a href="#_nodes">5.1. Nodes</a></li>
-<li><a href="#_expressions">5.2. Expressions</a></li>
-<li><a href="#_statements">5.3. Statements</a></li>
-<li><a href="#_modifiers">5.4. Modifiers</a></li>
-<li><a href="#_utils">5.5. Utils</a></li>
+<li><a href="#_ast">4.1. AST</a>
+<ul class="sectlevel3">
+<li><a href="#_expressions">4.1.1. Expressions</a></li>
+<li><a href="#_statements">4.1.2. Statements</a></li>
+<li><a href="#_high_level_nodes">4.1.3. High level Nodes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_local_transformations">5. Local Transformations</a>
+<ul class="sectlevel2">
+<li><a href="#__local">5.1. @Local</a></li>
+<li><a href="#__apply">5.2. @Apply</a></li>
+<li><a href="#__localtransformation">5.3. @LocalTransformation</a></li>
+<li><a href="#_localtransformationimpl">5.4. LocalTransformationImpl</a></li>
+</ul>
+</li>
+<li><a href="#_check">6. Check</a>
+<ul class="sectlevel2">
+<li><a href="#_local_transformations_2">6.1. Local transformations</a></li>
+<li><a href="#_your_own_transformations">6.2. Your own transformations</a></li>
+</ul>
+</li>
+<li><a href="#_global_transformations">7. Global Transformations</a>
+<ul class="sectlevel2">
+<li><a href="#_example_2">7.1. Example</a></li>
+<li><a href="#_transformers">7.2. Transformers</a>
+<ul class="sectlevel3">
+<li><a href="#_classnodetransformer">7.2.1. ClassNodeTransformer</a></li>
+<li><a href="#_expression_transformers">7.2.2. Expression transformers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_fluent_api">8. Fluent API</a>
+<ul class="sectlevel2">
+<li><a href="#_nodes">8.1. Nodes</a></li>
+<li><a href="#_expressions_2">8.2. Expressions</a></li>
+<li><a href="#_statements_2">8.3. Statements</a></li>
+<li><a href="#_modifiers">8.4. Modifiers</a></li>
+<li><a href="#_utils">8.5. Utils</a></li>
 </ul>
 </li>
 </ul>
@@ -480,49 +502,57 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_intro">1. Intro</h2>
+<h2 id="_what_is_asteroid">1. What is Asteroid</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>AST transformations, have been historically a hard topic in
+Groovy. Asteroid is a set of utilities trying to reduce the complexity
+of dealing with transformations.</p>
+</div>
+<div class="paragraph">
+<p>If you have never done any AST transformation I&#8217;d recommend you to
+take a look both the
+<a href="http://groovy-lang.org/metaprogramming.html#developing-ast-xforms">Groovy</a>
+documentation and the theory chapter. If you already now the stuff
+then read on.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_show_me_the_code">2. Show me the code</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_gradle">2.1. Gradle</h3>
 <div class="paragraph">
 <p>In order to use <code>Asteroid</code> in your Groovy code you can find it in Bintray:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>repositories {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">repositories {
     maven {
         url  "http://dl.bintray.com/grooviter/maven"
     }
-}</pre>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Then you can add the dependency to your project:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>compile 'com.github.grooviter:asteroid:0.1.5"</pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.1.6'</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_local_transformations">2. Local Transformations</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_introduction">2.1. Introduction</h3>
-<div class="quoteblock">
-<blockquote>
-Local AST transformations are relative to the context they are applied to. In most cases, the context is defined by an
-annotation that will define the scope of the transform. For example, annotating a field would mean that the
-transformation applies to the field, while annotating the class would mean that the transformation applies to the whole
-class.
-</blockquote>
-<div class="attribution">
-&#8212; Groovy official site
-</div>
-</div>
+<h3 id="_example">2.2. Example</h3>
 <div class="paragraph">
-<p>To show the benefit of using Asteroid, I will be following the tutorial about local transformation available at the
-<a href="http://www.groovy-lang.org/metaprogramming.html#transforms-local">Groovy official site</a>.</p>
+<p>To show the benefit of using Asteroid, I will be following the
+tutorial about local transformation available at the
+<a href="http://www.groovy-lang.org/metaprogramming.html#transforms-local">Groovy
+official site</a>. The code of the following example is available at the
+<code>asteroid-test</code> module at
+<a href="https://github.com/grooviter/asteroid/tree/master/asteroid-test">Github</a>.</p>
 </div>
 <div class="paragraph">
 <p>Given a code like the following:</p>
@@ -685,8 +715,415 @@ enumeration <code>A.PHASE_LOCAL</code> will show <code>ONLY</code> those compila
 transformation is safely typed and can be optimized by this annotation.</p>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">3. Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>At the moment Asteroid is composed by two main groups, abstractions to
+reduce the complexity of creating a new transformation, and utility
+classes helping to create new Abstract Syntaxt Tree nodes.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="images//diag-6d64dcb7873d023edc4d9ca1ea01fdbb.png" alt="diag 6d64dcb7873d023edc4d9ca1ea01fdbb" width="1000" height="224">
+</div>
+</div>
 <div class="sect2">
-<h3 id="__local">2.2. @Local</h3>
+<h3 id="_transform_abstractions">3.1. Transform abstractions</h3>
+<div class="paragraph">
+<p>So far abstractions used to deal with the AST were too low level. For
+instance, you needed to check whether the nodes passed to your
+transformation were the ones you wanted to act over or not, and then
+proceed.</p>
+</div>
+<div class="paragraph">
+<p>Asteroid tries to provide higher abstractions in order to reduce some
+of the boiler plate code, and make the developer to focus on the
+transformation only.</p>
+</div>
+<div class="paragraph">
+<p>Both local and global abstractions are located in <code>asteroid.local</code> and
+<code>asteroid.global</code> packages.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ast_nodes_functions">3.2. AST nodes functions</h3>
+<div class="paragraph">
+<p>The other main part of Asteroid are functions dealing directly with
+AST nodes. Functions responsible for modifying AST nodes.</p>
+</div>
+<div class="paragraph">
+<p>They&#8217;re divided in four groups:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Expressions</strong>: Functions responsible for creating expressions</p>
+</li>
+<li>
+<p><strong>Statements</strong>: Functions responsible for creating statements</p>
+</li>
+<li>
+<p><strong>Nodes</strong>: Builders responsible for creating high level nodes</p>
+</li>
+<li>
+<p><strong>Utils</strong>: Functions responsible for querying and querying any type of nodes</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+With the upcoming <code>groovy-macro</code> module in Groovy 2.5.0 most
+of the code in Asteroid, used for creating <code>expressions</code> and
+<code>statements</code> may be gone for good in favor of the <code>macro</code> method.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_the_a_class">3.2.1. The A class</h4>
+<div class="paragraph">
+<p>All functions available in Asteroid are accessible through the
+<code>asteroid.A</code> class.</p>
+</div>
+<div class="paragraph">
+<p>Check javadoc: <a href="javadocs/asteroid/A.html"><code>asteroid.A</code></a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_theory">4. Theory</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>What can you do with an AST transformation ?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Transform</strong> the Abstract Syntax Tree by adding, or removing
+elements from it</p>
+</li>
+<li>
+<p><strong>Check</strong> the structure, or semantics of the Abstract Syntax Tree and do
+something about it</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Examples of <strong>adding / removing</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong><a href="http://groovy-lang.org/metaprogramming.html#_code_generation_transformations">Groovy</a></strong>: Code generation transformations: @ToString, @Immutable&#8230;&#8203;</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/spockframework/spock">Spock</a></strong>: transforms label statements</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/Arasthel/SwissKnife">Swissknife</a></strong>: reduces boilerplate code in Android dev</p>
+</li>
+<li>
+<p><strong><a href="https://grails.org/">Grails</a></strong>: also saves you from typical web boilerplate code</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images//grails.png" alt="grails" width="100"></span> <span class="image"><img src="images//spock.png" alt="spock" width="100"></span> <span class="image"><img src="images//swissknife.png" alt="swissknife" width="100" height="100"></span> <span class="image"><img src="images//griffon.png" alt="griffon" width="100"></span></p>
+</div>
+<div class="paragraph">
+<p>Examples of <strong>checking</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong><a href="https://github.com/andresteingress/gcontracts">GContracts</a></strong>: programming by contract</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/CodeNarc/CodeNarc">Codenarc</a></strong>: Static Analysis</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images//codenarc.png" alt="codenarc" height="100"></span></p>
+</div>
+<div class="paragraph">
+<p>Transformations can be of two types:</p>
+</div>
+<div class="paragraph">
+<p><strong>Local</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Relative to the context they are applied to.</p>
+</li>
+<li>
+<p>That context is marked (annotation)</p>
+</li>
+<li>
+<p>Compilation phases are limited</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Global</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Global AST transformations are applied to all source code</p>
+</li>
+<li>
+<p>Compilation phases are less limited</p>
+</li>
+<li>
+<p>Need an extra descriptor file</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_ast">4.1. AST</h3>
+<div class="paragraph">
+<p>Abstract Syntax Tree (or AST from now on) is the tree-like
+representation of the code the compiler needs in order to
+generate the bytecode that will be used later by the JVM.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="images//diag-babc24851067e5feb8fc8776b5bb8948.png" alt="diag babc24851067e5feb8fc8776b5bb8948" width="490" height="98">
+</div>
+</div>
+<div class="paragraph">
+<p>When dealing with the AST, most of the time we will talking about
+three types of elements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>EXPRESSIONS</strong></p>
+</li>
+<li>
+<p><strong>STATEMENTS</strong></p>
+</li>
+<li>
+<p><strong>HIGH LEVEL</strong> NODES</p>
+</li>
+</ul>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="images//diag-6c894a44eec094de5339c817017775e7.png" alt="diag 6c894a44eec094de5339c817017775e7" width="580" height="336">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_expressions">4.1.1. Expressions</h4>
+<div class="paragraph">
+<p>An <strong>expression</strong> is a <strong>combination</strong> of one or more explicit
+<strong>values, constants, variables, operators, and functions</strong> that the
+programming language interprets and computes <strong>to produce another
+value</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="title">BinaryExpression</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">1 == 1</code></pre>
+</div>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="images//diag-836fe3d4bdb17e1b2addb10be8c7ea6d.png" alt="diag 836fe3d4bdb17e1b2addb10be8c7ea6d" width="250" height="196">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>constant</strong> expression <em>1</em></p>
+</li>
+<li>
+<p><strong>token</strong> <em>==</em></p>
+</li>
+<li>
+<p><strong>constant</strong> expression <em>1</em></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Method call expression</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">ref.myMethod(3)</code></pre>
+</div>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="images//diag-c4448142060fbd4b605eb6d5ae5614ca.png" alt="diag c4448142060fbd4b605eb6d5ae5614ca" width="650" height="182">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>variable</strong> expression <em>ref</em></p>
+</li>
+<li>
+<p><strong>constant</strong> <em>myMethod</em></p>
+</li>
+<li>
+<p><strong>param</strong> expression <em>3</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_statements">4.1.2. Statements</h4>
+<div class="paragraph">
+<p>In computer programming, a statement is the <strong>smallest standalone
+element</strong> of an imperative programming language that <strong>expresses some
+action to be carried out</strong>. A statement may have <strong>expressions</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="title">If Statement</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">if(booleanExpression) {
+ println "hello" // statement
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>expression</strong> to evaluate</p>
+</li>
+<li>
+<p><strong>statement</strong> to be executed if the boolean expression evaluates to true</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Block Statement</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">public void main(String[] args) { // block starts
+  // this is inside a block statement
+} // block ends</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A block statement is easily recognized by <strong>curly braces</strong></p>
+</li>
+<li>
+<p>It is built from other <strong>statements</strong> containing <strong>expressions</strong></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Block Statement (Cont.)</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">public String greetings() {
+    return "Hello Greach"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This block statement contains a <strong>return</strong> statement receiving a constant
+expression <strong>Hello Greach</strong>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_high_level_nodes">4.1.3. High level Nodes</h4>
+<div class="paragraph">
+<p>Is <strong>how our program is structured</strong>. They group statements and
+  expressions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>classes</strong></p>
+</li>
+<li>
+<p><strong>methods</strong></p>
+</li>
+<li>
+<p><strong>fields</strong></p>
+</li>
+<li>
+<p><strong>properties</strong></p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Class Node</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class A { // ClassNode
+   String greetings // FieldNode
+
+   String hello() { // MethodNode
+
+   }
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ClassNode</strong> may contain: methods, fields&#8230;&#8203;</p>
+</li>
+<li>
+<p><strong>MethodNode</strong> may contain statements, and expressions</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Therefore&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class A { // ClassNode
+
+   String hello() // MethodNode
+   { // blockStatement {
+
+       return "Hello" // returnStatement(constantExpression)
+
+    } // }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_local_transformations">5. Local Transformations</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+Local AST transformations are relative to the context they are applied to. In most cases, the context is defined by an
+annotation that will define the scope of the transform. For example, annotating a field would mean that the
+transformation applies to the field, while annotating the class would mean that the transformation applies to the whole
+class.
+</blockquote>
+<div class="attribution">
+&#8212; Groovy official site
+</div>
+</div>
+<div class="sect2">
+<h3 id="__local">5.1. @Local</h3>
 <div class="paragraph">
 <p>You can use <code>@Local</code> to use an annotation as an AST marker. The only
 <strong>mandatory</strong> argument is the AST implementation class. Implementation
@@ -709,7 +1146,7 @@ meaning it will be applied over an entire class.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__apply">2.3. @Apply</h3>
+<h3 id="__apply">5.2. @Apply</h3>
 <div class="paragraph">
 <p><code>@Apply</code> is used in combination with <code>@Local</code> when the transformation
 is applied to any element type other than <code>TYPE</code>: a method,
@@ -743,7 +1180,7 @@ import asteroid.local.Apply
 </div>
 </div>
 <div class="sect2">
-<h3 id="__localtransformation">2.4. @LocalTransformation</h3>
+<h3 id="__localtransformation">5.3. @LocalTransformation</h3>
 <div class="paragraph">
 <p>This annotation can only be used when coding a local transformation
 implementation using Groovy. It saves some of the boilerplate code
@@ -788,7 +1225,7 @@ annotated with <code>@AsList</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_localtransformationimpl">2.5. LocalTransformationImpl</h3>
+<h3 id="_localtransformationimpl">5.4. LocalTransformationImpl</h3>
 <div class="paragraph">
 <p><code>asteroid.LocalTransformationImpl</code> exists to avoid some of the
 defensive code that you would normally write at the beggining of an
@@ -897,7 +1334,7 @@ second node passed to your transformation anymore.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_check">3. Check</h2>
+<h2 id="_check">6. Check</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>Check</code> is an effort to avoid boiler plate code when checking the
@@ -906,7 +1343,7 @@ correct before applying a given transformation. Without this sanity
 check, many things could go wrong.</p>
 </div>
 <div class="sect2">
-<h3 id="_local_transformations_2">3.1. Local transformations</h3>
+<h3 id="_local_transformations_2">6.1. Local transformations</h3>
 <div class="paragraph">
 <p>By default <code>Check</code> is available in Asteroid local transformations. All
 you have to do is to structure your code using labels <code>check</code> and
@@ -1020,7 +1457,7 @@ methods:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_your_own_transformations">3.2. Your own transformations</h3>
+<h3 id="_your_own_transformations">6.2. Your own transformations</h3>
 <div class="paragraph">
 <p>If you would like to add this functionality in your project, you can
 use Asteroid utility functions to inject this behavior in your code.</p>
@@ -1037,10 +1474,10 @@ use Asteroid utility functions to inject this behavior in your code.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_global_transformations">4. Global Transformations</h2>
+<h2 id="_global_transformations">7. Global Transformations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_introduction_2">4.1. Introduction</h3>
+<h3 id="_example_2">7.1. Example</h3>
 <div class="quoteblock">
 <blockquote>
 Global AST transformation are similar to local one with a major
@@ -1164,38 +1601,209 @@ transformation within the <code>transformClass</code> method</td>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Finally add the descriptor file to your classpath at
+<code>META-INF/services/</code> the descriptor file should be named
+<code>org.codehaus.groovy.transform.ASTTransformation</code>, and it will
+contain the fully qualified name of your AST transformation implementation:
+<code>asteroid.global.samples.AddTransformationImpl</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you are using <code>Gradle</code> or <code>Maven</code> the transformation
+descriptor will be normally found at
+<code>src/main/resources/META-INF/org.codehaus.groovy.transform.ASTTransformation</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Remember that for any new global transformation you should add
+the new qualified class in a new line.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_node_transformers">4.2. Node transformers</h3>
+<h3 id="_transformers">7.2. Transformers</h3>
 <div class="paragraph">
-<p>This type of transformers should be used when trying to transform a
-given <code>ASTNode</code>. Think of a node as a method, a field, a class
-everything that encloses code.</p>
+<p>Because a global AST transformation can act over the whole source
+code, we use transformers to focus only on certain parts of
+it. Transformers theirselves declare which type of nodes they are
+interested in, but, they also use <code>criterias</code> to narrow the search.</p>
 </div>
 <div class="sect3">
-<h4 id="_classnodetransformer">4.2.1. ClassNodeTransformer</h4>
+<h4 id="_classnodetransformer">7.2.1. ClassNodeTransformer</h4>
 <div class="paragraph">
-<p>#TODO</p>
+<p>This type of transformers only focuses on transforming a specific set
+of <code>ClassNode</code> instances from the AST.</p>
+</div>
+<div class="listingblock">
+<div class="title">ClassNodeTransformer</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class AddImportTransformer extends ClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
+    public AddImportTransformer(final SourceUnit sourceUnit) {
+        super(sourceUnit, byAnnotationName(AddImport.simpleName)) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    /**
+     * {@inheritDocs}
+     */
+    @Override
+    void transformClass(final ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        A.UTIL.CLASS.addImport(target, groovy.json.JsonOutput) <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Extending <code>ClassNodeTransformer</code> we are only interested in
+<code>ClassNode</code> instances</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Then we use a <code>criteria</code> to declare we&#8217;re only interested in
+<code>ClassNode</code> instances annotated by an annotation which has a simple
+name <code>AddImport</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Overriding the <code>transformClass</code> method we will be receiving the
+expected <code>ClassNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>We don&#8217;t return anything because we are modifying the node, we are
+not supposed to replace it in the AST.</td>
+</tr>
+</table>
 </div>
-<div class="sect2">
-<h3 id="_expression_transformers">4.3. Expression transformers</h3>
-<div class="paragraph">
-<p>#TODO</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Why <code>simple name</code> ? Well depending on the compilation phase you
+are targeting the information about the class may be not available,
+that means it&#8217;s fully qualified name.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Transforming an AST node here means to add/remove elements
+from the AST node.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_expressiontransformer">4.3.1. ExpressionTransformer</h4>
+<h4 id="_expression_transformers">7.2.2. Expression transformers</h4>
 <div class="paragraph">
-<p>#TODO</p>
+<p>This type of transformers only focuses on <strong>replacing</strong> certain
+expressions found along the AST.</p>
+</div>
+<div class="paragraph">
+<p>In the following example, we are interested in replacing all method
+calls <code>xxx()</code> by a constant number <code>1</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">ExpressionTransformer</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class ChangeTripleXToPlusOne
+    extends ExpressionTransformer&lt;MethodCallExpression&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    ChangeTripleXToPlusOne(final SourceUnit sourceUnit) {
+        super(sourceUnit, methodCallByNameEq('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    Expression transformExpression(final MethodCallExpression target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        return A.EXPR.constX(1)  <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We declare this transformer is focused on <code>MethodCallExpression</code>
+elements</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We declare we are only interested on method calls with name <code>xxx</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Overriding the transformExpression operation we will be receiving
+the expected node</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Finally will be returning the expression that will replace the
+former expression in the AST</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+It&#8217;s very important to notice the fact that we are here
+replacing an expression cause expressions are considered as values.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fluent_api">5. Fluent API</h2>
+<h2 id="_fluent_api">8. Fluent API</h2>
 <div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+With the upcoming <code>groovy-macro</code> module in Groovy 2.5.0 most
+of the code in Asteroid, used for creating <code>expressions</code> and
+<code>statements</code> may be gone for good in favor of the <code>macro</code> method.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The main goal of this project is to have a unified way to access all AST APIs through a single entry point. That
 entry point is <code>asteroid.A</code>.</p>
@@ -1240,7 +1848,7 @@ the javadoc.
 <p>Please check out the javadoc <a href="javadocs/index.html">here</a></p>
 </div>
 <div class="sect2">
-<h3 id="_nodes">5.1. Nodes</h3>
+<h3 id="_nodes">8.1. Nodes</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Nodes.html"><code>asteroid.A.NODES</code></a></p>
 </div>
@@ -1308,7 +1916,7 @@ you&#8217;ll see the AST and the resulting code explained.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_expressions">5.2. Expressions</h3>
+<h3 id="_expressions_2">8.2. Expressions</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Expressions.html"><code>asteroid.A.EXPR</code></a></p>
 </div>
@@ -1365,7 +1973,7 @@ through the <code>DefaultGroovyMethods</code> object.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_statements">5.3. Statements</h3>
+<h3 id="_statements_2">8.3. Statements</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Statements.html"><code>asteroid.A.STMT</code></a></p>
 </div>
@@ -1399,7 +2007,7 @@ follows the same design as expressions. Each method returns an statement. For in
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modifiers">5.4. Modifiers</h3>
+<h3 id="_modifiers">8.4. Modifiers</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Modifiers.html"><code>asteroid.A.ACC</code></a></p>
 </div>
@@ -1414,7 +2022,7 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 </div>
 <div class="sect2">
-<h3 id="_utils">5.5. Utils</h3>
+<h3 id="_utils">8.5. Utils</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Utils.html"><code>asteroid.A.UTIL</code></a></p>
 </div>
@@ -1424,8 +2032,8 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.5<br>
-Last updated 2016-04-10 15:47:07 +00:00
+Version 0.1.6<br>
+Last updated 2016-04-17 21:21:54 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
@@ -1433,6 +2041,7 @@ Last updated 2016-04-10 15:47:07 +00:00
 <script>prettyPrint()</script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
+  messageStyle: "none",
   tex2jax: {
     inlineMath: [["\\(", "\\)"]],
     displayMath: [["\\[", "\\]"]],
@@ -1445,6 +2054,6 @@ MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: "none" } }
 });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.5.3/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 </body>
 </html>
