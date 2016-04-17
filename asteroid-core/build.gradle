@@ -64,15 +64,10 @@ javadoc {
 
 pmd {
     ruleSets = [
-        'java-basic',
-        'java-braces',
-        'java-comments',
-        'java-controversial',
         'java-design',
         'java-empty',
         'java-finalizers',
         'java-imports',
-        'java-javabeans',
         'java-naming',
         'java-optimizations',
         'java-strictexception',
