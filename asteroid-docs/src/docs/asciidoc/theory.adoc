@@ -1,0 +1,218 @@
+== Theory
+
+What can you do with an AST transformation ?
+
+* **Transform** the Abstract Syntax Tree by adding, or removing
+  elements from it
+* **Check** the structure, or semantics of the Abstract Syntax Tree and do
+something about it
+
+Examples of **adding / removing**
+
+* **http://groovy-lang.org/metaprogramming.html#_code_generation_transformations[Groovy]**: Code generation transformations: @ToString, @Immutable...
+* **https://github.com/spockframework/spock[Spock]**: transforms label statements
+* **https://github.com/Arasthel/SwissKnife[Swissknife]**: reduces boilerplate code in Android dev
+* **https://grails.org/[Grails]**: also saves you from typical web boilerplate code
+
+image:grails.png[width=100] image:spock.png[width=100] image:swissknife.png[width=100,height=100] image:griffon.png[width=100]
+
+Examples of **checking**
+
+* **https://github.com/andresteingress/gcontracts[GContracts]**: programming by contract
+* **https://github.com/CodeNarc/CodeNarc[Codenarc]**: Static Analysis
+
+image:codenarc.png[height=100]
+
+Transformations can be of two types:
+
+**Local**
+
+* Relative to the context they are applied to.
+* That context is marked (annotation)
+* Compilation phases are limited
+
+**Global**
+
+* Global AST transformations are applied to all source code
+* Compilation phases are less limited
+* Need an extra descriptor file
+
+=== AST
+
+Abstract Syntax Tree (or AST from now on) is the tree-like
+representation of the code the compiler needs in order to
+generate the bytecode that will be used later by the JVM.
+
+[ditaa,align=center]
+....
++---------+     +----------+     +----------+
+| .groovy |---->|   AST    |---->| Bytecode |
++---------+     +----------+     +----------+
+....
+
+
+When dealing with the AST, most of the time we will talking about
+three types of elements:
+
+* **EXPRESSIONS**
+* **STATEMENTS**
+* **HIGH LEVEL** NODES
+
+[ditaa,align=center]
+....
+                     +------------+
+                     |            |
+                     |   ASTNode  |
+                     |            |
+                     +-----+------+
+                           ^
+                           |
+                is a       |      is a
+               +-----------+----------+
+               |                      |
+               |                      |
+               |                      |
+          +----+-------+       +------+------+
+    has   |            |  has  |             | has
+  +-------+ Expression |<------+  Statement  +-------+
+  :       |            |       |             |       :
+  |       +------------+       +-------------+       |
+  |            ^                      ^              |
+  |            |                      |              |
+  +------------+                      +--------------+
+....
+
+==== Expressions
+
+An **expression** is a **combination** of one or more explicit
+**values, constants, variables, operators, and functions** that the
+programming language interprets and computes **to produce another
+value**.
+
+[source,groovy]
+.BinaryExpression
+----
+1 == 1
+----
+
+[ditaa,align=center]
+....
+      +-------+
+      | Token |
+      +---+---+
+          |
+          |
+   +------+------+
+   |             |
++--+--+       +--+--+
+|  1  |       |  1  |
++-----+       +-----+
+....
+
+* **constant** expression __1__
+* **token** __==__
+* **constant** expression __1__
+
+[source,groovy]
+.Method call expression
+----
+ref.myMethod(3)
+----
+
+[ditaa,align=center]
+....
+                  +----------------------+
+                  | MethodCallExpression |
+                  +-----------+----------+
+                              |
+        +---------------------+-----------------------+
+        |                     |                       |
+ +------+-----+    +----------+---------+       +-----+-----+
+ |  varX(ref) |    | constX("myMethod") |       |  param(3) |
+ +------------+    +--------------------+       +-----------+
+....
+
+* **variable** expression __ref__
+* **constant** __myMethod__
+* **param** expression __3__
+
+==== Statements
+
+In computer programming, a statement is the **smallest standalone
+element** of an imperative programming language that **expresses some
+action to be carried out**. A statement may have **expressions**.
+
+[source, groovy]
+.If Statement
+----
+if(booleanExpression) {
+ println "hello" // statement
+}
+----
+
+* **expression** to evaluate
+* **statement** to be executed if the boolean expression evaluates to true
+
+[source, groovy]
+.Block Statement
+----
+public void main(String[] args) { // block starts
+  // this is inside a block statement
+} // block ends
+----
+
+* A block statement is easily recognized by **curly braces**
+* It is built from other **statements** containing **expressions**
+
+[source, groovy]
+.Block Statement (Cont.)
+----
+public String greetings() {
+    return "Hello Greach"
+}
+----
+
+This block statement contains a **return** statement receiving a constant
+expression **Hello Greach**.
+
+==== High level Nodes
+
+Is **how our program is structured**. They group statements and
+  expressions:
+
+* **classes**
+* **methods**
+* **fields**
+* **properties**
+* ...
+
+[source,groovy]
+.Class Node
+----
+class A { // ClassNode
+   String greetings // FieldNode
+
+   String hello() { // MethodNode
+
+   }
+}
+----
+
+* **ClassNode** may contain: methods, fields...
+* **MethodNode** may contain statements, and expressions
+* ...
+
+Therefore...
+
+[source,groovy]
+----
+class A { // ClassNode
+
+   String hello() // MethodNode
+   { // blockStatement {
+
+       return "Hello" // returnStatement(constantExpression)
+
+    } // }
+}
+----

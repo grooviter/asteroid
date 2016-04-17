@@ -1,74 +1,10 @@
 == Local Transformations
 
-=== Introduction
-
 "Local AST transformations are relative to the context they are applied to. In most cases, the context is defined by an
 annotation that will define the scope of the transform. For example, annotating a field would mean that the
 transformation applies to the field, while annotating the class would mean that the transformation applies to the whole
 class."
 -- Groovy official site
-
-To show the benefit of using Asteroid, I will be following the tutorial about local transformation available at the
-http://www.groovy-lang.org/metaprogramming.html#transforms-local[Groovy official site].
-
-Given a code like the following:
-
-[source, groovy]
-----
-include::{testTest}/asteroid/local/samples/WithLoggingTest.groovy[tags=testCode, indent=0]
-----
-
-We would like to print a start and stop message along with the message printed by the method itself. So in this
-example we'll be expecting an output like:
-
-[source, text]
-----
-start greet
-Hello World
-stop greet
-----
-
-For a local transformation only two things are required:
-
-- The annotation used as a marker. In this example the `@WithLogging` annotation
-- The transformation implementation
-
-Lets see first the `@WithLogging` annotation declaration:
-
-[source, groovy]
-----
-include::{testMain}/asteroid/local/samples/WithLogging.groovy[]
-----
-<1> This annotation will be applied to method elements.
-<2> The `@Local` annotation only requires the class of the AST transformation implementation
-
-NOTE: By default `@Local` annotation assumes the annotation is applied to a `type` (classes). If you would like to apply the
-annotation to any other type of node, please use `@Apply` annotation and the correspondent element type.
-
-Now it's time to implement the transformation. The transformation should be an instance of
-`asteroid.LocalTransformationImpl`. We have to extend `LocalTransformationImpl` and provide two important generic
-arguments:
-
-- The annotation class used to mark our transformation: `WithLogging`
-- The type of nodes that will be affected by this transformation. In this example `org.codehaus.groovy.ast.MethodNode`
-
-[source,groovy]
-----
-include::{testMain}/asteroid/local/samples/WithLoggingTransformationImpl.groovy[]
-----
-
-<1> The `@LocalTransformation` annotation indicates that the following class is an implementation of a local
-transformation. It also requires to specify the compilation phase this AST transformation will be applied. The
-enumeration `A.PHASE_LOCAL` will show `ONLY` those compilation phases available for local transformations.
-<2> Storing temporary the old code we want to transform which is an `org.codehaus.groovy.ast.stmt.Statement`
-<3> Building `println "start"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
-<4> Building `println "end"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
-<5> Building the new method code re-arranging the new and old code in order. We are adding all previous in a
-`BlockStatement` in the order we want them to execute.
-<6> Building a generic `println constantValue` expression
-
-The `@CompileStatic` annotation is not required it's only used here to highlight that all the code used in this
-transformation is safely typed and can be optimized by this annotation.
 
 === @Local
 
