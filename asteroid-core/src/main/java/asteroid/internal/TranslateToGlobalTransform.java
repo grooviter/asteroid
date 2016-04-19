@@ -4,14 +4,10 @@ import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.ast.ClassNode;
 
-import groovy.transform.InheritConstructors;
 import org.codehaus.groovy.GroovyBugError;
 import org.codehaus.groovy.ast.AnnotationNode;
-import org.codehaus.groovy.ast.expr.PropertyExpression;
-import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 import asteroid.A;
-import asteroid.A.PHASE_GLOBAL;
 import asteroid.global.ClassNodeTransformer;
 import asteroid.global.GlobalTransformation;
 
@@ -48,17 +44,12 @@ public class TranslateToGlobalTransform extends ClassNodeTransformer {
      * {@inheritDoc}
      */
     @Override
-    public void transformClass(final ClassNode annotatedNode) {
-        final AnnotationNode annotationNode = A.UTIL.CLASS.getAnnotationFrom(annotatedNode, TX_NAME);
+    public void transformClass(final ClassNode annotated) {
+        final AnnotationNode annotation = A.UTIL.CLASS.getAnnotationFrom(annotated, TX_NAME);
+        final CompilePhase phase = extractCompilePhaseFromSafely(annotation);
 
-        addAnnotationsFromTo(annotationNode, annotatedNode);
-    }
-
-    private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        final CompilePhase compilePhase = extractCompilePhaseFromSafely(annotationNode);
-
-        annotatedNode.addAnnotation(getInheritConstructorsAnnotation());
-        annotatedNode.addAnnotation(getGroovyAnnotation(compilePhase));
+        Utils.addASTAnnotationsFromTo(annotated, phase);
+        A.UTIL.CLASS.removeAnnotation(annotated, annotation);
     }
 
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
@@ -73,57 +64,10 @@ public class TranslateToGlobalTransform extends ClassNodeTransformer {
     }
 
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
-        final String        value         = A.UTIL.ANNOTATION.getStringValue(annotationNode);
-        final String        phaseAsString = value.replace(PHASE_PREFIX, BLANK);
-        final A.PHASE_GLOBAL phaseGlobal  = A.PHASE_GLOBAL.valueOf(phaseAsString);
-        final CompilePhase  compilePhase  = toCompilePhase(phaseGlobal);
+        final String       value         = A.UTIL.ANNOTATION.getStringValue(annotationNode);
+        final String       phaseAsString = value.replace(PHASE_PREFIX, BLANK);
+        final CompilePhase compilePhase  = CompilePhase.valueOf(phaseAsString);
 
         return compilePhase;
-    }
-
-    private CompilePhase toCompilePhase(final PHASE_GLOBAL phase) {
-        switch (phase) {
-            case INITIALIZATION:
-                return CompilePhase.INITIALIZATION;
-
-            case PARSING:
-                return CompilePhase.PARSING;
-
-            case CONVERSION:
-                return CompilePhase.CONVERSION;
-
-            case SEMANTIC_ANALYSIS:
-                return CompilePhase.SEMANTIC_ANALYSIS;
-
-            case CANONICALIZATION:
-                return CompilePhase.CANONICALIZATION;
-
-            case INSTRUCTION_SELECTION:
-                return CompilePhase.INSTRUCTION_SELECTION;
-
-            case CLASS_GENERATION:
-                return CompilePhase.CLASS_GENERATION;
-
-            case OUTPUT:
-                return CompilePhase.OUTPUT;
-
-            default:
-                return CompilePhase.INSTRUCTION_SELECTION;
-        }
-    }
-
-    private AnnotationNode getInheritConstructorsAnnotation() {
-        return A.NODES.annotation(InheritConstructors.class).build();
-    }
-
-    private AnnotationNode getGroovyAnnotation(final CompilePhase compilationPhase) {
-        final PropertyExpression propertyExpr =
-                A.EXPR.propX(
-                    A.EXPR.classX(CompilePhase.class),
-                    A.EXPR.constX(compilationPhase.toString()));
-
-        return A.NODES.annotation(GroovyASTTransformation.class)
-                .member("phase", propertyExpr)
-                .build();
     }
 }

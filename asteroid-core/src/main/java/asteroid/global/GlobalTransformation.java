@@ -1,10 +1,11 @@
 package asteroid.global;
 
-import asteroid.A;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.codehaus.groovy.control.CompilePhase;
 
 /**
  * Can be used when declaring an implementation of {@link GlobalTransformationImpl} to reduce
@@ -25,6 +26,7 @@ public @interface GlobalTransformation {
      *
      * @return the specific {@link asteroid.A.PHASE_GLOBAL} when transformation will be applied
      * @since 0.1.2
+     * @see CompilePhase
      */
-    A.PHASE_GLOBAL value();
+    CompilePhase value();
 }

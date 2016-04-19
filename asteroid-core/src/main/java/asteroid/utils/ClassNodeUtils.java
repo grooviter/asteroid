@@ -12,6 +12,7 @@ import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassHelper;
+import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 
@@ -128,6 +129,17 @@ public final class ClassNodeUtils {
      */
     public AnnotationNode getAnnotationFrom(final ClassNode classNode, final String simpleName) {
         return find(classNode.getAnnotations(), byName(simpleName));
+    }
+
+    /**
+     * It removes the {@link AnnotationNode} from a given {@link AnnotatedNode}
+     *
+     * @param annotated the {@link AnnotatedNode} to remove the annotation from
+     * @param annotation the {@link AnnotationNode} you want to remove
+     * @since 0.1.7
+     */
+    public void removeAnnotation(final AnnotatedNode annotated, final AnnotationNode annotation) {
+        annotated.getAnnotations().remove(annotation);
     }
 
     private Closure<Boolean> byName(final String annotationName) {

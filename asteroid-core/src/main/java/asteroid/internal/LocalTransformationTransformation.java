@@ -2,12 +2,10 @@ package asteroid.internal;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 
-import groovy.transform.InheritConstructors;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ConstructorNode;
 import org.codehaus.groovy.ast.GenericsType;
-import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Arrays;
 
 import asteroid.A;
-import asteroid.A.PHASE_LOCAL;
 import asteroid.local.LocalTransformation;
 import asteroid.local.LocalTransformationImpl;
 
@@ -31,6 +28,7 @@ import asteroid.local.LocalTransformationImpl;
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
 public class LocalTransformationTransformation extends LocalTransformationImpl<LocalTransformation,ClassNode> {
 
+    private static final String METHOD_DOVISIT = "doVisit";
 
     /**
      * Constructor using abstraction {@link LocalTransformationImpl}
@@ -48,12 +46,15 @@ public class LocalTransformationTransformation extends LocalTransformationImpl<L
      */
     @Override
     public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode, final SourceUnit source) {
-        addAnnotationsFromTo(annotationNode, annotatedNode);
+        final CompilePhase phase = extractCompilePhaseFrom(annotationNode);
+
+        Utils.addASTAnnotationsFromTo(annotatedNode, phase);
         addClassConstructor(annotatedNode);
 
         // tag::addCheckTo[]
-        A.UTIL.CHECK.addCheckTo(A.UTIL.CLASS.findMethodByName(annotatedNode, "doVisit"));
+        A.UTIL.CHECK.addCheckTo(A.UTIL.CLASS.findMethodByName(annotatedNode, METHOD_DOVISIT));
         // end::addCheckTo[]
+        A.UTIL.CLASS.removeAnnotation(annotatedNode, annotationNode);
     }
 
     private void addClassConstructor(final ClassNode annotatedNode) {
@@ -71,46 +72,10 @@ public class LocalTransformationTransformation extends LocalTransformationImpl<L
         annotatedNode.addConstructor(constructorNode);
     }
 
-    private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        final String        phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
-        final A.PHASE_LOCAL phaseLocal    = A.PHASE_LOCAL.valueOf(phaseAsString);
-        final CompilePhase  compilePhase  = toCompilePhase(phaseLocal);
+    private CompilePhase extractCompilePhaseFrom(AnnotationNode annotationNode) {
+        final String phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
+        final CompilePhase compilePhase = CompilePhase.valueOf(phaseAsString);
 
-        annotatedNode.addAnnotation(A.NODES.annotation(InheritConstructors.class).build());
-        annotatedNode.addAnnotation(getGroovyAnnotation(compilePhase));
+        return compilePhase;
     }
-
-    private CompilePhase toCompilePhase(final PHASE_LOCAL phase) {
-        switch (phase) {
-            case SEMANTIC_ANALYSIS:
-                return CompilePhase.SEMANTIC_ANALYSIS;
-
-            case CANONICALIZATION:
-                return CompilePhase.CANONICALIZATION;
-
-            case INSTRUCTION_SELECTION:
-                return CompilePhase.INSTRUCTION_SELECTION;
-
-            case CLASS_GENERATION:
-                return CompilePhase.CLASS_GENERATION;
-
-            case OUTPUT:
-                return CompilePhase.OUTPUT;
-
-            default:
-                return CompilePhase.INSTRUCTION_SELECTION;
-        }
-    }
-
-    private AnnotationNode getGroovyAnnotation(final CompilePhase compilationPhase) {
-        final PropertyExpression propertyExpr =
-                A.EXPR.propX(
-                    A.EXPR.classX(CompilePhase.class),
-                    A.EXPR.constX(compilationPhase.toString()));
-
-        return A.NODES.annotation(GroovyASTTransformation.class)
-                .member("phase", propertyExpr)
-                .build();
-    }
-
 }

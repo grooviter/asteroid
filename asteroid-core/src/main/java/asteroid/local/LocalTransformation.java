@@ -8,6 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.codehaus.groovy.control.CompilePhase;
+
 /**
  * Can be used when declaring an implementation of {@link LocalTransformationImpl} to reduce
  * the boilerplate code needed:
@@ -30,5 +32,5 @@ public @interface LocalTransformation {
      * @return the specific {@link asteroid.A.PHASE_LOCAL} when transformation will be applied
      * @since 0.1.0
      */
-    A.PHASE_LOCAL value();
+    CompilePhase value();
 }
