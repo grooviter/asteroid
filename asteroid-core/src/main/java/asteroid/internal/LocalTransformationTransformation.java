@@ -72,7 +72,7 @@ public class LocalTransformationTransformation extends LocalTransformationImpl<L
         annotatedNode.addConstructor(constructorNode);
     }
 
-    private CompilePhase extractCompilePhaseFrom(AnnotationNode annotationNode) {
+    private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
         final String phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
         final CompilePhase compilePhase = CompilePhase.valueOf(phaseAsString);
 

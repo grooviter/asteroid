@@ -8,7 +8,7 @@ import org.codehaus.groovy.control.CompilePhase;
  *
  * @since 0.1.0
  */
-@SuppressWarnings("PMD.ShortClassName")
+@SuppressWarnings({"PMD.ShortClassName", "PMD.LongVariable"})
 public final class A {
 
     /**
