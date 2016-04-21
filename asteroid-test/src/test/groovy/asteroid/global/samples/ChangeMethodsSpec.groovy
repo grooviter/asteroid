@@ -1,6 +1,6 @@
 package asteroid.global.samples
 
-import static org.codehaus.groovy.control.CompilePhase.CONVERSION
+import static org.codehaus.groovy.control.CompilePhase.CANONICALIZATION
 import asteroid.spec.AsteroidSpec
 
 class ChangeMethodsSpec extends AsteroidSpec {
@@ -17,6 +17,6 @@ class ChangeMethodsSpec extends AsteroidSpec {
     }
 
     private Class getTransformedClass() {
-        return getClassToTestForPhase(ChangeMethodsTransformation, CONVERSION)
+        return getClassToTestForPhase(ChangeMethodsTransformation, CANONICALIZATION)
     }
 }

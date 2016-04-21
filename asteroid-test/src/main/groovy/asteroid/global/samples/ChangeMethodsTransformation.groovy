@@ -9,16 +9,16 @@ import asteroid.global.GlobalTransformationImpl
 
 /**
  * This {@link GlobalTransformationImpl} only applies a
- * transformer of type {@link ChangeTripleToPlusOne}
+ * transformer of type {@link ChangeTripleXToPlusOne}
  *
  * @since 0.1.2
  */
 @CompileStatic
-@GlobalTransformation(A.PHASE_GLOBAL.SEMANTIC_ANALYSIS)
+@GlobalTransformation(A.PHASE_GLOBAL.CANONICALIZATION)
 class ChangeMethodsTransformation extends GlobalTransformationImpl {
 
     @Override
     List<Class<Transformer>> getTransformers() {
-        return [ChangeTripleXToPlusOne]
+        return [ChangeTripleXToPlusOne] as List<Class<Transformer>>
     }
 }
