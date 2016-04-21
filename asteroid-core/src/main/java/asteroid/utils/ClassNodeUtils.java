@@ -79,6 +79,10 @@ public final class ClassNodeUtils {
     /**
      * Makes the {@link ClassNode} to implement the interfaces passed
      * as arguments
+     * <br><br>
+     * <b>IMPORTANT</b>: Dont use this method at any {@link CompilePhase}
+     * before SEMANTIC_ANALYSIS. Classes may have not been set at this
+     * point.
      *
      * @param classNode
      * @param interfaces the interfaces we want the class node to be
@@ -88,6 +92,22 @@ public final class ClassNodeUtils {
     public void addInterfaces(final ClassNode classNode, final Class... interfaces) {
         for (final Class clazz : interfaces) {
             final ClassNode nextInterface = ClassHelper.make(clazz, false);
+            classNode.addInterface(nextInterface);
+        }
+    }
+
+    /**
+     * Makes the {@link ClassNode} to implement the interfaces passed
+     * as arguments.
+     *
+     * @param classNode the {@link ClassNode} we want to implement
+     * certain interfaces
+     * @param interfaces the interfaces we want our {@link ClassNode}
+     * to implement
+     * @since 0.1.7
+     */
+    public void addInterfaces(final ClassNode classNode, final ClassNode... interfaces) {
+        for (final ClassNode nextInterface : interfaces) {
             classNode.addInterface(nextInterface);
         }
     }
