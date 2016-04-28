@@ -574,13 +574,30 @@ that the annotation and the affected node type are <code>ToMD5</code> and
 <p>From this line on you don&#8217;t have to be worried about casting first and
 second node passed to your transformation anymore.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Sometimes it comes handy to get a reference to
+<code>org.codehaus.groovy.control.SourceUnit</code>. In previous version
+<code>SourceUnit</code> was passed as argument, but it forced to add an import
+whether you used or not. Now it&#8217;s present as a class field. Probably
+in future release won&#8217;t be available directly but through specific
+functions.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-04-17 21:21:54 +00:00
+Last updated 2016-04-28 07:22:28 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
