@@ -8,7 +8,6 @@ import org.codehaus.groovy.ast.ConstructorNode;
 import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.control.CompilePhase;
-import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class LocalTransformationTransformation extends LocalTransformationImpl<L
      * @since 0.1.6
      */
     @Override
-    public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode, final SourceUnit source) {
+    public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
         final CompilePhase phase = extractCompilePhaseFrom(annotationNode);
 
         Utils.addASTAnnotationsFromTo(annotatedNode, phase);

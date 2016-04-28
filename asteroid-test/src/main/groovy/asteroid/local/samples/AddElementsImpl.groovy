@@ -10,14 +10,13 @@ import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.PropertyNode
 import org.codehaus.groovy.ast.expr.Expression
-import org.codehaus.groovy.control.SourceUnit
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS)
 class AddElementsImpl extends LocalTransformationImpl<AsList, ClassNode> {
 
     @Override
-    void doVisit(AnnotationNode annotation, ClassNode clazz, SourceUnit source) {
+    void doVisit(AnnotationNode annotation, ClassNode clazz) {
         A.UTIL.CLASS.addPropertyIfNotPresent(clazz, createPropertyFor(clazz))
         A.UTIL.CLASS.addMethodIfNotPresent(clazz, createMethod())
     }

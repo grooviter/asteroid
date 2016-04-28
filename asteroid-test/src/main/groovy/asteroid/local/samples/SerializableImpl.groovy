@@ -3,7 +3,6 @@ package asteroid.local.samples
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.AnnotationNode
-import org.codehaus.groovy.control.SourceUnit
 
 import asteroid.A
 import asteroid.local.LocalTransformation
@@ -14,7 +13,7 @@ import asteroid.local.LocalTransformationImpl
 class SerializableImpl extends LocalTransformationImpl<Serializable, ClassNode> {
 
     @Override
-    void doVisit(AnnotationNode annotation, ClassNode classNode, SourceUnit source) {
+    void doVisit(AnnotationNode annotation, ClassNode classNode) {
         check: 'package starts with asteroid'
         classNode.packageName.startsWith('asteroid') // <1>
 

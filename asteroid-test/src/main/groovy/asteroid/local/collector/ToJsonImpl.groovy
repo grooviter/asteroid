@@ -12,8 +12,6 @@ import org.codehaus.groovy.ast.stmt.Statement
 import org.codehaus.groovy.ast.expr.MapExpression
 import org.codehaus.groovy.ast.expr.MapEntryExpression
 
-import org.codehaus.groovy.control.SourceUnit
-
 import groovy.json.JsonOutput
 import groovy.transform.CompileStatic
 
@@ -22,7 +20,7 @@ import groovy.transform.CompileStatic
 class ToJsonImpl extends LocalTransformationImpl<ToJson,ClassNode> {
 
     @Override
-    void doVisit(AnnotationNode annotation, ClassNode annotatedNode, SourceUnit sourceUnit) {
+    void doVisit(AnnotationNode annotation, ClassNode annotatedNode) {
         A.UTIL.CLASS.addMethodIfNotPresent(annotatedNode, createToJsonNode(annotatedNode))
     }
 
