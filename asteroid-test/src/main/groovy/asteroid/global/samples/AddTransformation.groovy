@@ -14,10 +14,10 @@ import asteroid.global.GlobalTransformationImpl
  * @since 0.1.2
  */
 @CompileStatic
-@GlobalTransformation(A.PHASE_GLOBAL.SEMANTIC_ANALYSIS) // <1>
+@GlobalTransformation(A.PHASE_GLOBAL.CONVERSION) // <1>
 class AddTransformation extends GlobalTransformationImpl { // <2>
 
     List<Class<Transformer>> getTransformers() {
-        return [AddPropertyToInnerClass] // <3>
+        return [AddPropertyToInnerClass, AddTraitTransformer] // <3>
     }
 }

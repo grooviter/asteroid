@@ -13,6 +13,7 @@ import asteroid.global.ClassNodeTransformer
  */
 // tag::classnodetransformer[]
 class AddImportTransformer extends ClassNodeTransformer { // <1>
+
     public AddImportTransformer(final SourceUnit sourceUnit) {
         super(sourceUnit, byAnnotationName(AddImport.simpleName)) // <2>
     }

@@ -11,12 +11,16 @@ class AddTransformerSpec extends AsteroidSpec {
 
         when: 'executing the transformed code'
         def result = instance.execute()
+        def messag = instance.saySomething()
 
         then: 'we should get the expected result'
         result
 
         and:
         result instanceof java.io.Serializable
+
+        and:
+        messag == "something"
     }
 
     private Class getTransformedClass() {

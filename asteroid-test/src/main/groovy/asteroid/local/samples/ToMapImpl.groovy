@@ -12,14 +12,13 @@ import org.codehaus.groovy.ast.FieldNode
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.expr.MapExpression
 import org.codehaus.groovy.ast.expr.MapEntryExpression
-import org.codehaus.groovy.control.SourceUnit
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.INSTRUCTION_SELECTION)
 class ToMapImpl extends LocalTransformationImpl<ToMap, ClassNode> {
 
     @Override
-    void doVisit(AnnotationNode annotation, ClassNode node, SourceUnit source) {
+    void doVisit(AnnotationNode annotation, ClassNode node) {
         List<FieldNode> instanceFields   = A.UTIL.CLASS.getInstancePropertyFields(node)
         List<MapEntryExpression> entries = instanceFields.collect(this.&fieldToMapEntry)
         MapExpression mapExpression      = new MapExpression(entries)

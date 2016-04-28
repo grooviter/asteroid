@@ -1,6 +1,14 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.1.7] - 2016-04-28
+### Breaking changes
+- SourceUnit is no longer passed as an argument in local transformations
+- A.PHASE_LOCAL and A.PHASE_GLOBAL are both CompilePhase instances
+
+### Added
+- Jacoco added to asteroid-test
+
 ## [0.1.6] - 2016-04-13
 ### Breaking changes
 - Global transformations implementation has changed and may break previous uses

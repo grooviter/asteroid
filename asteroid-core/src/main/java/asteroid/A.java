@@ -1,12 +1,14 @@
 package asteroid;
 
+import org.codehaus.groovy.control.CompilePhase;
+
 /**
  * Entry point to look up functions and utilities to work with nodes, expressions, statements,
  * node utils...etc
  *
  * @since 0.1.0
  */
-@SuppressWarnings("PMD.ShortClassName")
+@SuppressWarnings({"PMD.ShortClassName", "PMD.LongVariable"})
 public final class A {
 
     /**
@@ -61,43 +63,43 @@ public final class A {
      *
      * @since 0.1.0
      */
-    public static enum PHASE_LOCAL {
+    public static class PHASE_LOCAL {
         /**
          * Consistency and validity checks
          *
          * @since 0.1.0
          */
-        SEMANTIC_ANALYSIS,
+        public static final CompilePhase SEMANTIC_ANALYSIS = CompilePhase.SEMANTIC_ANALYSIS;
         /**
          * Complete building the AST
          *
          * @since 0.1.0
          */
-        CANONICALIZATION,
+        public static final CompilePhase CANONICALIZATION = CompilePhase.CANONICALIZATION;
         /**
          * Instruction set is chosen, for example Java 6 or Java 7 bytecode level
          *
          * @since 0.1.0
          */
-        INSTRUCTION_SELECTION,
+        public static final CompilePhase INSTRUCTION_SELECTION = CompilePhase.INSTRUCTION_SELECTION;
         /**
          * Creates the bytecode of the class in memory
          *
          * @since 0.1.0
          */
-        CLASS_GENERATION,
+        public static final CompilePhase CLASS_GENERATION = CompilePhase.CLASS_GENERATION;
         /**
          * Write the binary output to the file system (*.class file)
          *
          * @since 0.1.0
          */
-        OUTPUT,
+        public static final CompilePhase OUTPUT = CompilePhase.OUTPUT;
         /**
          * Perform any last cleanup and closes the file
          *
          * @since 0.1.0
          */
-        FINALIZATION
+        public static final CompilePhase FINALIZATION = CompilePhase.FINALIZATION;
     }
 
     /**
@@ -115,62 +117,62 @@ public final class A {
      *
      * @since 0.1.2
      */
-    public static enum PHASE_GLOBAL {
+    public static class PHASE_GLOBAL {
         /**
          * Source files are opened and environment configured
          *
          * @since 0.1.2
          */
-        INITIALIZATION,
+        public static final CompilePhase INITIALIZATION = CompilePhase.INITIALIZATION;
         /**
          * The grammar is used to to produce tree of tokens
          * representing the source code
          *
          * @since 0.1.2
          */
-        PARSING,
+        public static final CompilePhase PARSING = CompilePhase.PARSING;
         /**
          * An abstract syntax tree (AST) is created from token trees
          *
          * @since 0.1.2
          */
-        CONVERSION,
+        public static final CompilePhase CONVERSION = CompilePhase.CONVERSION;
         /**
          * Consistency and validity checks
          *
          * @since 0.1.2
          */
-        SEMANTIC_ANALYSIS,
+        public static final CompilePhase SEMANTIC_ANALYSIS = CompilePhase.SEMANTIC_ANALYSIS;
         /**
          * Complete building the AST
          *
          * @since 0.1.2
          */
-        CANONICALIZATION,
+        public static final CompilePhase CANONICALIZATION = CompilePhase.CANONICALIZATION;
         /**
          * Instruction set is chosen, for example Java 6 or Java 7 bytecode level
          *
          * @since 0.1.2
          */
-        INSTRUCTION_SELECTION,
+        public static final CompilePhase INSTRUCTION_SELECTION = CompilePhase.INSTRUCTION_SELECTION;
         /**
          * Creates the bytecode of the class in memory
          *
          * @since 0.1.2
          */
-        CLASS_GENERATION,
+        public static final CompilePhase CLASS_GENERATION = CompilePhase.CLASS_GENERATION;
         /**
          * Write the binary output to the file system (*.class file)
          *
          * @since 0.1.2
          */
-        OUTPUT,
+        public static final CompilePhase OUTPUT = CompilePhase.OUTPUT;
         /**
          * Perform any last cleanup and closes the file
          *
          * @since 0.1.2
          */
-        FINALIZATION
+        public static final CompilePhase FINALIZATION = CompilePhase.FINALIZATION;
     }
 
 

@@ -7,10 +7,13 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import java.lang.annotation.Annotation;
 
 import org.codehaus.groovy.ast.ASTNode;
+import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.AbstractASTTransformation;
+
+import asteroid.A;
 
 /**
  * This class is an abstraction to process certain nodes annotated with a specific annotation node type
@@ -90,30 +93,29 @@ public abstract class LocalTransformationImpl<T extends Annotation,S extends Ann
      *
      * @param annotation the annotation information
      * @param annotated the ast node annotated with the specific annotation
-     * @param source the current source unit available. It could be needed to for instance add a compilation error.
      * @since 0.1.0
      */
-    public abstract void doVisit(AnnotationNode annotation, final S annotated, final SourceUnit source);
+    public abstract void doVisit(AnnotationNode annotation, final S annotated);
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void visit(final ASTNode[] nodes, final SourceUnit source) {
-        if (nodes == null) return;
-        if (nodes.length != 2) return;
-        if (!(first(nodes) instanceof AnnotationNode)) return;
-        if (!(last(nodes) instanceof AnnotatedNode)) return;
+        super.init(nodes, source);
 
-        this.sourceUnit = source;
+        final AnnotationNode marker = (AnnotationNode) first(nodes);
 
-        final AnnotationNode annotationNode = (AnnotationNode) first(nodes);
+        final ClassNode type = marker.getClassNode();
+        final ClassNode reference = make(annotation);
+        final Boolean isAnnotationOk = A.UTIL.CLASS.isOrExtends(type, reference);
 
-        if (!annotationNode.getClassNode().isDerivedFrom(make(annotation))) return;
+        if (!isAnnotationOk) {
+            return;
+        }
 
-        final S annotatedNode = (S) last(nodes);
+        final S annotated = (S) last(nodes);
 
-        doVisit(annotationNode, annotatedNode, source);
+        doVisit(marker, annotated);
     }
-
 }

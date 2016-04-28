@@ -89,3 +89,10 @@ that the annotation and the affected node type are `ToMD5` and
 
 From this line on you don't have to be worried about casting first and
 second node passed to your transformation anymore.
+
+NOTE: Sometimes it comes handy to get a reference to
+`org.codehaus.groovy.control.SourceUnit`. In previous version
+`SourceUnit` was passed as argument, but it forced to add an import
+whether you used or not. Now it's present as a class field. Probably
+in future release won't be available directly but through specific
+functions.

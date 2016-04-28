@@ -8,5 +8,4 @@ public class NodeUtils {
     public BlockStatement getCodeBlock(final MethodNode methodNode) {
         return (BlockStatement) methodNode.getCode();
     }
-
 }

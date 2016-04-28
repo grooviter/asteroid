@@ -1,5 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
+apply plugin: 'jacoco'
+
+jacoco {
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+test { finalizedBy jacocoTestReport }
+
+dependencies {
+    compile libs.groovy
+}
+
 
 dependencies {
 
