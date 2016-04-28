@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 import asteroid.A;
 import asteroid.local.LocalTransformation;
-import asteroid.local.LocalTransformationImpl;
+import asteroid.local.AbstractLocalTransformation;
 
 /**
  * This transformation makes easier to declare a given local transformation. It narrows the available
@@ -25,12 +25,12 @@ import asteroid.local.LocalTransformationImpl;
  * @since 0.1.0
  */
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-public class LocalTransformationTransformation extends LocalTransformationImpl<LocalTransformation,ClassNode> {
+public class LocalTransformationTransformation extends AbstractLocalTransformation<LocalTransformation,ClassNode> {
 
     private static final String METHOD_DOVISIT = "doVisit";
 
     /**
-     * Constructor using abstraction {@link LocalTransformationImpl}
+     * Constructor using abstraction {@link AbstractLocalTransformation}
      *
      * @since 0.1.6
      */

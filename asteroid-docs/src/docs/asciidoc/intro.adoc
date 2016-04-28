@@ -75,9 +75,10 @@ include::{testMain}/asteroid/local/samples/WithLogging.groovy[]
 NOTE: By default `@Local` annotation assumes the annotation is applied to a `type` (classes). If you would like to apply the
 annotation to any other type of node, please use `@Apply` annotation and the correspondent element type.
 
-Now it's time to implement the transformation. The transformation should be an instance of
-`asteroid.LocalTransformationImpl`. We have to extend `LocalTransformationImpl` and provide two important generic
-arguments:
+Now it's time to implement the transformation. The transformation
+should be an instance of
+`asteroid.local.AbstractLocalTransformation`. We have to extend
+`AbstractLocalTransformation` and provide two generic arguments:
 
 - The annotation class used to mark our transformation: `WithLogging`
 - The type of nodes that will be affected by this transformation. In this example `org.codehaus.groovy.ast.MethodNode`

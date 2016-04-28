@@ -2,7 +2,7 @@ package asteroid.local.collector
 
 import asteroid.A
 import asteroid.local.LocalTransformation
-import asteroid.local.LocalTransformationImpl
+import asteroid.local.AbstractLocalTransformation
 
 import org.codehaus.groovy.ast.FieldNode
 import org.codehaus.groovy.ast.ClassNode
@@ -17,7 +17,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS)
-class ToJsonImpl extends LocalTransformationImpl<ToJson,ClassNode> {
+class ToJsonImpl extends AbstractLocalTransformation<ToJson,ClassNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, ClassNode annotatedNode) {

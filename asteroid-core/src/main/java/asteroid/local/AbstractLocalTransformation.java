@@ -23,8 +23,8 @@ import asteroid.A;
  * Lets say we wanted to build a transformation to transform methods annotated by {@literal @}br
  * <MyAnnotation><br>
  * <pre class="inner"><code>
- * public class MyCustomTransformation extends LocalTransformationImpl&lt;MyAnnotation, MethodNode&gt; {
- *     public abstract void doVisit(AnnotationNode annotation, final MethodNode annotated, final SourceUnit source){
+ * public class MyCustomTransformation extends AbstractLocalTransformation&lt;MyAnnotation, MethodNode&gt; {
+ *     public void doVisit(AnnotationNode annotation, final MethodNode annotated){
  *         // implementation
  *     }
  * }
@@ -40,11 +40,11 @@ import asteroid.A;
  * href="https://github.com/spockframework">Spock</a> or <a
  * href="https://github.com/andresteingress/gcontracts">GContracts</a>
  * you are already used to it. The idea is to have two blocks within
- * {@link LocalTransformationImpl#doVisit} method, one for assertions,
+ * {@link AbstractLocalTransformation#doVisit} method, one for assertions,
  * the other to call the transformation.
  *
  * <pre class="inner"><code>
- *     public abstract void doVisit(AnnotationNode annotation, final ClassNode annotated, final SourceUnit source){
+ *     public abstract void doVisit(AnnotationNode annotation, final ClassNode annotated){
  *         check: 'class has correct name'
  *         annotated.name == 'MyBusinessService'
  *
@@ -59,10 +59,10 @@ import asteroid.A;
  * @param <S> The annotated node type. It has to be a subtype
  * of {@link AnnotatedNode}. As a rule of thumb think of any type that
  * can be annotated (a method, a type...)
- * @since 0.1.0
+ * @since 0.2.0
  *
  */
-public abstract class LocalTransformationImpl<T extends Annotation,S extends AnnotatedNode>
+public abstract class AbstractLocalTransformation<T extends Annotation,S extends AnnotatedNode>
     extends AbstractASTTransformation {
 
     private final Class<T> annotation;
@@ -71,10 +71,10 @@ public abstract class LocalTransformationImpl<T extends Annotation,S extends Ann
      * Default constructor
      *
      * @throws IllegalAccessException
-     * @since 0.1.0
+     * @since 0.2.0
      */
     @SuppressWarnings("PMD.SignatureDeclaredThrowsException")
-    public LocalTransformationImpl() throws IllegalAccessException {
+    public AbstractLocalTransformation() throws IllegalAccessException {
         throw new IllegalAccessException("This method should never be used. It will be re-created by a local AST transformation");
     }
 
@@ -82,9 +82,9 @@ public abstract class LocalTransformationImpl<T extends Annotation,S extends Ann
      * Default constructor
      *
      * @param annotation The type of the annotatino used to trigger the transformation
-     * @since 0.1.6
+     * @since 0.2.0
      */
-    public LocalTransformationImpl(final Class<T> annotation) {
+    public AbstractLocalTransformation(final Class<T> annotation) {
         this.annotation = annotation;
     }
 
@@ -93,7 +93,7 @@ public abstract class LocalTransformationImpl<T extends Annotation,S extends Ann
      *
      * @param annotation the annotation information
      * @param annotated the ast node annotated with the specific annotation
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public abstract void doVisit(AnnotationNode annotation, final S annotated);
 

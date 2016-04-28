@@ -2,7 +2,7 @@ package asteroid.local.samples
 
 import asteroid.A
 import asteroid.local.LocalTransformation
-import asteroid.local.LocalTransformationImpl
+import asteroid.local.AbstractLocalTransformation
 
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.AnnotationNode
@@ -10,7 +10,7 @@ import org.codehaus.groovy.ast.ClassNode
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS) // <1>
-class AsListImpl extends LocalTransformationImpl<AsList, ClassNode> {
+class AsListImpl extends AbstractLocalTransformation<AsList, ClassNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, ClassNode classNode) {

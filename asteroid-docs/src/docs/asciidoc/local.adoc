@@ -10,7 +10,7 @@ class."
 
 You can use `@Local` to use an annotation as an AST marker. The only
 **mandatory** argument is the AST implementation class. Implementation
-classes should always extend `asteroid.LocalTransformationImpl` class.
+classes should always extend `asteroid.local.AbstractLocalTransformation` class.
 
 [source,groovy]
 ----
@@ -39,7 +39,7 @@ include::{testMain}/asteroid/local/samples/WithLogging.groovy[]
 
 This annotation can only be used when coding a local transformation
 implementation using Groovy. It saves some of the boilerplate code
-needed to implement an instance of `asteroid.LocalTransformationImpl`.
+needed to implement an instance of `asteroid.local.AbstractLocalTransformation`.
 
 [source, groovy]
 ----
@@ -51,16 +51,16 @@ include::{testMain}/asteroid/local/samples/AsListImpl.groovy[]
 This transformation will be applied to those `ClassNode` instances
 annotated with `@AsList`.
 
-=== LocalTransformationImpl
+=== AbstractLocalTransformation
 
-`asteroid.LocalTransformationImpl` exists to avoid some of the
+`asteroid.local.AbstractLocalTransformation` exists to avoid some of the
 defensive code that you would normally write at the beggining of an
 AST transformation.
 
 When coding an AST transformation you always check that the first node
 is an `AnnotationNode` and the second is the type of `ASTNode` you
 expected to be annotated by the first node. Instead of coding that you
-can use `LocalTransformationImpl`.
+can use `AbstractLocalTransformation`.
 
 Lets say I have an annotation `@ToMD5`. That annotation can only be
 used in elements of type `FIELD`:
@@ -73,7 +73,7 @@ include::{testMain}/asteroid/local/samples/ToMD5.groovy[]
 I would like to create a method for every field annotated by `ToMD5`
 returning the MD5 signature of the content of that field.
 
-In order to implement that I'm using `LocalTransformationImpl`:
+In order to implement that I'm using `AbstractLocalTransformation`:
 
 [source, groovy]
 ----
@@ -82,7 +82,7 @@ include::{testMain}/asteroid/local/samples/ToMD5Impl.groovy[]
 
 <1> Declaring this class as the implementation of a local AST
 transformation using `LocalTransformation`
-<2> Creating a class extending `LocalTransformationImpl` and declaring
+<2> Creating a class extending `AbstractLocalTransformation` and declaring
 that the annotation and the affected node type are `ToMD5` and
 `FieldNode` respectively
 <3> The override method declares the correct generic type `FieldNode`.

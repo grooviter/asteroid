@@ -2,7 +2,7 @@ package asteroid.local.samples
 
 import asteroid.A
 import asteroid.local.LocalTransformation
-import asteroid.local.LocalTransformationImpl
+import asteroid.local.AbstractLocalTransformation
 
 import groovy.transform.CompileStatic
 
@@ -15,7 +15,7 @@ import org.codehaus.groovy.ast.expr.MapEntryExpression
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.INSTRUCTION_SELECTION)
-class ToMapImpl extends LocalTransformationImpl<ToMap, ClassNode> {
+class ToMapImpl extends AbstractLocalTransformation<ToMap, ClassNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, ClassNode node) {

@@ -37,5 +37,5 @@ public @interface Local {
      * @return a class representing an AST transformation implementation
      * @since 0.1.0
      */
-    Class<? extends LocalTransformationImpl> value();
+    Class<? extends AbstractLocalTransformation> value();
 }

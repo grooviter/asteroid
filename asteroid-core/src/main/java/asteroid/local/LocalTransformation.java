@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import org.codehaus.groovy.control.CompilePhase;
 
 /**
- * Can be used when declaring an implementation of {@link LocalTransformationImpl} to reduce
+ * Can be used when declaring an implementation of {@link AbstractLocalTransformation} to reduce
  * the boilerplate code needed:
  * <br><br>
  * <ul>

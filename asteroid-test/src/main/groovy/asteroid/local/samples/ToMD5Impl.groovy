@@ -2,7 +2,7 @@ package asteroid.local.samples
 
 import asteroid.A
 import asteroid.local.LocalTransformation
-import asteroid.local.LocalTransformationImpl
+import asteroid.local.AbstractLocalTransformation
 
 import groovy.transform.CompileStatic
 
@@ -13,7 +13,7 @@ import org.codehaus.groovy.ast.stmt.BlockStatement
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS) // <1>
-class ToMD5Impl extends LocalTransformationImpl<ToMD5, FieldNode> { // <2>
+class ToMD5Impl extends AbstractLocalTransformation<ToMD5, FieldNode> { // <2>
 
     @Override
     void doVisit(AnnotationNode annotation, FieldNode node) { // <3>
