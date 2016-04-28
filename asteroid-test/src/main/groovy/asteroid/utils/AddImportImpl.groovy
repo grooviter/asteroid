@@ -6,10 +6,10 @@ import java.util.ArrayList
 import asteroid.A
 import asteroid.global.Transformer
 import asteroid.global.GlobalTransformation
-import asteroid.global.GlobalTransformationImpl
+import asteroid.global.AbstractGlobalTransformation
 
 @GlobalTransformation(A.PHASE_GLOBAL.CONVERSION)
-class AddImportImpl extends GlobalTransformationImpl {
+class AddImportImpl extends AbstractGlobalTransformation {
 
     @Override
     List<Class<? extends Transformer>> getTransformers() {

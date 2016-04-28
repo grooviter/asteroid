@@ -8,11 +8,11 @@ import org.codehaus.groovy.GroovyBugError;
 import org.codehaus.groovy.ast.AnnotationNode;
 
 import asteroid.A;
-import asteroid.global.ClassNodeTransformer;
+import asteroid.global.AbstractClassNodeTransformer;
 import asteroid.global.GlobalTransformation;
 
 /**
- * This {@link ClassNodeTransformer} will be applied to all {@link
+ * This {@link AbstractClassNodeTransformer} will be applied to all {@link
  * ClassNode} instances annotated with {@link GlobalTransformation}.
  * <br><br>
  * It will add certain low level annotations to trigger the process of
@@ -22,7 +22,7 @@ import asteroid.global.GlobalTransformation;
  *
  * @since 0.1.6
  */
-public class TranslateToGlobalTransform extends ClassNodeTransformer {
+public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
 
     private static final String BLANK = "";
     private static final String TX_NAME = "GlobalTransformation";

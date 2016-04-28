@@ -7,7 +7,7 @@ import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.control.CompilePhase
 
 import asteroid.A
-import asteroid.global.ClassNodeTransformer
+import asteroid.global.AbstractClassNodeTransformer
 
 /**
  * This transformer looks for a class node annotated by
@@ -16,7 +16,7 @@ import asteroid.global.ClassNodeTransformer
  *
  * @since 0.1.7
  */
-class AddTraitTransformer extends ClassNodeTransformer {
+class AddTraitTransformer extends AbstractClassNodeTransformer {
 
     static final String ANNOTATION_NAME = 'TrickOrTrait'
 

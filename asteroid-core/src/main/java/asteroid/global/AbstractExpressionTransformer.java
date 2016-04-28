@@ -15,10 +15,10 @@ import org.codehaus.groovy.ast.expr.MethodCallExpression;
  * get a {@link ClassCastException} at runtime. The criteria should ask
  * for the type of the expression in the first place.
  *
- * @param <T> use as a hint for the {@link ExpressionTransformer#transformExpression} method parameter
- * @since 0.1.2
+ * @param <T> use as a hint for the {@link AbstractExpressionTransformer#transformExpression} method parameter
+ * @since 0.2.0
  */
-public abstract class ExpressionTransformer<T extends Expression> extends Transformer {
+public abstract class AbstractExpressionTransformer<T extends Expression> extends AbstractTransformer {
 
     private final Closure<Boolean> criteria;;
 
@@ -29,9 +29,9 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      * @param sourceUnit Needed to apply scope
      * @param criteria the criteria used to search the interesting
      * {@link Expression}
-     * @since 0.1.2
+     * @since 0.2.0
      */
-    public ExpressionTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
+    public AbstractExpressionTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -55,7 +55,7 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      *
      * @param expression the method expression you want to transform
      * @return the final version of the method expression
-     * @since 0.1.2
+     * @since 0.2.0
      */
     public abstract Expression transformExpression(T expression);
 
@@ -65,7 +65,7 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      *
      * @param name the method name
      * @return a search criteria
-     * @since 0.1.2
+     * @since 0.2.0
      */
     public static Closure<Boolean> methodCallByNameEq(final String name) {
         return new Closure<Boolean>(null) {
@@ -85,7 +85,7 @@ public abstract class ExpressionTransformer<T extends Expression> extends Transf
      * This criteria will make the transformer to process every {@link Expression}
      *
      * @return a criteria to process everything
-     * @since 0.1.5
+     * @since 0.2.0
      */
     public static Closure<Boolean> everything() {
         return new Closure<Boolean>(null) {

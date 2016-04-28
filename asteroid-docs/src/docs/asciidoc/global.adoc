@@ -20,7 +20,7 @@ include::{testMain}/asteroid/global/samples/AddTransformation.groovy[]
 ----
 <1> Declaring class as a global AST transformation
 <2> Extending `asteroid.global.GlobalTransformationImpl`
-<3> Adding `asteroid.global.AbstractClassCodeExpressionTransformer` classes
+<3> Adding `asteroid.global.AbstractClassNodeTransformer` classes
 
 A global transformation needs to be annotated with the
 `@GlobalTransformation` annotation, then it should extend

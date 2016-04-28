@@ -7,10 +7,10 @@ import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.ClassNode
 
 import asteroid.A
-import asteroid.global.ClassNodeTransformer
+import asteroid.global.AbstractClassNodeTransformer
 
 /**
- * This {@link ClassNodeTransformer} transforms classes containing
+ * This {@link AbstractClassNodeTransformer} transforms classes containing
  * a certain string in its name.
  *
  * Once the transformation locates the {@link ClassNode} then it
@@ -19,7 +19,7 @@ import asteroid.global.ClassNodeTransformer
  * @since 0.1.2
  */
 @CompileStatic
-class AddPropertyToInnerClass extends ClassNodeTransformer { // <1>
+class AddPropertyToInnerClass extends AbstractClassNodeTransformer { // <1>
 
     AddPropertyToInnerClass(final SourceUnit sourceUnit) {
         super(sourceUnit, byNameContains('AddTransformerSpecExample$Input')) // <2>

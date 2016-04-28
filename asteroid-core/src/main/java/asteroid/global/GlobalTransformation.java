@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import org.codehaus.groovy.control.CompilePhase;
 
 /**
- * Can be used when declaring an implementation of {@link GlobalTransformationImpl} to reduce
+ * Can be used when declaring an implementation of {@link AbstractGlobalTransformation} to reduce
  * the boilerplate code needed:
  * <br><br>
  * <ul>

@@ -16,14 +16,14 @@ import groovy.lang.Closure;
  * There are some static methods creating some default criterias:
  * </br></br>
  * <ul>
- *    <li>{@link MethodNodeTransformer#byNameContains}</li>
- *    <li>{@link MethodNodeTransformer#byNameStartsWith}</li>
- *    <li>{@link MethodNodeTransformer#byNameEndsWith}</li>
+ *    <li>{@link AbstractMethodNodeTransformer#byNameContains}</li>
+ *    <li>{@link AbstractMethodNodeTransformer#byNameStartsWith}</li>
+ *    <li>{@link AbstractMethodNodeTransformer#byNameEndsWith}</li>
  * </ul>
  *
- * @since 0.1.5
+ * @since 0.2.0
  */
-public abstract class MethodNodeTransformer extends Transformer {
+public abstract class AbstractMethodNodeTransformer extends AbstractTransformer {
 
     private final Closure<Boolean> criteria;
 
@@ -46,10 +46,10 @@ public abstract class MethodNodeTransformer extends Transformer {
      * @param sourceUnit Needed to apply scope
      * @param criteria used to locate target classes
      * look for the qualified method)
-     * @since 0.1.5
-     * @see MethodNodeTransformer#byNameContains
+     * @since 0.2.0
+     * @see AbstractMethodNodeTransformer#byNameContains
      */
-    public MethodNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
+    public AbstractMethodNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -59,8 +59,8 @@ public abstract class MethodNodeTransformer extends Transformer {
      * passed as parameter
      *
      * @param term the term contained in the {@link MethodNode} name
-     * @return a criteria to use in the {@link MethodNodeTransformer} constructor
-     * @since 0.1.5
+     * @return a criteria to use in the {@link AbstractMethodNodeTransformer} constructor
+     * @since 0.2.0
      */
     public static Closure<Boolean> byNameContains(final String term) {
         return new Closure<Boolean>(null) {
@@ -75,8 +75,8 @@ public abstract class MethodNodeTransformer extends Transformer {
      * passed as parameter at the end.
      *
      * @param term the term at the end of the {@link MethodNode} name
-     * @return a criteria to use in the {@link MethodNodeTransformer} constructor
-     * @since 0.1.5
+     * @return a criteria to use in the {@link AbstractMethodNodeTransformer} constructor
+     * @since 0.2.0
      */
     public static Closure<Boolean> byNameEndsWith(final String term) {
         return new Closure<Boolean>(null) {
@@ -91,8 +91,8 @@ public abstract class MethodNodeTransformer extends Transformer {
      * passed as parameter at the beginning.
      *
      * @param term at the beginning of the {@link MethodNode} name
-     * @return a criteria to use in the {@link MethodNodeTransformer} constructor
-     * @since 0.1.5
+     * @return a criteria to use in the {@link AbstractMethodNodeTransformer} constructor
+     * @since 0.2.0
      */
     public static Closure<Boolean> byNameStartsWith(final String term) {
         return new Closure<Boolean>(null) {
@@ -119,7 +119,7 @@ public abstract class MethodNodeTransformer extends Transformer {
      * instance.
      *
      * @param methodNode the {@link MethodNode}  you want to transform
-     * @since 0.1.5
+     * @since 0.2.0
      */
     public abstract void transformMethod(MethodNode methodNode);
 
