@@ -16,6 +16,8 @@ import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 
+import org.codehaus.groovy.control.CompilePhase;
+
 import groovy.lang.Closure;
 
 /**
@@ -84,7 +86,7 @@ public final class ClassNodeUtils {
      * before SEMANTIC_ANALYSIS. Classes may have not been set at this
      * point.
      *
-     * @param classNode
+     * @param classNode The class we want to add the interfaces to
      * @param interfaces the interfaces we want the class node to be
      * implementing
      * @since 0.1.4
