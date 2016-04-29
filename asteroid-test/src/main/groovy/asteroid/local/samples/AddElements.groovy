@@ -1,6 +1,6 @@
 package asteroid.local.samples
 
-import asteroid.local.Local
+import asteroid.Local
 
 @Local(AddElementsImpl)
 @interface AddElements { }

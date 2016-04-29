@@ -7,7 +7,7 @@ import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.ClassNode
 
 import asteroid.A
-import asteroid.global.AbstractClassNodeTransformer
+import asteroid.transformer.AbstractClassNodeTransformer
 
 /**
  * This {@link AbstractClassNodeTransformer} transforms classes containing

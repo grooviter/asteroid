@@ -5,8 +5,8 @@ import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.AnnotationNode
 
 import asteroid.A
-import asteroid.local.LocalTransformation
-import asteroid.local.AbstractLocalTransformation
+import asteroid.LocalTransformation
+import asteroid.AbstractLocalTransformation
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.INSTRUCTION_SELECTION)

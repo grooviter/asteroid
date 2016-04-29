@@ -1,8 +1,8 @@
 package asteroid.local.collector
 
 import asteroid.A
-import asteroid.local.LocalTransformation
-import asteroid.local.AbstractLocalTransformation
+import asteroid.LocalTransformation
+import asteroid.AbstractLocalTransformation
 
 import org.codehaus.groovy.ast.FieldNode
 import org.codehaus.groovy.ast.ClassNode

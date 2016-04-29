@@ -3,9 +3,9 @@ package asteroid.global.samples
 import groovy.transform.CompileStatic
 
 import asteroid.A
-import asteroid.global.Transformer
-import asteroid.global.GlobalTransformation
-import asteroid.global.AbstractGlobalTransformation
+import asteroid.GlobalTransformation
+import asteroid.AbstractGlobalTransformation
+import asteroid.transformer.Transformer
 
 /**
  * This {@link AbstractGlobalTransformation} only applies a

@@ -1,14 +1,15 @@
 package asteroid.local.samples
 
 import asteroid.A
-import asteroid.local.LocalTransformation
-import asteroid.local.AbstractLocalTransformation
+import asteroid.LocalTransformation
+import asteroid.AbstractLocalTransformation
+
 import groovy.transform.CompileStatic
+
 import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.stmt.Statement
 import org.codehaus.groovy.ast.expr.Expression
-import org.codehaus.groovy.control.SourceUnit
 
 @CompileStatic
 @LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS) // <1>

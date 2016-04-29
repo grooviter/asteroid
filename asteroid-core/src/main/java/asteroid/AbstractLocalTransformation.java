@@ -1,4 +1,4 @@
-package asteroid.local;
+package asteroid;
 
 import static org.codehaus.groovy.ast.ClassHelper.make;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
@@ -12,8 +12,6 @@ import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.AbstractASTTransformation;
-
-import asteroid.A;
 
 /**
  * This class is an abstraction to process certain nodes annotated with a specific annotation node type

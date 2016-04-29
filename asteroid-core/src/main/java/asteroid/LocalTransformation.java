@@ -1,4 +1,4 @@
-package asteroid.local;
+package asteroid;
 
 import org.codehaus.groovy.transform.GroovyASTTransformationClass;
 

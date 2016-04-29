@@ -1,6 +1,4 @@
-package asteroid.local;
-
-import asteroid.A;
+package asteroid;
 
 /**
  * Represents the possible type of {@link asteroid.A.TO} the

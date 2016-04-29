@@ -7,7 +7,7 @@ import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.control.CompilePhase
 
 import asteroid.A
-import asteroid.global.AbstractClassNodeTransformer
+import asteroid.transformer.AbstractClassNodeTransformer
 
 /**
  * This transformer looks for a class node annotated by

@@ -6,8 +6,8 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 import java.util.List;
 import java.util.ArrayList;
 
-import asteroid.global.AbstractGlobalTransformation;
-import asteroid.global.Transformer;
+import asteroid.AbstractGlobalTransformation;
+import asteroid.transformer.Transformer;
 
 /**
  * This transformation makes easier to declare a given global transformation.

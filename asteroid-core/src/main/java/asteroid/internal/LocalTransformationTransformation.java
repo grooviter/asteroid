@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Arrays;
 
 import asteroid.A;
-import asteroid.local.LocalTransformation;
-import asteroid.local.AbstractLocalTransformation;
+import asteroid.LocalTransformation;
+import asteroid.AbstractLocalTransformation;
 
 /**
  * This transformation makes easier to declare a given local transformation. It narrows the available
@@ -47,7 +47,7 @@ public class LocalTransformationTransformation extends AbstractLocalTransformati
     public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
         final CompilePhase phase = extractCompilePhaseFrom(annotationNode);
 
-        Utils.addASTAnnotationsFromTo(annotatedNode, phase);
+        TransformationUtils.addASTAnnotationsFromTo(annotatedNode, phase);
         addClassConstructor(annotatedNode);
 
         // tag::addCheckTo[]

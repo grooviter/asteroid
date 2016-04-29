@@ -1,4 +1,4 @@
-package asteroid.global;
+package asteroid.transformer;
 
 import groovy.lang.Closure;
 

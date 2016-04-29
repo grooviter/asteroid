@@ -1,4 +1,4 @@
-package asteroid.global;
+package asteroid;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.newInstance;
@@ -8,6 +8,8 @@ import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.AbstractASTTransformation;
+
+import asteroid.transformer.Transformer;
 
 /**
  * This class applies all transformers provided by the method

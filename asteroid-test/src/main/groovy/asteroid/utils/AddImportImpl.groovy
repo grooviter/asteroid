@@ -4,9 +4,9 @@ import java.util.List
 import java.util.ArrayList
 
 import asteroid.A
-import asteroid.global.Transformer
-import asteroid.global.GlobalTransformation
-import asteroid.global.AbstractGlobalTransformation
+import asteroid.GlobalTransformation
+import asteroid.AbstractGlobalTransformation
+import asteroid.transformer.Transformer
 
 @GlobalTransformation(A.PHASE_GLOBAL.CONVERSION)
 class AddImportImpl extends AbstractGlobalTransformation {

@@ -1,4 +1,4 @@
-package asteroid.global;
+package asteroid.transformer;
 
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.ast.ModuleNode;

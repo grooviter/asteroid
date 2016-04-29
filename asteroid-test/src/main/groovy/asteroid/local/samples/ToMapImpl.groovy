@@ -1,8 +1,8 @@
 package asteroid.local.samples
 
 import asteroid.A
-import asteroid.local.LocalTransformation
-import asteroid.local.AbstractLocalTransformation
+import asteroid.LocalTransformation
+import asteroid.AbstractLocalTransformation
 
 import groovy.transform.CompileStatic
 

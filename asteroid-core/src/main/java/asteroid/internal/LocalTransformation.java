@@ -5,8 +5,8 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import static org.codehaus.groovy.ast.ClassHelper.make;
 
 import asteroid.A;
-import asteroid.local.Local;
-import asteroid.local.Apply;
+import asteroid.Local;
+import asteroid.Apply;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;

@@ -7,7 +7,7 @@ import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
 
 import asteroid.A
-import asteroid.global.AbstractExpressionTransformer
+import asteroid.transformer.AbstractExpressionTransformer
 
 /**
  * This {@link AbstractExpressionTransformer} transforms {@link MethodCallExpression}

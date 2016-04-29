@@ -8,8 +8,8 @@ import org.codehaus.groovy.GroovyBugError;
 import org.codehaus.groovy.ast.AnnotationNode;
 
 import asteroid.A;
-import asteroid.global.AbstractClassNodeTransformer;
-import asteroid.global.GlobalTransformation;
+import asteroid.GlobalTransformation;
+import asteroid.transformer.AbstractClassNodeTransformer;
 
 /**
  * This {@link AbstractClassNodeTransformer} will be applied to all {@link
@@ -48,7 +48,7 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
         final AnnotationNode annotation = A.UTIL.CLASS.getAnnotationFrom(annotated, TX_NAME);
         final CompilePhase phase = extractCompilePhaseFromSafely(annotation);
 
-        Utils.addASTAnnotationsFromTo(annotated, phase);
+        TransformationUtils.addASTAnnotationsFromTo(annotated, phase);
         A.UTIL.CLASS.removeAnnotation(annotated, annotation);
     }
 
