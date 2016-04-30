@@ -42,5 +42,31 @@ public @interface Local {
     /**
      * @since 0.2.0
      */
-    A.TO applyTo() default A.TO.TYPE;
+    TO applyTo() default TO.TYPE;
+
+    /**
+     * Targets available to apply a specific transformation
+     *
+     * @since 0.1.0
+     */
+    public static enum TO {
+        /**
+         * Applies to a given class field
+         *
+         * @since 0.1.0
+         */
+        FIELD,
+        /**
+         * Applies to a given class
+         *
+         * @since 0.1.0
+         */
+        TYPE,
+        /**
+         * Applies to a given method
+         *
+         * @since 0.1.0
+         */
+        METHOD
+    }
 }

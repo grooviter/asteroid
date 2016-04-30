@@ -43,30 +43,4 @@ public final class A {
      * @since 0.1.0
      */
     public static final Utils UTIL = new Utils();
-
-    /**
-     * Targets available to apply a specific transformation
-     *
-     * @since 0.1.0
-     */
-    public enum TO {
-        /**
-         * Applies to a given class field
-         *
-         * @since 0.1.0
-         */
-        FIELD,
-        /**
-         * Applies to a given class
-         *
-         * @since 0.1.0
-         */
-        TYPE,
-        /**
-         * Applies to a given method
-         *
-         * @since 0.1.0
-         */
-        METHOD
-    }
 }

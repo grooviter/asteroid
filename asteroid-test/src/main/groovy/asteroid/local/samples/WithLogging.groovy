@@ -1,7 +1,8 @@
 package asteroid.local.samples
 
-import static asteroid.A.TO
 import asteroid.Local
 
-@Local(value = WithLoggingTransformationImpl, applyTo = TO.METHOD) // <2>
+@Local(
+    value   = WithLoggingTransformationImpl, // <1>
+    applyTo = Local.TO.METHOD)               // <2>
 @interface WithLogging { }
