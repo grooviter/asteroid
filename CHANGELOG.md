@@ -1,6 +1,24 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2016-04-xx
+
+This version has many breaking changes, that's why the minor version
+changes. Changes are focused on:
+
+- Reducing imports
+- Searching a common way of declaring a transformation
+- Making the implementation comply with best practices using PMD
+
+### Breaking changes
+- All abstract classes have changed their names to AbstractXXX
+- Transformer now is an interface
+- Both Local And Global base transformations moved to `asteroid` pkg
+- No longer there is an annotation to indicate the type of transformation: @GlobalTransformation
+and @LocalTransformation are removed in favor of @Phase
+- @Apply removed and the target type is indicated in the `applyTo` @Local annotation attribute
+- Compilation phases are now located under @Phase annotation
+
 ## [0.1.7] - 2016-04-28
 ### Breaking changes
 - SourceUnit is no longer passed as an argument in local transformations

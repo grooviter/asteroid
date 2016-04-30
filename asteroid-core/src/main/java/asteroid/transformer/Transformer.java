@@ -1,5 +1,6 @@
 package asteroid.transformer;
 
+import asteroid.AbstractGlobalTransformation;
 import org.codehaus.groovy.ast.ClassNode;
 
 /**

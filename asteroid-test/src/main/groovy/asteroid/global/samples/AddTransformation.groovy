@@ -1,9 +1,10 @@
 package asteroid.global.samples
 
+import static asteroid.Phase.GLOBAL
+
 import groovy.transform.CompileStatic
 
-import asteroid.A
-import asteroid.GlobalTransformation
+import asteroid.Phase
 import asteroid.AbstractGlobalTransformation
 import asteroid.transformer.Transformer
 
@@ -14,7 +15,7 @@ import asteroid.transformer.Transformer
  * @since 0.1.2
  */
 @CompileStatic
-@GlobalTransformation(A.PHASE_GLOBAL.CONVERSION) // <1>
+@Phase(GLOBAL.CONVERSION) // <1>
 class AddTransformation extends AbstractGlobalTransformation { // <2>
 
     List<Class<Transformer>> getTransformers() {

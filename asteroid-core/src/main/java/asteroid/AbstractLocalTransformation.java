@@ -30,7 +30,7 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * In this example transformation will be applied only to those {@link ASTNode} instances of type
  * {@link org.codehaus.groovy.ast.MethodNode} annotated by {@literal @}MyAnnotation
  * <br><br>
- * <b class="note">Checks (since 0.1.5):</b>
+ * <b class="note">Checks:</b>
  * <br><br>
  * If you would like to check something before applying the
  * transformation you can use a contract-like programming
@@ -42,7 +42,7 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * the other to call the transformation.
  *
  * <pre class="inner"><code>
- *     public abstract void doVisit(AnnotationNode annotation, final ClassNode annotated){
+ *     public void doVisit(AnnotationNode annotation, final ClassNode annotated){
  *         check: 'class has correct name'
  *         annotated.name == 'MyBusinessService'
  *
@@ -53,6 +53,15 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * Any expression within the <b>check</b> block will be treated as an
  * assertion statement. If any of the assertion fails the compilation
  * will fail.
+ * <br><br>
+ * When using Groovy to implement your transformation. If you annotate
+ * your transformation with {@link Phase} you will benefit of the
+ * following:
+ * <br><br>
+ * <ul>
+ *     <li>No need to implement constructor ()</li>
+ *     <li>No need to provide {@link org.codehaus.groovy.transform.GroovyASTTransformation}</li>
+ * </ul>
  * @param <T> The annotation type used to mark the transformation
  * @param <S> The annotated node type. It has to be a subtype
  * of {@link AnnotatedNode}. As a rule of thumb think of any type that

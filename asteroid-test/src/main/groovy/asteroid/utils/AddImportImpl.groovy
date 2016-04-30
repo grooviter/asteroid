@@ -1,14 +1,12 @@
 package asteroid.utils
 
-import java.util.List
-import java.util.ArrayList
+import static Phase.GLOBAL.CONVERSION
 
-import asteroid.A
-import asteroid.GlobalTransformation
+import asteroid.Phase
 import asteroid.AbstractGlobalTransformation
 import asteroid.transformer.Transformer
 
-@GlobalTransformation(A.PHASE_GLOBAL.CONVERSION)
+@Phase(CONVERSION)
 class AddImportImpl extends AbstractGlobalTransformation {
 
     @Override

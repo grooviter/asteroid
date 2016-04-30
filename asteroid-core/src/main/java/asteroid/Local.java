@@ -8,14 +8,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a given annotation as a local AST transformation
+ * Marks a given annotation as a <b>local</b> AST transformation
+ * marker
  * <br>
  *
  * <pre><code>
- * {@literal @}Local(MyTransformationImplementation.class)
- *  public {@literal @}interface MyAnnotation {
+ * {@literal @}Local(MyTransformationImplementation)
+ * {@literal @}interface MyAnnotation {
  *     //...
- *  }
+ * }
  * </code></pre>
  * Then you can use your annotation:
  * <pre><code>
@@ -24,7 +25,6 @@ import java.lang.annotation.Target;
  *     //...
  *  }
  * </code></pre>
- *
  * @since 0.1.0
  */
 @Target(ElementType.ANNOTATION_TYPE)
@@ -38,4 +38,9 @@ public @interface Local {
      * @since 0.1.0
      */
     Class<? extends AbstractLocalTransformation> value();
+
+    /**
+     * @since 0.2.0
+     */
+    A.TO applyTo() default A.TO.TYPE;
 }

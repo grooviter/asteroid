@@ -73,6 +73,9 @@ public final class AnnotationNodeUtils {
     }
 
    private Object resolveValueFrom(final Expression expression) {
+       if (expression == null) {
+           return null;
+       }
         if (expression instanceof ClassExpression) {
             return ClassExpression.class.cast(expression).getText();
 

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Arrays;
 
 import asteroid.A;
-import asteroid.LocalTransformation;
+import asteroid.Phase;
 import asteroid.AbstractLocalTransformation;
 
 /**
@@ -25,7 +25,7 @@ import asteroid.AbstractLocalTransformation;
  * @since 0.1.0
  */
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-public class LocalTransformationTransformation extends AbstractLocalTransformation<LocalTransformation,ClassNode> {
+public class LocalTransformationTransformation extends AbstractLocalTransformation<Phase,ClassNode> {
 
     private static final String METHOD_DOVISIT = "doVisit";
 
@@ -35,7 +35,7 @@ public class LocalTransformationTransformation extends AbstractLocalTransformati
      * @since 0.1.6
      */
     public LocalTransformationTransformation() {
-        super(LocalTransformation.class);
+        super(Phase.class);
     }
 
     /**
@@ -45,6 +45,10 @@ public class LocalTransformationTransformation extends AbstractLocalTransformati
      */
     @Override
     public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
+        if(!A.UTIL.CLASS.isOrExtends(annotatedNode, AbstractLocalTransformation.class)) {
+            return;
+        }
+
         final CompilePhase phase = extractCompilePhaseFrom(annotationNode);
 
         TransformationUtils.addASTAnnotationsFromTo(annotatedNode, phase);

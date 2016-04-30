@@ -1,7 +1,7 @@
 package asteroid.local.samples
 
 import asteroid.A
-import asteroid.LocalTransformation
+import asteroid.Phase
 import asteroid.AbstractLocalTransformation
 
 import groovy.transform.CompileStatic
@@ -9,7 +9,7 @@ import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.ClassNode
 
 @CompileStatic
-@LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS) // <1>
+@Phase(Phase.LOCAL.SEMANTIC_ANALYSIS) // <1>
 class AsListImpl extends AbstractLocalTransformation<AsList, ClassNode> {
 
     @Override

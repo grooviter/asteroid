@@ -8,12 +8,13 @@ import org.codehaus.groovy.GroovyBugError;
 import org.codehaus.groovy.ast.AnnotationNode;
 
 import asteroid.A;
-import asteroid.GlobalTransformation;
+import asteroid.Phase;
+import asteroid.AbstractGlobalTransformation;
 import asteroid.transformer.AbstractClassNodeTransformer;
 
 /**
  * This {@link AbstractClassNodeTransformer} will be applied to all {@link
- * ClassNode} instances annotated with {@link GlobalTransformation}.
+ * ClassNode} instances annotated with {@link Phase}.
  * <br><br>
  * It will add certain low level annotations to trigger the process of
  * the annotated transformation. These annotations are the java
@@ -25,8 +26,9 @@ import asteroid.transformer.AbstractClassNodeTransformer;
 public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
 
     private static final String BLANK = "";
-    private static final String TX_NAME = "GlobalTransformation";
-    private static final String PHASE_PREFIX = "A.PHASE_GLOBAL.";
+    private static final String TX_NAME = "Phase";
+    private static final String PHASE_PFIX = "Phase.GLOBAL.";
+    private static final String PHASE_PFIX_SHORT = "GLOBAL.";
     private static final String PHASE_WRONG = "GlobalAnnotation compilation phase is wrong!!";
     private static final String PHASE_MISSING = "GlobalAnnotation compilation phase is missing!!";
 
@@ -45,6 +47,19 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
      */
     @Override
     public void transformClass(final ClassNode annotated) {
+        final ClassNode superClass = annotated.getSuperClass();
+
+        if (superClass == null) {
+            return;
+        }
+
+        final ClassNode reference = A.NODES.clazz(AbstractGlobalTransformation.class).build();
+        final Boolean isGlobal = A.UTIL.CLASS.isOrExtendsUnsafe(annotated, reference);
+
+        if (!isGlobal) {
+            return;
+        }
+
         final AnnotationNode annotation = A.UTIL.CLASS.getAnnotationFrom(annotated, TX_NAME);
         final CompilePhase phase = extractCompilePhaseFromSafely(annotation);
 
@@ -65,7 +80,9 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
 
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
         final String       value         = A.UTIL.ANNOTATION.getStringValue(annotationNode);
-        final String       phaseAsString = value.replace(PHASE_PREFIX, BLANK);
+        final String       phaseAsString = value
+            .replace(PHASE_PFIX, BLANK)
+            .replace(PHASE_PFIX_SHORT, BLANK);
         final CompilePhase compilePhase  = CompilePhase.valueOf(phaseAsString);
 
         return compilePhase;

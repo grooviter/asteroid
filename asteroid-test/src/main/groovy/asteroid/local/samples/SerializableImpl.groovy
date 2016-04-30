@@ -5,11 +5,11 @@ import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.AnnotationNode
 
 import asteroid.A
-import asteroid.LocalTransformation
+import asteroid.Phase
 import asteroid.AbstractLocalTransformation
 
 @CompileStatic
-@LocalTransformation(A.PHASE_LOCAL.INSTRUCTION_SELECTION)
+@Phase(Phase.LOCAL.INSTRUCTION_SELECTION)
 class SerializableImpl extends AbstractLocalTransformation<Serializable, ClassNode> {
 
     @Override

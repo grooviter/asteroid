@@ -253,6 +253,24 @@ public final class ClassNodeUtils {
     }
 
     /**
+     * Returns true if the classNode passed as first argument is of type `clazz` or that class extends
+     * the other class, false otherwise. It's unsafe because it tries to compare also the super class
+     * simple name. So two classes having the same name even in different packages will return true.
+     *
+     * @param child the {@link ClassNode}  we are checking
+     * @param parent the {@link ClassNode}  we are testing against
+     * @return true if the classNode is of type `parent`
+     * @since 0.2.0
+     */
+    public Boolean isOrExtendsUnsafe(final ClassNode child, final ClassNode parent) {
+        return child.equals(parent)        ||
+               child.isDerivedFrom(parent) ||
+               child.getSuperClass()
+                   .getNameWithoutPackage()
+                   .equals(parent.getNameWithoutPackage());
+    }
+
+    /**
      * Returns the first {@link MethodNode} found with a given name in
      * a specific {@link ClassNode}
      *
