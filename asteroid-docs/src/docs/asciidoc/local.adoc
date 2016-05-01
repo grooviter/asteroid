@@ -168,11 +168,11 @@ the old days.
 
 === Checks
 
-There are many times when you have to check whether all precoditions
-are correct before applying a given transformation. Without this
-sanity check, many things could go wrong. Checks labels are an effort
-to avoid boiler plate code when checking the AST state. They are
-inspired in Spock blocks.
+There are many times when you have to check if all precoditions are
+correct before applying a given transformation. Without this sanity
+check, many things could go wrong. Checks labels are an effort to
+avoid boiler plate code when checking the AST state. They are inspired
+in Spock blocks.
 
 By default checks labels are available in Asteroid local
 transformations. All you have to do is to structure your code using

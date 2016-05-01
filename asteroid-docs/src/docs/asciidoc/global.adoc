@@ -16,10 +16,14 @@ transformation only holds references to code transformers.
 
 In order to create a local transformation you need to:
 
-* Create an `implementation` of the transformation extending `AbstractGlobalTransformation`
+* Create an `implementation` of the transformation extending
+  `AbstractGlobalTransformation`
+* Create as many `transfomers` as you need and then make the
+  `getTransformers` method from your transformation to return the
+  classes of those transformers.
 * Your implementation should be annotated by `@Phase` with the proper
   local compilation phase value set.
-* Add a transformation descriptor in your classpath to tell the
+* Add a `transformation descriptor` in your classpath to tell the
 compiler where it can find your transformation
 
 === Example
