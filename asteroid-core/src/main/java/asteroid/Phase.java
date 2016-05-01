@@ -18,8 +18,9 @@ import org.codehaus.groovy.control.CompilePhase;
 @SuppressWarnings("PMD.LongVariable")
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-@GroovyASTTransformationClass("asteroid.internal.LocalTransformationTransformation")
+@GroovyASTTransformationClass("asteroid.internal.PhaseTransformation")
 public @interface Phase {
+
     /**
      * Sets the phase compilation
      *

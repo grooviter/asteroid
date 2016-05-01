@@ -22,26 +22,26 @@ import asteroid.AbstractLocalTransformation;
  * compilation phases to those only capable of being used in a local transformation. The way of declaring
  * the transformation makes clearer the fact that it is a local transformation.
  *
- * @since 0.1.0
+ * @since 0.2.0
  */
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-public class LocalTransformationTransformation extends AbstractLocalTransformation<Phase,ClassNode> {
+public class PhaseTransformation extends AbstractLocalTransformation<Phase,ClassNode> {
 
     private static final String METHOD_DOVISIT = "doVisit";
 
     /**
      * Constructor using abstraction {@link AbstractLocalTransformation}
      *
-     * @since 0.1.6
+     * @since 0.2.0
      */
-    public LocalTransformationTransformation() {
+    public PhaseTransformation() {
         super(Phase.class);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @since 0.1.6
+     * @since 0.2.0
      */
     @Override
     public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
