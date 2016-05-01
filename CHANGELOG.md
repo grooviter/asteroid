@@ -1,10 +1,11 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
-## [0.2.0] - 2016-04-xx
+## [0.2.0] - 2016-05-01
 
 This version has many breaking changes, that's why the minor version
-changes. Changes are focused on:
+changes (I'm not using semantic version properly yet). Changes are
+focused on:
 
 - Reducing imports
 - Searching a common way of declaring a transformation
@@ -18,6 +19,18 @@ changes. Changes are focused on:
 and @LocalTransformation are removed in favor of @Phase
 - @Apply removed and the target type is indicated in the `applyTo` @Local annotation attribute
 - Compilation phases are now located under @Phase annotation
+
+### Added
+- More documentation
+
+### Fixed
+- Javadoc
+- Modifiers in class ConstructorNodeBuilder
+
+### Future plans
+- Code coverage
+- More examples
+- Get rid of some expression creation in favor of Groovy macros
 
 ## [0.1.7] - 2016-04-28
 ### Breaking changes
