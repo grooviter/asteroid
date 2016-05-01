@@ -2,11 +2,9 @@ package asteroid.internal;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
-import static org.codehaus.groovy.ast.ClassHelper.make;
 
 import asteroid.A;
-import asteroid.local.Local;
-import asteroid.local.Apply;
+import asteroid.Local;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
@@ -37,9 +35,9 @@ import java.lang.annotation.Target;
  *
  * <pre>
  * <code>
- *   import my.transformation.MyTransformation;
+ *   import my.transformation.MyTransformation
  *
- *   {@literal @}Local(MyTransformation.class)
+ *   {@literal @}Local(MyTransformation)
  *   public @interface MyAnnotation { }
  * </code>
  * </pre>
@@ -81,21 +79,16 @@ public class LocalTransformation extends AbstractASTTransformation {
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        final String qualifiedName      = A.UTIL.ANNOTATION.get(annotationNode, String.class);
-        final AnnotationNode annotation = A.UTIL.CLASS.getAnnotationFrom(annotatedNode, make(Apply.class));
+        final String qualifiedName = A.UTIL.ANNOTATION.get(annotationNode, String.class);
+        final String target        = A.UTIL.ANNOTATION.get(annotationNode, "applyTo", String.class);
 
-        annotatedNode.addAnnotation(getTargetAnnotation(annotation));
+        annotatedNode.addAnnotation(getTargetAnnotation(target));
         annotatedNode.addAnnotation(getRetentionAnnotation());
         annotatedNode.addAnnotation(getGroovyAnnotationWith(qualifiedName));
     }
 
-    private AnnotationNode getTargetAnnotation(final AnnotationNode applyAnnotation) {
-        String targetString = A.TO.TYPE.toString();
-
-        if (applyAnnotation != null) {
-            targetString = A.UTIL.ANNOTATION.get(applyAnnotation, String.class);
-        }
-
+    private AnnotationNode getTargetAnnotation(final String resolvedTarget) {
+        final String             targetString = resolvedTarget == null ? ElementType.TYPE.toString() : resolvedTarget;
         final ConstantExpression constantExpr = A.EXPR.constX(targetString);
         final ClassExpression    classExpr    = A.EXPR.classX(ElementType.class);
         final PropertyExpression propertyExpr = A.EXPR.propX(classExpr, constantExpr);

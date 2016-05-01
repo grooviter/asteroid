@@ -1,4 +1,4 @@
-package asteroid.global;
+package asteroid;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.newInstance;
@@ -9,24 +9,34 @@ import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.AbstractASTTransformation;
 
+import asteroid.transformer.Transformer;
+
 /**
  * This class applies all transformers provided by the method
  * getTransformers in order to all class nodes present in a given
  * source unit instance.
  *
  * This way you should think of an instance of {@link
- * GlobalTransformationImpl} as a set of {@link Transformer}
+ * AbstractGlobalTransformation} as a set of {@link Transformer}
  * instances.
+ * <pre class="inner"><code>
+ * class AddTransformation extends AbstractGlobalTransformation {
+ *     {@literal @}Override
+ *     List{@literal <}Class{@literal <}Transformer{@literal >}{@literal >} getTransformers() {
+ *         return [AddPropertyToInnerClass, AddTraitTransformer]
+ *     }
+ * }
+ * </code></pre>
  *
- * @since 0.1.1
+ * @since 0.2.0
  * @see Transformer
  */
-public abstract class GlobalTransformationImpl extends AbstractASTTransformation {
+public abstract class AbstractGlobalTransformation extends AbstractASTTransformation {
 
     /**
      * {@inheritDoc}
      *
-     * @since 0.1.1
+     * @since 0.2.0
      */
     @SuppressWarnings({"PMD.UnusedMethodParameter", "PMD.AvoidInstantiatingObjectsInLoops"})
     public void visit(final ASTNode[] nodes, final SourceUnit sourceUnit) {
@@ -46,9 +56,8 @@ public abstract class GlobalTransformationImpl extends AbstractASTTransformation
      *
      * @return all transformers that will be applied globally by this
      * AST transformation
-     * @since 0.1.1
+     * @since 0.2.0
      * @see Transformer
      */
     public abstract List<Class<? extends Transformer>> getTransformers();
-
 }

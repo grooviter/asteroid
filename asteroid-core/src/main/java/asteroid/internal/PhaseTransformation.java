@@ -14,40 +14,44 @@ import java.util.List;
 import java.util.Arrays;
 
 import asteroid.A;
-import asteroid.local.LocalTransformation;
-import asteroid.local.LocalTransformationImpl;
+import asteroid.Phase;
+import asteroid.AbstractLocalTransformation;
 
 /**
  * This transformation makes easier to declare a given local transformation. It narrows the available
  * compilation phases to those only capable of being used in a local transformation. The way of declaring
  * the transformation makes clearer the fact that it is a local transformation.
  *
- * @since 0.1.0
+ * @since 0.2.0
  */
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-public class LocalTransformationTransformation extends LocalTransformationImpl<LocalTransformation,ClassNode> {
+public class PhaseTransformation extends AbstractLocalTransformation<Phase,ClassNode> {
 
     private static final String METHOD_DOVISIT = "doVisit";
 
     /**
-     * Constructor using abstraction {@link LocalTransformationImpl}
+     * Constructor using abstraction {@link AbstractLocalTransformation}
      *
-     * @since 0.1.6
+     * @since 0.2.0
      */
-    public LocalTransformationTransformation() {
-        super(LocalTransformation.class);
+    public PhaseTransformation() {
+        super(Phase.class);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @since 0.1.6
+     * @since 0.2.0
      */
     @Override
     public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
+        if(!A.UTIL.CLASS.isOrExtends(annotatedNode, AbstractLocalTransformation.class)) {
+            return;
+        }
+
         final CompilePhase phase = extractCompilePhaseFrom(annotationNode);
 
-        Utils.addASTAnnotationsFromTo(annotatedNode, phase);
+        TransformationUtils.addASTAnnotationsFromTo(annotatedNode, phase);
         addClassConstructor(annotatedNode);
 
         // tag::addCheckTo[]

@@ -1,14 +1,24 @@
 == What is Asteroid
 
 AST transformations, have been historically a hard topic in
-Groovy. Asteroid is a set of utilities trying to reduce the complexity
-of dealing with transformations.
+Groovy. Asteroid is a set of utilities and ideas trying to reduce the
+complexity of dealing with transformations.
+
+[sidebar]
+.Apache
+****
+The *Asteroid* project is open sourced under the http://www.apache.org/licenses/LICENSE-2.0.html[Apache 2 License].
+****
 
 If you have never done any AST transformation I'd recommend you to
 take a look both the
 http://groovy-lang.org/metaprogramming.html#developing-ast-xforms[Groovy]
 documentation and the theory chapter. If you already now the stuff
 then read on.
+
+WARNING: At the moment **Asteroid** development is in an alpha
+state. Please check the changelog file to follow the progress of the
+project.
 
 == Show me the code
 
@@ -29,7 +39,7 @@ Then you can add the dependency to your project:
 
 [source,groovy]
 ----
-compile 'com.github.grooviter:asteroid:0.1.6'
+compile 'com.github.grooviter:asteroid:0.2.0'
 ----
 
 === Example
@@ -69,15 +79,15 @@ Lets see first the `@WithLogging` annotation declaration:
 ----
 include::{testMain}/asteroid/local/samples/WithLogging.groovy[]
 ----
-<1> This annotation will be applied to method elements.
-<2> The `@Local` annotation only requires the class of the AST transformation implementation
+<1> The transformation implementation class
+<2> This annotation will be applied to method elements.
 
-NOTE: By default `@Local` annotation assumes the annotation is applied to a `type` (classes). If you would like to apply the
-annotation to any other type of node, please use `@Apply` annotation and the correspondent element type.
+NOTE: By default `@Local` annotation assumes the annotation is applied to a `type` (classes). So if you are using the annotation for a type then you could omit `value` and `applyTo` attributes an write just the class of the transformation like this: `@Local(ImplementationClass)`.
 
-Now it's time to implement the transformation. The transformation should be an instance of
-`asteroid.LocalTransformationImpl`. We have to extend `LocalTransformationImpl` and provide two important generic
-arguments:
+Now it's time to implement the transformation. The transformation
+should be an instance of
+`asteroid.local.AbstractLocalTransformation`. We have to extend
+`AbstractLocalTransformation` and provide two generic arguments:
 
 - The annotation class used to mark our transformation: `WithLogging`
 - The type of nodes that will be affected by this transformation. In this example `org.codehaus.groovy.ast.MethodNode`
@@ -87,9 +97,7 @@ arguments:
 include::{testMain}/asteroid/local/samples/WithLoggingTransformationImpl.groovy[]
 ----
 
-<1> The `@LocalTransformation` annotation indicates that the following class is an implementation of a local
-transformation. It also requires to specify the compilation phase this AST transformation will be applied. The
-enumeration `A.PHASE_LOCAL` will show `ONLY` those compilation phases available for local transformations.
+<1> The `@Phase` annotation indicates in which compilation phase this transformation will be applied.
 <2> Storing temporary the old code we want to transform which is an `org.codehaus.groovy.ast.stmt.Statement`
 <3> Building `println "start"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
 <4> Building `println "end"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
@@ -116,10 +124,10 @@ classes helping to create new Abstract Syntaxt Tree nodes.
     |                                      |                    (asteroid.A)                   |
     |                                      |                                                   |
     +------------------+-------------------+-------------+------------+-----------+------------+
-    |                  |                   |             |            |           |            |
-    |      Local       |      Global       | EXPRESSIONS | STATEMENTS |   NODES   |   UTILS    |
-    | (asteroid.local) | (asteroid.global) |   (A.EXPR)  |  (A.STMT)  | (A.NODES) |  (A.UTIL)  |
-    |                  |                   |             |            |           |            |
+    |                                      |             |            |           |            |
+    | Abstract[Local/Global]Transformation | EXPRESSIONS | STATEMENTS |   NODES   |   UTILS    |
+    |             Transformers             |   (A.EXPR)  |  (A.STMT)  | (A.NODES) |  (A.UTIL)  |
+    |                                      |             |            |           |            |
     +------------------+-------------------+-------------+------------+-----------+------------+
 
 ....
@@ -134,9 +142,6 @@ proceed.
 Asteroid tries to provide higher abstractions in order to reduce some
 of the boiler plate code, and make the developer to focus on the
 transformation only.
-
-Both local and global abstractions are located in `asteroid.local` and
-`asteroid.global` packages.
 
 === AST nodes functions
 

@@ -1,7 +1,5 @@
 == Global Transformations
 
-=== Example
-
 "Global AST transformation are similar to local one with a major
 difference: they do not need an annotation, meaning that they are
 applied globally, that is to say on each class being compiled. It is
@@ -9,10 +7,26 @@ therefore very important to limit their use to last resort, because it
 can have a significant impact on the compiler performance."
 -- Groovy official site
 
+=== Overview
+
 `Asteroid` suggest a certain way of creating global AST
 transformations. Instead of creating a global transformation and
 manipulate the `SourceUnit` directly, an `Asteroid` global
 transformation only holds references to code transformers.
+
+In order to create a local transformation you need to:
+
+* Create an `implementation` of the transformation extending
+  `AbstractGlobalTransformation`
+* Create as many `transfomers` as you need and then make the
+  `getTransformers` method from your transformation to return the
+  classes of those transformers.
+* Your implementation should be annotated by `@Phase` with the proper
+  local compilation phase value set.
+* Add a `transformation descriptor` in your classpath to tell the
+compiler where it can find your transformation
+
+=== Example
 
 [source, groovy]
 ----
@@ -20,7 +34,7 @@ include::{testMain}/asteroid/global/samples/AddTransformation.groovy[]
 ----
 <1> Declaring class as a global AST transformation
 <2> Extending `asteroid.global.GlobalTransformationImpl`
-<3> Adding `asteroid.global.AbstractClassCodeExpressionTransformer` classes
+<3> Adding `asteroid.global.AbstractClassNodeTransformer` classes
 
 A global transformation needs to be annotated with the
 `@GlobalTransformation` annotation, then it should extend

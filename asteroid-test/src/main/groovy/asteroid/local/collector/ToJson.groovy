@@ -1,6 +1,6 @@
 package asteroid.local.collector
 
-import asteroid.local.Local
+import asteroid.Local
 
 @Local(ToJsonImpl)
 @interface ToJson { }

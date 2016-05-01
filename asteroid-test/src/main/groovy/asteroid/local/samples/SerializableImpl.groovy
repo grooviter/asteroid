@@ -5,12 +5,12 @@ import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.AnnotationNode
 
 import asteroid.A
-import asteroid.local.LocalTransformation
-import asteroid.local.LocalTransformationImpl
+import asteroid.Phase
+import asteroid.AbstractLocalTransformation
 
 @CompileStatic
-@LocalTransformation(A.PHASE_LOCAL.INSTRUCTION_SELECTION)
-class SerializableImpl extends LocalTransformationImpl<Serializable, ClassNode> {
+@Phase(Phase.LOCAL.INSTRUCTION_SELECTION)
+class SerializableImpl extends AbstractLocalTransformation<Serializable, ClassNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, ClassNode classNode) {

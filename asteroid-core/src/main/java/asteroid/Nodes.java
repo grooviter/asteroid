@@ -1,12 +1,13 @@
 package asteroid;
 
-import asteroid.nodes.AnnotationNodeBuilder;
 import asteroid.nodes.ClassNodeBuilder;
-import asteroid.nodes.ConstructorNodeBuilder;
+import asteroid.nodes.AnnotationNodeBuilder;
 import asteroid.nodes.GenericsTypeBuilder;
+import asteroid.nodes.ConstructorNodeBuilder;
 import asteroid.nodes.MethodNodeBuilder;
 import asteroid.nodes.ParameterNodeBuilder;
 import asteroid.nodes.PropertyNodeBuilder;
+
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.GenericsType;
 

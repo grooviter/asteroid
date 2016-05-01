@@ -6,8 +6,8 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 import java.util.List;
 import java.util.ArrayList;
 
-import asteroid.global.GlobalTransformationImpl;
-import asteroid.global.Transformer;
+import asteroid.AbstractGlobalTransformation;
+import asteroid.transformer.Transformer;
 
 /**
  * This transformation makes easier to declare a given global transformation.
@@ -15,7 +15,7 @@ import asteroid.global.Transformer;
  * @since 0.1.2
  */
 @GroovyASTTransformation(phase = CompilePhase.CONVERSION)
-public class GlobalTransformationTransformation extends GlobalTransformationImpl {
+public class GlobalTransformationTransformation extends AbstractGlobalTransformation {
 
     @Override
     public List<Class<? extends Transformer>> getTransformers() {

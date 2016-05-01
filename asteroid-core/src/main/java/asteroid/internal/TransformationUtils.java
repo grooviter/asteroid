@@ -12,11 +12,11 @@ import groovy.transform.InheritConstructors;
 /**
  * A set of utilities to implement base transformation classes
  *
- * @since 0.1.7
+ * @since 0.2.0
  */
-public final class Utils {
+public final class TransformationUtils {
 
-    private Utils() { }
+    private TransformationUtils() { }
 
     /**
      * All transformation will be always annotated with:
@@ -34,7 +34,7 @@ public final class Utils {
      * annotations to
      * @param compilePhase The {@link CompilePhase} used as argument for
      * the {@link GroovyASTTransformation} annotation.
-     * @since 0.1.7
+     * @since 0.2.0
      */
     public static void addASTAnnotationsFromTo(final ClassNode annotated, final CompilePhase compilePhase) {
         final AnnotationNode groovyAnn = getGroovyAnnotation(compilePhase);
@@ -50,7 +50,7 @@ public final class Utils {
      * @param compilePhase the target {@link CompilePhase} used as value of the
      * {@link GroovyASTTransformation} annotation
      * @return an instance of {@link GroovyASTTransformation} annotation
-     * @since 0.1.7
+     * @since 0.2.0
      */
     public static AnnotationNode getGroovyAnnotation(final CompilePhase compilePhase) {
         final PropertyExpression valueExpr = getCompilePhaseAsPropertyExpression(compilePhase);
@@ -66,7 +66,7 @@ public final class Utils {
      *
      * @param compilePhase an instance of {@link CompilePhase}
      * @return a {@link PropertyExpression}
-     * @since 0.1.7
+     * @since 0.2.0
      */
     public static PropertyExpression getCompilePhaseAsPropertyExpression(final CompilePhase compilePhase) {
         return A.EXPR.propX(A.EXPR.classX(CompilePhase.class), A.EXPR.constX(compilePhase));
@@ -76,7 +76,7 @@ public final class Utils {
      * Builds a {@link AnnotationNode} of type {@link InheritConstructors}
      *
      * @return a {@link AnnotationNode} representing a {@link InheritConstructors}
-     * @since 0.1.7
+     * @since 0.2.0
      */
     public static AnnotationNode getInheritConstructorsAnnotation() {
         return A.NODES.annotation(InheritConstructors.class).build();

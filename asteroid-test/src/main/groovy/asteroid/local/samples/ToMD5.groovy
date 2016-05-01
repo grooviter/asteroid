@@ -1,10 +1,6 @@
 package asteroid.local.samples
 
-import static asteroid.A.TO
+import asteroid.Local
 
-import asteroid.local.Local
-import asteroid.local.Apply
-
-@Apply(TO.FIELD)
-@Local(ToMD5Impl)
+@Local(value = ToMD5Impl, applyTo = Local.TO.FIELD)
 @interface ToMD5 { }

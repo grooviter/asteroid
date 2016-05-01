@@ -1,9 +1,6 @@
 package asteroid.local.samples
 
-import asteroid.A
-import asteroid.local.Local
-import asteroid.local.Apply
+import asteroid.Local
 
-@Apply(A.TO.METHOD)
-@Local(ExecuteMethodSafelyImpl)
+@Local(value = ExecuteMethodSafelyImpl, applyTo = Local.TO.METHOD)
 @interface ExecuteMethodSafely {}

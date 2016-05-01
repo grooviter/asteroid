@@ -1,4 +1,4 @@
-package asteroid.global;
+package asteroid.transformer;
 
 import groovy.lang.Closure;
 
@@ -8,16 +8,16 @@ import org.codehaus.groovy.ast.stmt.Statement;
 /**
  * This {@link Transformer} could be used as a base for transforming
  * {@link Statement} instances.
- *
- * <b>IMPORTANT:</b> The parameter type is only used as a hint. If you
+ * <br><br>
+ * <b class="warning">IMPORTANT:</b> The parameter type is only used as a hint. If you
  * are not carefull on how you define the search criteria you could
  * get a {@link ClassCastException} at runtime. The criteria should ask
  * for the type of the statement in the first place.
  *
- * @param <T> use as a hint for the {@link StatementTransformer#transformStatement} method parameter
- * @since 0.1.5
+ * @param <T> use as a hint for the {@link AbstractStatementTransformer#transformStatement} method parameter
+ * @since 0.2.0
  */
-public abstract class StatementTransformer<T extends Statement> extends Transformer {
+public abstract class AbstractStatementTransformer<T extends Statement> extends AbstractTransformer {
 
     private final Closure<Boolean> criteria;
 
@@ -28,9 +28,9 @@ public abstract class StatementTransformer<T extends Statement> extends Transfor
      * @param sourceUnit Needed to apply scope
      * @param criteria the criteria used to search the interesting
      * {@link Statement}
-     * @since 0.1.5
+     * @since 0.2.0
      */
-    public StatementTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
+    public AbstractStatementTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -51,7 +51,7 @@ public abstract class StatementTransformer<T extends Statement> extends Transfor
      * This method will transform the statement into its final version.
      *
      * @param statement the method statement you want to transform
-     * @since 0.1.5
+     * @since 0.2.0
      */
     public abstract void transformStatement(T statement);
 
@@ -61,7 +61,7 @@ public abstract class StatementTransformer<T extends Statement> extends Transfor
      *
      * @param stmtClass the type {@link java.lang.Class}
      * @return a search criteria
-     * @since 0.1.5
+     * @since 0.2.0
      */
     public static <T extends Statement> Closure<Boolean> byType(final Class<T> stmtClass) {
         return new Closure<Boolean>(null) {

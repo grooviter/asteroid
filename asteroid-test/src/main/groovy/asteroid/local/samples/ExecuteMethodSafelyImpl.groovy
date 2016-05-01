@@ -1,8 +1,8 @@
 package asteroid.local.samples
 
 import asteroid.A
-import asteroid.local.LocalTransformation
-import asteroid.local.LocalTransformationImpl
+import asteroid.Phase
+import asteroid.AbstractLocalTransformation
 
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.MethodNode
@@ -10,8 +10,8 @@ import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.FieldNode
 
 @CompileStatic
-@LocalTransformation(A.PHASE_LOCAL.SEMANTIC_ANALYSIS)
-class ExecuteMethodSafelyImpl extends LocalTransformationImpl<ExecuteMethodSafely, MethodNode> {
+@Phase(Phase.LOCAL.SEMANTIC_ANALYSIS)
+class ExecuteMethodSafelyImpl extends AbstractLocalTransformation<ExecuteMethodSafely, MethodNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, MethodNode methodNode) {

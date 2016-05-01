@@ -1,10 +1,8 @@
-package asteroid.global;
+package asteroid.transformer;
 
 import org.codehaus.groovy.control.SourceUnit;
-import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.ClassCodeExpressionTransformer;
-import org.codehaus.groovy.syntax.SyntaxException;
 
 /**
  * Most transformers need at some point the source unit in order to
@@ -13,10 +11,11 @@ import org.codehaus.groovy.syntax.SyntaxException;
  * This class enforces the use of a SourceUnit instance for every
  * transformer
  *
- * @since 0.1.2
+ * @since 0.2.0
  *
  */
-public abstract class Transformer extends ClassCodeExpressionTransformer {
+public abstract class AbstractTransformer
+    extends ClassCodeExpressionTransformer implements Transformer {
 
     private final SourceUnit sourceUnit;
 
@@ -24,9 +23,9 @@ public abstract class Transformer extends ClassCodeExpressionTransformer {
      * This constructor needs a source unit
      *
      * @param sourceUnit the related source unit where the expression belongs
-     * @since 0.1.2
+     * @since 0.2.0
      */
-    public Transformer(final SourceUnit sourceUnit) {
+    public AbstractTransformer(final SourceUnit sourceUnit) {
         this.sourceUnit = sourceUnit;
     }
 
@@ -34,25 +33,10 @@ public abstract class Transformer extends ClassCodeExpressionTransformer {
      * This method returns the source unit
      *
      * @return the source unit related to the expression we want to transform
-     * @since 0.1.2
+     * @since 0.2.0
      */
     public SourceUnit getSourceUnit() {
         return this.sourceUnit;
-    }
-
-    /**
-     * This method creates a new SyntaxException
-     *
-     * @param node The node causing the exception
-     * @param message A meaningful exception message to the user
-     * @since 0.1.2
-     */
-    public void addError(final ASTNode node, final String message) {
-        sourceUnit.addError(
-            new SyntaxException(
-                message,
-                node.getColumnNumber(),
-                node.getLineNumber()));
     }
 
     /**
@@ -60,7 +44,7 @@ public abstract class Transformer extends ClassCodeExpressionTransformer {
      * SourceUnit instance
      *
      * @return a ModuleNode instance
-     * @since 0.1.2
+     * @since 0.2.0
      */
     public ModuleNode getModule() {
         return sourceUnit.getAST();
@@ -71,7 +55,7 @@ public abstract class Transformer extends ClassCodeExpressionTransformer {
      * of the current module
      *
      * @return A String representing the current qualified package name
-     * @since 0.1.2
+     * @since 0.2.0
      */
     public String getModulePackageName() {
         final ModuleNode module = getModule();

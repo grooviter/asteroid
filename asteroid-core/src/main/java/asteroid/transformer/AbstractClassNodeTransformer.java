@@ -1,4 +1,4 @@
-package asteroid.global;
+package asteroid.transformer;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
 
@@ -20,14 +20,14 @@ import groovy.lang.Closure;
  * There are some static methods creating some default criterias:
  * </br></br>
  * <ul>
- *    <li>{@link ClassNodeTransformer#byNameContains}</li>
- *    <li>{@link ClassNodeTransformer#byNameStartsWith}</li>
- *    <li>{@link ClassNodeTransformer#byNameEndsWith}</li>
+ *    <li>{@link AbstractClassNodeTransformer#byNameContains}</li>
+ *    <li>{@link AbstractClassNodeTransformer#byNameStartsWith}</li>
+ *    <li>{@link AbstractClassNodeTransformer#byNameEndsWith}</li>
  * </ul>
  *
- * @since 0.1.2
+ * @since 0.2.0
  */
-public abstract class ClassNodeTransformer extends Transformer {
+public abstract class AbstractClassNodeTransformer extends AbstractTransformer {
 
     private final Closure<Boolean> criteria;
 
@@ -50,10 +50,10 @@ public abstract class ClassNodeTransformer extends Transformer {
      * @param sourceUnit Needed to apply scope
      * @param criteria used to locate target classes
      * look for the qualified class)
-     * @since 0.1.2
-     * @see ClassNodeTransformer#byNameContains
+     * @since 0.2.0
+     * @see AbstractClassNodeTransformer#byNameContains
      */
-    public ClassNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
+    public AbstractClassNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);
         this.criteria = criteria;
     }
@@ -63,8 +63,8 @@ public abstract class ClassNodeTransformer extends Transformer {
      * passed as parameter
      *
      * @param term the term contained in the {@link ClassNode} name
-     * @return a criteria to use in the {@link ClassNodeTransformer} constructor
-     * @since 0.1.2
+     * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
+     * @since 0.2.0
      */
     public static Closure<Boolean> byNameContains(final String term) {
         return new Closure<Boolean>(null) {
@@ -79,8 +79,8 @@ public abstract class ClassNodeTransformer extends Transformer {
      * passed as parameter at the end.
      *
      * @param term the term at the end of the {@link ClassNode} name
-     * @return a criteria to use in the {@link ClassNodeTransformer} constructor
-     * @since 0.1.2
+     * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
+     * @since 0.2.0
      */
     public static Closure<Boolean> byNameEndsWith(final String term) {
         return new Closure<Boolean>(null) {
@@ -95,8 +95,8 @@ public abstract class ClassNodeTransformer extends Transformer {
      * passed as parameter at the beginning.
      *
      * @param term at the beginning of the {@link ClassNode} name
-     * @return a criteria to use in the {@link ClassNodeTransformer} constructor
-     * @since 0.1.2
+     * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
+     * @since 0.2.0
      */
     public static Closure<Boolean> byNameStartsWith(final String term) {
         return new Closure<Boolean>(null) {
@@ -116,8 +116,8 @@ public abstract class ClassNodeTransformer extends Transformer {
      * {@link CompilePhase}
      *
      * @param simpleName the simple name of the {@link Class} of the annotation used as marker
-     * @return a criteria to use in the {@link ClassNodeTransformer} constructor
-     * @since 0.1.6
+     * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
+     * @since 0.2.0
      */
     public static Closure<Boolean> byAnnotationName(final String simpleName) {
         return new Closure<Boolean>(null) {
@@ -152,7 +152,7 @@ public abstract class ClassNodeTransformer extends Transformer {
      * instance.
      *
      * @param classNode the {@link ClassNode}  you want to transform
-     * @since 0.1.2
+     * @since 0.2.0
      */
     public abstract void transformClass(final ClassNode classNode);
 
