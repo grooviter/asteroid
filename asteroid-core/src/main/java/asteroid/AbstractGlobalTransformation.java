@@ -19,6 +19,14 @@ import asteroid.transformer.Transformer;
  * This way you should think of an instance of {@link
  * AbstractGlobalTransformation} as a set of {@link Transformer}
  * instances.
+ * <pre class="inner"><code>
+ * class AddTransformation extends AbstractGlobalTransformation {
+ *     {@literal @}Override
+ *     List{@literal <}Class{@literal <}Transformer{@literal >}{@literal >} getTransformers() {
+ *         return [AddPropertyToInnerClass, AddTraitTransformer]
+ *     }
+ * }
+ * </code></pre>
  *
  * @since 0.2.0
  * @see Transformer

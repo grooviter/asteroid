@@ -6,26 +6,56 @@ transformation applies to the field, while annotating the class would mean that 
 class."
 -- Groovy official site
 
+=== Overview
+
+In order to create a local transformation you need to:
+
+* Create an `annotation` annotated by `@Local`
+* Create an `implementation` of the transformation extending `AbstractLocalTransformation`
+* Your implementation should be annotated by `@Phase` with the proper
+  local compilation phase value set.
+
 === @Local
 
-You can use `@Local` to use an annotation as an AST marker. The only
+In a local transformation you normally use an annotation to mark those
+parts of the code you want to transform: classes, methods... That
+annotation should be annotated as well to tell the compiler that is
+going to be used as a transformation marker.
+
+You can use `@Local` to annotate a marker annotation. The only
 **mandatory** argument is the AST implementation class. Implementation
-classes should always extend `asteroid.local.AbstractLocalTransformation` class.
+classes should always extend
+`asteroid.local.AbstractLocalTransformation` class.
 
 [source,groovy]
 ----
 include::{testMain}/asteroid/local/samples/AsList.groovy[]
 ----
 
-If `@Local` annotation is not used in combination with `@Apply` the
-transformation is supposed to be used over an element of type `TYPE`,
-meaning it will be applied over an entire class.
+If `@Local` annotation does not indicate which type of element is
+allowed to annotate by the attribute `appliedTo` then is supposed to
+be used over an element of type `TYPE`, meaning it will be applied
+over an entire class.
 
-=== @Apply
+Underneath the `@Local` annotation is doing:
 
-`@Apply` is used in combination with `@Local` when the transformation
-is applied to any element type other than `TYPE`: a method,
-annotation, field...etc.
+[ditaa,align=center]
+.Local annotation transformation
+....
+
+  +-------------------------------+           +------------------------------------------------------+
+  |                               |           |                                                      |
+  |  @Local(ImplementationClass)  |           | @Target([ElementType.TYPE])                          |
+  |                               |           | @Retention(RetentionPolicy.SOURCE)                   |
+  |                               |---------->| @GroovyASTTransformationClass("ImplementationClass") |
+  |                               |           |                                                      |
+  +-------------------------------+           +------------------------------------------------------+
+....
+
+=== `applyTo`
+
+`applyTo` attribute is used when the transformation is applied to any
+element type other than `TYPE`: a method, annotation, field...etc.
 
 [source, groovy]
 ----
@@ -33,23 +63,7 @@ include::{testMain}/asteroid/local/samples/WithLogging.groovy[]
 ----
 
 <1> This annotation will be applied to method elements.
-<2> The `@Local` annotation only requires the class of the AST transformation implementation
-
-=== @LocalTransformation
-
-This annotation can only be used when coding a local transformation
-implementation using Groovy. It saves some of the boilerplate code
-needed to implement an instance of `asteroid.local.AbstractLocalTransformation`.
-
-[source, groovy]
-----
-include::{testMain}/asteroid/local/samples/AsListImpl.groovy[]
-----
-
-<1> This is a local transformation to be applied during `SEMANTIC_ANALYSIS` phase.
-
-This transformation will be applied to those `ClassNode` instances
-annotated with `@AsList`.
+<2> The class of the AST transformation implementation
 
 === AbstractLocalTransformation
 
@@ -80,8 +94,8 @@ In order to implement that I'm using `AbstractLocalTransformation`:
 include::{testMain}/asteroid/local/samples/ToMD5Impl.groovy[]
 ----
 
-<1> Declaring this class as the implementation of a local AST
-transformation using `LocalTransformation`
+<1> Declaring when to apply this transformation with the annotation
+`@Phase` and the correspondent compilation phase.
 <2> Creating a class extending `AbstractLocalTransformation` and declaring
 that the annotation and the affected node type are `ToMD5` and
 `FieldNode` respectively
@@ -91,8 +105,129 @@ From this line on you don't have to be worried about casting first and
 second node passed to your transformation anymore.
 
 NOTE: Sometimes it comes handy to get a reference to
-`org.codehaus.groovy.control.SourceUnit`. In previous version
+`org.codehaus.groovy.control.SourceUnit`. In previous versions
 `SourceUnit` was passed as argument, but it forced to add an import
 whether you used or not. Now it's present as a class field. Probably
 in future release won't be available directly but through specific
 functions.
+
+=== @Phase
+
+`@Phase` is a **required** annotation for both `global` and `local`
+transformations that indicates in which compilation phase this
+transformation will be applied.
+
+Lets see how `@Phase` annotation is processed in a local transformation:
+
+[ditaa,align=center]
+.Local Transformation
+....
+
+  +-----------------------------------------+           +---------------------------------------------------+
+  |                                         |           |                                                   |
+  |  @Phase(Phase.LOCAL.SEMANTIC_ANALYSIS)  |           | @InheritConstructors                              |
+  |                                         |---------->| @GroovyASTTransformation(phase=SEMANTIC_ANALYSIS) |
+  |                                         |           |                                                   |
+  +-----------------------------------------+           +---------------------------------------------------+
+....
+
+`@Phase` annotation needs a value of type
+`org.codehaus.groovy.control.CompilePhase` enum, but because sometimes
+is hard to remember which phases are available depending on which type
+of transformation we are implementing and it would add one more import
+to our code, `Asteroid` provides a shortcut to these values:
+
+* `asteroid.Phase.LOCAL`
+* `asteroid.Phase.GLOBAL`
+
+This way is always easier to remember how to get the proper
+compilation phase. Here's an example:
+
+[source, groovy]
+----
+include::{testMain}/asteroid/local/samples/AsListImpl.groovy[]
+----
+
+<1> This is a local transformation to be applied during `SEMANTIC_ANALYSIS` phase.
+
+This transformation will be applied to those `ClassNode` instances
+annotated with `@AsList`.
+
+[sidebar]
+.Groovy friendly
+****
+When used over a local transformation implementation in Groovy, apart
+from indicating the compilation phase, underneath, it saves some of
+the boilerplate code needed to implement an instance of
+`asteroid.local.AbstractLocalTransformation`.
+
+Although you can create an `AbstractLocalTransformation` in
+plain Java, you then will have to annotate your transformations like
+the old days.
+****
+
+=== Checks
+
+There are many times when you have to check whether all precoditions
+are correct before applying a given transformation. Without this
+sanity check, many things could go wrong. Checks labels are an effort
+to avoid boiler plate code when checking the AST state. They are
+inspired in Spock blocks.
+
+By default checks labels are available in Asteroid local
+transformations. All you have to do is to structure your code using
+labels `check` and `then`.
+
+Here's an example, it's a bit silly but I think it will easy to
+understand. We have a annotation called `@Serializable`.
+
+The transformation `SerializableImpl` will make all classes annotated
+with `@Serializable` to implement `java.io.Serializable`.
+
+[source, groovy]
+----
+include::{testMain}/asteroid/local/samples/Serializable.groovy[]
+----
+
+As constraints I want to make sure:
+
+- The annotated class package name should should start by 'asteroid'
+- The annotated class can only have two method at most
+
+[source, groovy]
+----
+include::{testMain}/asteroid/local/samples/SerializableImpl.groovy[]
+----
+<1> Checking the annotated class belongs to a certain `package`
+<2> Checking that the annotated node has less than two methods
+<3> Transformation code
+
+[sidebar]
+.Limitations
+****
+Please notice at the moment checks only have a very limited
+functionality. They only allow a **one-line** expression. And these
+expressions can only see `doVisit` parameter values.
+****
+
+To prove it, there's a test with an annotated class having two
+methods:
+
+[source, groovy]
+----
+include::{testTest}/asteroid/local/samples/SerializableTest.groovy[tags=checkersShouldFail]
+----
+
+And the test... passes :)
+
+==== Your own transformations
+
+If you would like to add this functionality in your project, you can
+use Asteroid utility functions to inject this behavior in your code.
+
+[source, java]
+----
+include::{coreMain}/asteroid/internal/LocalTransformationTransformation.java[tags=addCheckTo,indent=0]
+----
+
+This call is taken from Asteroid local transformations. Checking is added to method `doVisit`.

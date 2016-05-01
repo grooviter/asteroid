@@ -59,6 +59,7 @@ javadoc {
     options.stylesheetFile = "$projectDir/src/javadoc/stylesheet.css" as File
     options.windowTitle = 'Asteroid API Documentation'
     options.docTitle = "Asteroid ($releaseVersion)"
+    options.links = ["http://docs.groovy-lang.org/latest/html/api/"]
 }
 
 

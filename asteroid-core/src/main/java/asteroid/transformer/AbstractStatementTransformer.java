@@ -8,8 +8,8 @@ import org.codehaus.groovy.ast.stmt.Statement;
 /**
  * This {@link Transformer} could be used as a base for transforming
  * {@link Statement} instances.
- *
- * <b>IMPORTANT:</b> The parameter type is only used as a hint. If you
+ * <br><br>
+ * <b class="warning">IMPORTANT:</b> The parameter type is only used as a hint. If you
  * are not carefull on how you define the search criteria you could
  * get a {@link ClassCastException} at runtime. The criteria should ask
  * for the type of the statement in the first place.

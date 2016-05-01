@@ -18,11 +18,12 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * <br><br>
  * <b class="note">Types indicate wich nodes are affected:</b>
  * <br><br>
- * Lets say we wanted to build a transformation to transform methods annotated by {@literal @}br
- * <MyAnnotation><br>
+ * Lets say we wanted to build a transformation to transform
+ * <b>methods</b> annotated by {@literal @}MyAnnotation:
  * <pre class="inner"><code>
- * public class MyCustomTransformation extends AbstractLocalTransformation&lt;MyAnnotation, MethodNode&gt; {
- *     public void doVisit(AnnotationNode annotation, final MethodNode annotated){
+ * class MyCustomTransformation extends AbstractLocalTransformation&lt;MyAnnotation, MethodNode&gt; {
+ *     {@literal @}Override
+ *     void doVisit(AnnotationNode annotation, final MethodNode annotated){
  *         // implementation
  *     }
  * }
@@ -42,13 +43,14 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
  * the other to call the transformation.
  *
  * <pre class="inner"><code>
- *     public void doVisit(AnnotationNode annotation, final ClassNode annotated){
- *         check: 'class has correct name'
- *         annotated.name == 'MyBusinessService'
+ * {@literal @}Override
+ * void doVisit(AnnotationNode annotation, final ClassNode annotated){
+ *     check: 'class has correct name'
+ *     annotated.name == 'MyBusinessService'
  *
- *         then: 'we will add a new method'
- *         // transformation code
- *     }
+ *     then: 'we will add a new method'
+ *     // transformation code
+ * }
  * </code></pre>
  * Any expression within the <b>check</b> block will be treated as an
  * assertion statement. If any of the assertion fails the compilation

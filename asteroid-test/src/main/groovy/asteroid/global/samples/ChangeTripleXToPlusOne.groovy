@@ -9,12 +9,6 @@ import org.codehaus.groovy.ast.expr.MethodCallExpression
 import asteroid.A
 import asteroid.transformer.AbstractExpressionTransformer
 
-/**
- * This {@link AbstractExpressionTransformer} transforms {@link MethodCallExpression}
- * instances with name 'xxx' to a constant number expression 1.
- *
- * @since 0.1.2
- */
 @CompileStatic
 // tag::expressiontransformer[]
 class ChangeTripleXToPlusOne
@@ -24,6 +18,7 @@ class ChangeTripleXToPlusOne
         super(sourceUnit, methodCallByNameEq('xxx')) // <2>
     }
 
+    @Override
     Expression transformExpression(final MethodCallExpression target) { // <3>
         return A.EXPR.constX(1)  // <4>
     }
