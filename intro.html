@@ -449,8 +449,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="paragraph">
 <p>AST transformations, have been historically a hard topic in
-Groovy. Asteroid is a set of utilities trying to reduce the complexity
-of dealing with transformations.</p>
+Groovy. Asteroid is a set of utilities and ideas trying to reduce the
+complexity of dealing with transformations.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Apache</div>
+<div class="paragraph">
+<p>The <strong>Asteroid</strong> project is open sourced under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2 License</a>.</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>If you have never done any AST transformation I&#8217;d recommend you to
@@ -458,6 +466,20 @@ take a look both the
 <a href="http://groovy-lang.org/metaprogramming.html#developing-ast-xforms">Groovy</a>
 documentation and the theory chapter. If you already now the stuff
 then read on.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+At the moment <strong>Asteroid</strong> development is in an alpha
+state. Please check the changelog file to follow the progress of the
+project.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -483,7 +505,7 @@ then read on.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.1.6'</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.2.0'</code></pre>
 </div>
 </div>
 </div>
@@ -541,11 +563,11 @@ stop greet</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>This annotation will be applied to method elements.</td>
+<td>The transformation implementation class</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <code>@Local</code> annotation only requires the class of the AST transformation implementation</td>
+<td>This annotation will be applied to method elements.</td>
 </tr>
 </table>
 </div>
@@ -556,16 +578,16 @@ stop greet</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-By default <code>@Local</code> annotation assumes the annotation is applied to a <code>type</code> (classes). If you would like to apply the
-annotation to any other type of node, please use <code>@Apply</code> annotation and the correspondent element type.
+By default <code>@Local</code> annotation assumes the annotation is applied to a <code>type</code> (classes). So if you are using the annotation for a type then you could omit <code>value</code> and <code>applyTo</code> attributes an write just the class of the transformation like this: <code>@Local(ImplementationClass)</code>.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Now it&#8217;s time to implement the transformation. The transformation should be an instance of
-<code>asteroid.LocalTransformationImpl</code>. We have to extend <code>LocalTransformationImpl</code> and provide two important generic
-arguments:</p>
+<p>Now it&#8217;s time to implement the transformation. The transformation
+should be an instance of
+<code>asteroid.local.AbstractLocalTransformation</code>. We have to extend
+<code>AbstractLocalTransformation</code> and provide two generic arguments:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -586,9 +608,7 @@ arguments:</p>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The <code>@LocalTransformation</code> annotation indicates that the following class is an implementation of a local
-transformation. It also requires to specify the compilation phase this AST transformation will be applied. The
-enumeration <code>A.PHASE_LOCAL</code> will show <code>ONLY</code> those compilation phases available for local transformations.</td>
+<td>The <code>@Phase</code> annotation indicates in which compilation phase this transformation will be applied.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -630,7 +650,7 @@ classes helping to create new Abstract Syntaxt Tree nodes.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="diag-6d64dcb7873d023edc4d9ca1ea01fdbb.png" alt="diag 6d64dcb7873d023edc4d9ca1ea01fdbb" width="1000" height="224">
+<img src="diag-4608b07edeacc2d2670155ae10dc179a.png" alt="diag 4608b07edeacc2d2670155ae10dc179a" width="1000" height="224">
 </div>
 </div>
 <div class="sect2">
@@ -645,10 +665,6 @@ proceed.</p>
 <p>Asteroid tries to provide higher abstractions in order to reduce some
 of the boiler plate code, and make the developer to focus on the
 transformation only.</p>
-</div>
-<div class="paragraph">
-<p>Both local and global abstractions are located in <code>asteroid.local</code> and
-<code>asteroid.global</code> packages.</p>
 </div>
 </div>
 <div class="sect2">
@@ -706,7 +722,7 @@ of the code in Asteroid, used for creating <code>expressions</code> and
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-04-17 21:21:54 +00:00
+Last updated 2016-05-01 17:10:02 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

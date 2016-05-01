@@ -1,6 +1,5 @@
 asteroid
-asteroid.global
 asteroid.internal
-asteroid.local
 asteroid.nodes
+asteroid.transformer
 asteroid.utils

@@ -425,10 +425,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_local_transformations">Local Transformations</a>
 <ul class="sectlevel2">
+<li><a href="#_overview">Overview</a></li>
 <li><a href="#__local">@Local</a></li>
-<li><a href="#__apply">@Apply</a></li>
-<li><a href="#__localtransformation">@LocalTransformation</a></li>
-<li><a href="#_localtransformationimpl">LocalTransformationImpl</a></li>
+<li><a href="#__code_applyto_code"><code>applyTo</code></a></li>
+<li><a href="#_abstractlocaltransformation">AbstractLocalTransformation</a></li>
+<li><a href="#__phase">@Phase</a></li>
+<li><a href="#_checks">Checks</a>
+<ul class="sectlevel3">
+<li><a href="#_your_own_transformations">Your own transformations</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -450,11 +456,38 @@ class.
 </div>
 </div>
 <div class="sect2">
+<h3 id="_overview">Overview</h3>
+<div class="paragraph">
+<p>In order to create a local transformation you need to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create an <code>annotation</code> annotated by <code>@Local</code></p>
+</li>
+<li>
+<p>Create an <code>implementation</code> of the transformation extending <code>AbstractLocalTransformation</code></p>
+</li>
+<li>
+<p>Your implementation should be annotated by <code>@Phase</code> with the proper
+local compilation phase value set.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
 <h3 id="__local">@Local</h3>
 <div class="paragraph">
-<p>You can use <code>@Local</code> to use an annotation as an AST marker. The only
+<p>In a local transformation you normally use an annotation to mark those
+parts of the code you want to transform: classes, methods&#8230;&#8203; That
+annotation should be annotated as well to tell the compiler that is
+going to be used as a transformation marker.</p>
+</div>
+<div class="paragraph">
+<p>You can use <code>@Local</code> to annotate a marker annotation. The only
 <strong>mandatory</strong> argument is the AST implementation class. Implementation
-classes should always extend <code>asteroid.LocalTransformationImpl</code> class.</p>
+classes should always extend
+<code>asteroid.local.AbstractLocalTransformation</code> class.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -462,17 +495,26 @@ classes should always extend <code>asteroid.LocalTransformationImpl</code> class
 </div>
 </div>
 <div class="paragraph">
-<p>If <code>@Local</code> annotation is not used in combination with <code>@Apply</code> the
-transformation is supposed to be used over an element of type <code>TYPE</code>,
-meaning it will be applied over an entire class.</p>
+<p>If <code>@Local</code> annotation does not indicate which type of element is
+allowed to annotate by the attribute <code>appliedTo</code> then is supposed to
+be used over an element of type <code>TYPE</code>, meaning it will be applied
+over an entire class.</p>
+</div>
+<div class="paragraph">
+<p>Underneath the <code>@Local</code> annotation is doing:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="diag-d1c077a2bcd0cae38f25ad0fa057473d.png" alt="Local annotation transformation" width="1060" height="168">
+</div>
+<div class="title">Figure 1. Local annotation transformation</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__apply">@Apply</h3>
+<h3 id="__code_applyto_code"><code>applyTo</code></h3>
 <div class="paragraph">
-<p><code>@Apply</code> is used in combination with <code>@Local</code> when the transformation
-is applied to any element type other than <code>TYPE</code>: a method,
-annotation, field&#8230;&#8203;etc.</p>
+<p><code>applyTo</code> attribute is used when the transformation is applied to any
+element type other than <code>TYPE</code>: a method, annotation, field&#8230;&#8203;etc.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -487,40 +529,15 @@ annotation, field&#8230;&#8203;etc.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <code>@Local</code> annotation only requires the class of the AST transformation implementation</td>
+<td>The class of the AST transformation implementation</td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="__localtransformation">@LocalTransformation</h3>
+<h3 id="_abstractlocaltransformation">AbstractLocalTransformation</h3>
 <div class="paragraph">
-<p>This annotation can only be used when coding a local transformation
-implementation using Groovy. It saves some of the boilerplate code
-needed to implement an instance of <code>asteroid.LocalTransformationImpl</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/AsListImpl.groovy[]</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>This is a local transformation to be applied during <code>SEMANTIC_ANALYSIS</code> phase.</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>This transformation will be applied to those <code>ClassNode</code> instances
-annotated with <code>@AsList</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_localtransformationimpl">LocalTransformationImpl</h3>
-<div class="paragraph">
-<p><code>asteroid.LocalTransformationImpl</code> exists to avoid some of the
+<p><code>asteroid.local.AbstractLocalTransformation</code> exists to avoid some of the
 defensive code that you would normally write at the beggining of an
 AST transformation.</p>
 </div>
@@ -528,7 +545,7 @@ AST transformation.</p>
 <p>When coding an AST transformation you always check that the first node
 is an <code>AnnotationNode</code> and the second is the type of <code>ASTNode</code> you
 expected to be annotated by the first node. Instead of coding that you
-can use <code>LocalTransformationImpl</code>.</p>
+can use <code>AbstractLocalTransformation</code>.</p>
 </div>
 <div class="paragraph">
 <p>Lets say I have an annotation <code>@ToMD5</code>. That annotation can only be
@@ -544,7 +561,7 @@ used in elements of type <code>FIELD</code>:</p>
 returning the MD5 signature of the content of that field.</p>
 </div>
 <div class="paragraph">
-<p>In order to implement that I&#8217;m using <code>LocalTransformationImpl</code>:</p>
+<p>In order to implement that I&#8217;m using <code>AbstractLocalTransformation</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -555,12 +572,12 @@ returning the MD5 signature of the content of that field.</p>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Declaring this class as the implementation of a local AST
-transformation using <code>LocalTransformation</code></td>
+<td>Declaring when to apply this transformation with the annotation
+<code>@Phase</code> and the correspondent compilation phase.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Creating a class extending <code>LocalTransformationImpl</code> and declaring
+<td>Creating a class extending <code>AbstractLocalTransformation</code> and declaring
 that the annotation and the affected node type are <code>ToMD5</code> and
 <code>FieldNode</code> respectively</td>
 </tr>
@@ -582,7 +599,7 @@ second node passed to your transformation anymore.</p>
 </td>
 <td class="content">
 Sometimes it comes handy to get a reference to
-<code>org.codehaus.groovy.control.SourceUnit</code>. In previous version
+<code>org.codehaus.groovy.control.SourceUnit</code>. In previous versions
 <code>SourceUnit</code> was passed as argument, but it forced to add an import
 whether you used or not. Now it&#8217;s present as a class field. Probably
 in future release won&#8217;t be available directly but through specific
@@ -592,12 +609,182 @@ functions.
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="__phase">@Phase</h3>
+<div class="paragraph">
+<p><code>@Phase</code> is a <strong>required</strong> annotation for both <code>global</code> and <code>local</code>
+transformations that indicates in which compilation phase this
+transformation will be applied.</p>
+</div>
+<div class="paragraph">
+<p>Lets see how <code>@Phase</code> annotation is processed in a local transformation:</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="diag-865b3d1c4228cc4b6eda9b9f50c36d82.png" alt="Local Transformation" width="1130" height="154">
+</div>
+<div class="title">Figure 2. Local Transformation</div>
+</div>
+<div class="paragraph">
+<p><code>@Phase</code> annotation needs a value of type
+<code>org.codehaus.groovy.control.CompilePhase</code> enum, but because sometimes
+is hard to remember which phases are available depending on which type
+of transformation we are implementing and it would add one more import
+to our code, <code>Asteroid</code> provides a shortcut to these values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>asteroid.Phase.LOCAL</code></p>
+</li>
+<li>
+<p><code>asteroid.Phase.GLOBAL</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This way is always easier to remember how to get the proper
+compilation phase. Here&#8217;s an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/AsListImpl.groovy[]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This is a local transformation to be applied during <code>SEMANTIC_ANALYSIS</code> phase.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This transformation will be applied to those <code>ClassNode</code> instances
+annotated with <code>@AsList</code>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Groovy friendly</div>
+<div class="paragraph">
+<p>When used over a local transformation implementation in Groovy, apart
+from indicating the compilation phase, underneath, it saves some of
+the boilerplate code needed to implement an instance of
+<code>asteroid.local.AbstractLocalTransformation</code>.</p>
+</div>
+<div class="paragraph">
+<p>Although you can create an <code>AbstractLocalTransformation</code> in
+plain Java, you then will have to annotate your transformations like
+the old days.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_checks">Checks</h3>
+<div class="paragraph">
+<p>There are many times when you have to check if all precoditions are
+correct before applying a given transformation. Without this sanity
+check, many things could go wrong. Checks labels are an effort to
+avoid boiler plate code when checking the AST state. They are inspired
+in Spock blocks.</p>
+</div>
+<div class="paragraph">
+<p>By default checks labels are available in Asteroid local
+transformations. All you have to do is to structure your code using
+labels <code>check</code> and <code>then</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an example, it&#8217;s a bit silly but I think it will easy to
+understand. We have a annotation called <code>@Serializable</code>.</p>
+</div>
+<div class="paragraph">
+<p>The transformation <code>SerializableImpl</code> will make all classes annotated
+with <code>@Serializable</code> to implement <code>java.io.Serializable</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/Serializable.groovy[]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As constraints I want to make sure:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The annotated class package name should should start by 'asteroid'</p>
+</li>
+<li>
+<p>The annotated class can only have two method at most</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/SerializableImpl.groovy[]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Checking the annotated class belongs to a certain <code>package</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Checking that the annotated node has less than two methods</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Transformation code</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Limitations</div>
+<div class="paragraph">
+<p>Please notice at the moment checks only have a very limited
+functionality. They only allow a <strong>one-line</strong> expression. And these
+expressions can only see <code>doVisit</code> parameter values.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To prove it, there&#8217;s a test with an annotated class having two
+methods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testTest}/asteroid/local/samples/SerializableTest.groovy[tags=checkersShouldFail]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the test&#8230;&#8203; passes :)</p>
+</div>
+<div class="sect3">
+<h4 id="_your_own_transformations">Your own transformations</h4>
+<div class="paragraph">
+<p>If you would like to add this functionality in your project, you can
+use Asteroid utility functions to inject this behavior in your code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Unresolved directive in local.adoc - include::{coreMain}/asteroid/internal/LocalTransformationTransformation.java[tags=addCheckTo,indent=0]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This call is taken from Asteroid local transformations. Checking is added to method <code>doVisit</code>.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-04-28 07:22:28 +00:00
+Last updated 2016-05-01 17:10:02 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

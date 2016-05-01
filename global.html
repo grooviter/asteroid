@@ -425,6 +425,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_global_transformations">Global Transformations</a>
 <ul class="sectlevel2">
+<li><a href="#_overview">Overview</a></li>
 <li><a href="#_example">Example</a></li>
 <li><a href="#_transformers">Transformers</a>
 <ul class="sectlevel3">
@@ -441,8 +442,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_global_transformations">Global Transformations</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_example">Example</h3>
 <div class="quoteblock">
 <blockquote>
 Global AST transformation are similar to local one with a major
@@ -455,12 +454,41 @@ can have a significant impact on the compiler performance.
 &#8212; Groovy official site
 </div>
 </div>
+<div class="sect2">
+<h3 id="_overview">Overview</h3>
 <div class="paragraph">
 <p><code>Asteroid</code> suggest a certain way of creating global AST
 transformations. Instead of creating a global transformation and
 manipulate the <code>SourceUnit</code> directly, an <code>Asteroid</code> global
 transformation only holds references to code transformers.</p>
 </div>
+<div class="paragraph">
+<p>In order to create a local transformation you need to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create an <code>implementation</code> of the transformation extending
+<code>AbstractGlobalTransformation</code></p>
+</li>
+<li>
+<p>Create as many <code>transfomers</code> as you need and then make the
+<code>getTransformers</code> method from your transformation to return the
+classes of those transformers.</p>
+</li>
+<li>
+<p>Your implementation should be annotated by <code>@Phase</code> with the proper
+local compilation phase value set.</p>
+</li>
+<li>
+<p>Add a <code>transformation descriptor</code> in your classpath to tell the
+compiler where it can find your transformation</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example">Example</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in global.adoc - include::{testMain}/asteroid/global/samples/AddTransformation.groovy[]</code></pre>
@@ -478,7 +506,7 @@ transformation only holds references to code transformers.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Adding <code>asteroid.global.AbstractClassCodeExpressionTransformer</code> classes</td>
+<td>Adding <code>asteroid.global.AbstractClassNodeTransformer</code> classes</td>
 </tr>
 </table>
 </div>
@@ -681,7 +709,7 @@ replacing an expression cause expressions are considered as values.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-04-17 21:21:54 +00:00
+Last updated 2016-05-01 17:10:02 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
