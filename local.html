@@ -430,6 +430,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#__code_applyto_code"><code>applyTo</code></a></li>
 <li><a href="#_abstractlocaltransformation">AbstractLocalTransformation</a></li>
 <li><a href="#__phase">@Phase</a></li>
+<li><a href="#_compilation_errors">Compilation errors</a></li>
 <li><a href="#_checks">Checks</a>
 <ul class="sectlevel3">
 <li><a href="#_your_own_transformations">Your own transformations</a></li>
@@ -681,6 +682,19 @@ the old days.</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_compilation_errors">Compilation errors</h3>
+<div class="paragraph">
+<p>If at some point you would like to stop the compilation process the
+best approach is to use <code>addError</code> method. This method is available
+in both <code>AbstractLocalTransformation</code> and <code>AbstractGlobalTransformation</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/GrumpyImpl.groovy[]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_checks">Checks</h3>
 <div class="paragraph">
 <p>There are many times when you have to check if all precoditions are
@@ -784,7 +798,7 @@ use Asteroid utility functions to inject this behavior in your code.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-05-01 17:10:02 +00:00
+Last updated 2016-05-14 10:05:37 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

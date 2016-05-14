@@ -422,7 +422,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Asteroid</h1>
 <div class="details">
-<span id="revnumber">version 0.2.0</span>
+<span id="revnumber">version 0.2.1</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -462,9 +462,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#__code_applyto_code">5.3. <code>applyTo</code></a></li>
 <li><a href="#_abstractlocaltransformation">5.4. AbstractLocalTransformation</a></li>
 <li><a href="#__phase">5.5. @Phase</a></li>
-<li><a href="#_checks">5.6. Checks</a>
+<li><a href="#_compilation_errors">5.6. Compilation errors</a></li>
+<li><a href="#_checks">5.7. Checks</a>
 <ul class="sectlevel3">
-<li><a href="#_your_own_transformations">5.6.1. Your own transformations</a></li>
+<li><a href="#_your_own_transformations">5.7.1. Your own transformations</a></li>
 </ul>
 </li>
 </ul>
@@ -1438,7 +1439,37 @@ the old days.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_checks">5.6. Checks</h3>
+<h3 id="_compilation_errors">5.6. Compilation errors</h3>
+<div class="paragraph">
+<p>If at some point you would like to stop the compilation process the
+best approach is to use <code>addError</code> method. This method is available
+in both <code>AbstractLocalTransformation</code> and <code>AbstractGlobalTransformation</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
+
+import asteroid.Phase
+import asteroid.AbstractLocalTransformation
+
+import groovy.transform.CompileStatic
+import org.codehaus.groovy.ast.ClassNode
+import org.codehaus.groovy.ast.AnnotationNode
+
+@CompileStatic
+@Phase(Phase.LOCAL.SEMANTIC_ANALYSIS)
+class GrumpyImpl extends AbstractLocalTransformation&lt;Grumpy, ClassNode&gt; {
+
+    @Override
+    void doVisit(AnnotationNode annotation, ClassNode clazz) {
+        addError("I don't like you Argggg!!!!! (said the Grumpy transformation)", clazz)
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_checks">5.7. Checks</h3>
 <div class="paragraph">
 <p>There are many times when you have to check if all precoditions are
 correct before applying a given transformation. Without this sanity
@@ -1567,7 +1598,7 @@ methods:</p>
 <p>And the test&#8230;&#8203; passes :)</p>
 </div>
 <div class="sect3">
-<h4 id="_your_own_transformations">5.6.1. Your own transformations</h4>
+<h4 id="_your_own_transformations">5.7.1. Your own transformations</h4>
 <div class="paragraph">
 <p>If you would like to add this functionality in your project, you can
 use Asteroid utility functions to inject this behavior in your code.</p>
@@ -2160,7 +2191,7 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.0<br>
+Version 0.2.1<br>
 Last updated 2016-05-01 17:10:02 +00:00
 </div>
 </div>
