@@ -1,6 +1,25 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2016-05-13
+
+### Added
+
+- Some information about how to stop compilation through
+  transformation's `addError` method
+- shield.io badges for travis/bintray/license
+
+### Fixed
+
+- NPE: SourceUnit was not passed properly to `AbstractLocalTransformation#doVisit`
+
+### Breaking changes
+
+- Changed behavior in local transformations. If compiler doesn't
+provide the required type, number of nodes to the transformation, the
+transformation will be skipped.  At the moment it would throw a
+`GroovyBugError`
+
 ## [0.2.0] - 2016-05-01
 
 This version has many breaking changes, that's why the minor version

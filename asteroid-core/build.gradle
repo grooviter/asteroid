@@ -13,6 +13,11 @@ apply plugin: 'com.jfrog.bintray'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+// WARNING: Only useful when intalling locally but then keep in mind
+// artifactId will be `asteroid-core` instead of `asteroid`
+group   = releaseGroup
+version = releaseVersion
+
 dependencies {
     compile libs.groovy
 }

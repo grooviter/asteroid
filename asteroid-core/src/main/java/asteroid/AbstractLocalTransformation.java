@@ -111,7 +111,9 @@ public abstract class AbstractLocalTransformation<T extends Annotation,S extends
      */
     @Override
     public void visit(final ASTNode[] nodes, final SourceUnit source) {
-        super.init(nodes, source);
+        if (shouldSkip(nodes)) {
+            return; // skip
+        }
 
         final AnnotationNode marker = (AnnotationNode) first(nodes);
 
@@ -125,6 +127,14 @@ public abstract class AbstractLocalTransformation<T extends Annotation,S extends
 
         final S annotated = (S) last(nodes);
 
+        this.sourceUnit = source;
+
         doVisit(marker, annotated);
+    }
+
+    private boolean shouldSkip(final ASTNode... nodes) {
+        return nodes == null || nodes.length != 2 ||
+            !(nodes[0] instanceof AnnotationNode) ||
+            !(nodes[1] instanceof AnnotatedNode);
     }
 }
