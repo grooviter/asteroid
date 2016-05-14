@@ -166,6 +166,17 @@ plain Java, you then will have to annotate your transformations like
 the old days.
 ****
 
+=== Compilation errors
+
+If at some point you would like to stop the compilation process the
+best approach is to use `addError` method. This method is available
+in both `AbstractLocalTransformation` and `AbstractGlobalTransformation`.
+
+[source, groovy]
+----
+include::{testMain}/asteroid/local/samples/GrumpyImpl.groovy[]
+----
+
 === Checks
 
 There are many times when you have to check if all precoditions are
