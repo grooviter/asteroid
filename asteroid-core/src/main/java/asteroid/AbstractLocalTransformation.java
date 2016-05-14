@@ -127,6 +127,8 @@ public abstract class AbstractLocalTransformation<T extends Annotation,S extends
 
         final S annotated = (S) last(nodes);
 
+        this.sourceUnit = source;
+
         doVisit(marker, annotated);
     }
 
