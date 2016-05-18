@@ -1,6 +1,20 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2016-05-18
+
+Maintenance release
+
+### Added
+
+- Add new utility method to check if there is a given ClassNode fields
+of a certain type
+
+### Fixed
+
+- Mismatching javadoc/implementation. Fixed following javadoc
+  specification
+
 ## [0.2.1] - 2016-05-13
 
 ### Added
