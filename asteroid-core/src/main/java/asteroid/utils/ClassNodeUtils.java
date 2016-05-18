@@ -150,7 +150,7 @@ public final class ClassNodeUtils {
      * @since 0.1.6
      */
     public AnnotationNode getAnnotationFrom(final ClassNode classNode, final String simpleName) {
-        return find(classNode.getAnnotations(), byName(simpleName));
+        return find(classNode.getAnnotations(), bySimpleName(simpleName));
     }
 
     /**
@@ -164,10 +164,12 @@ public final class ClassNodeUtils {
         annotated.getAnnotations().remove(annotation);
     }
 
-    private Closure<Boolean> byName(final String annotationName) {
+    private Closure<Boolean> bySimpleName(final String annotationName) {
         return new Closure(null) {
             public boolean doCall(final AnnotationNode node) {
-                return node.getClassNode().getName().equals(annotationName);
+                return node.getClassNode()
+                    .getNameWithoutPackage()
+                    .equals(annotationName);
             }
         };
     }
