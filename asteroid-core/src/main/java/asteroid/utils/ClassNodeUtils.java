@@ -1,6 +1,7 @@
 package asteroid.utils;
 
 import static org.codehaus.groovy.runtime.StringGroovyMethods.take;
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.find;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 
@@ -172,6 +173,28 @@ public final class ClassNodeUtils {
                     .equals(annotationName);
             }
         };
+    }
+
+    /**
+     * Returns whether if the {@link ClassNode} passed as first
+     * parameter has any field with the type matching the qualified
+     * name passed as second parameter.
+     *
+     * @param node The node under test
+     * @param qualifiedName The qualified name of the type
+     * @return true if there is any field with the given type, false
+     * otherwise
+     * @since 0.2.2
+     */
+    public Boolean hasFieldOfType(final ClassNode node, final String qualifiedName) {
+        final List<FieldNode> nodeFields = node.getFields();
+        final Closure<Boolean> predicate = new Closure<Boolean>(null){
+                public Boolean doCall(final FieldNode fieldNode) {
+                    return isOrExtends(fieldNode.getType(), qualifiedName);
+                }
+            };
+
+        return any(nodeFields, predicate);
     }
 
     /**
