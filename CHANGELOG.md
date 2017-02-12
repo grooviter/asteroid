@@ -1,6 +1,31 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.4] - [2017-03-12]
+
+Criterias release
+
+### Fixed
+
+- Fix Repo badges
+- Update gh-pages published documentation
+
+### Added
+
+- `asteroid.Criterias` now gathers all criterias. And can be used not
+only in transformers but also as simple predicates to filter out lists
+of nodes
+- Criterias can also be accessed via `A.CRITERIA`
+- `NodeUtils` javadoc
+- `asteroid.statement` package javadoc
+- Deprecation information added to java compilation
+
+### Deprecated
+
+- All criteras inside transformer classes are now deprecated in favor
+of `asteroid.Criterias`
+- Miscellaneos methods `and`, `or` should be access via `asteroid.Criterias`
+
 ## [0.2.3] - 2017-02-12
 
 Added some minor features, and improved safety in transformers, and
