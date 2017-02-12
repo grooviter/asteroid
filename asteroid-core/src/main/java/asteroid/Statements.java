@@ -8,10 +8,13 @@ import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.stmt.AssertStatement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
+import org.codehaus.groovy.ast.stmt.TryCatchStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.builder.AstBuilder;
 import org.codehaus.groovy.ast.expr.BooleanExpression;
+
+import asteroid.statements.TryCatchStatementBuilder;
 
 /**
  * This class hides the different implementations to create expressions through the Groovy api to provide a unified
@@ -183,5 +186,18 @@ public final class Statements {
      */
     public static AssertStatement assertS(final BooleanExpression booleanExpr, final String errorMessage) {
         return new AssertStatement(booleanExpr, A.EXPR.constX(errorMessage));
+    }
+
+    /**
+     * Returns an instance of {@link TryCatchStatementBuilder} to
+     * build complex try/catch statements the easy way. Check {@link
+     * TryCatchStatementBuilder} javadoc to know how to use it.
+     *
+     * @return an instance of {@link TryCatchStatement}
+     * @see TryCatchStatementBuilder
+     * @since 0.2.3
+     */
+    public static TryCatchStatementBuilder tryCatchSBuilder(){
+        return new TryCatchStatementBuilder();
     }
 }
