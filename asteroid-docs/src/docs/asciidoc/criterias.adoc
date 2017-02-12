@@ -4,15 +4,18 @@ Every time we want to apply a transformation we want to target
 specific nodes:
 
 - A method with a specific `annotation`
+- A class with a specific `annotation`
 - A method with a specific `name`
 - A method with a specific name `and` a specific annotation
-- And so on and so forth
+- ...
 
 Instead of holding a node reference and start calling methods from
 that reference in order to figure out if it is the node we want to act
 over, we can use criterias.
 
-At the moment criterias are only available in transformers.
+NOTE: At the moment criterias are only available in `global
+transformers`. Check transformers link:javadocs/index.html[javadocs]
+in order to know which criterias are available.
 
 IMPORTANT: Because criterias are meant to be shared among many types
 of transformations, it's probably that criterias will be available in
