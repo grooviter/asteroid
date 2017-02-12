@@ -238,7 +238,7 @@ use Asteroid utility functions to inject this behavior in your code.
 
 [source, java]
 ----
-include::{coreMain}/asteroid/internal/LocalTransformationTransformation.java[tags=addCheckTo,indent=0]
+include::{coreMain}/asteroid/internal/PhaseTransformation.java[tags=addCheckTo,indent=0]
 ----
 
 This call is taken from Asteroid local transformations. Checking is added to method `doVisit`.

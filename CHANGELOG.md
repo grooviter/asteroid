@@ -1,6 +1,29 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.3] - 2017-02-12
+
+Added some minor features, and improved safety in transformers, and
+fixed a typo in docs.
+
+### Added
+
+- New "or", "and" combinations in `MiscellaneousUtils` to help
+  creating complex criterias in Transformers or Transformations
+- Documentation about transformer criterias
+- New `TryCatchStatementBuilder` to make it easier to create try/catch
+  statements
+- Added type of node affected when creating a transformer in global
+  transformations
+
+### Fixed
+
+- Fixed Typo in documentation thanks to @jagedn :)
+
+### Upgraded
+
+- Groovy version to 2.4.8
+
 ## [0.2.2] - 2016-05-18
 
 Maintenance release

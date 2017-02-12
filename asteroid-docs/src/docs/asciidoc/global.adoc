@@ -14,7 +14,7 @@ transformations. Instead of creating a global transformation and
 manipulate the `SourceUnit` directly, an `Asteroid` global
 transformation only holds references to code transformers.
 
-In order to create a local transformation you need to:
+In order to create a global transformation you need to:
 
 * Create an `implementation` of the transformation extending
   `AbstractGlobalTransformation`

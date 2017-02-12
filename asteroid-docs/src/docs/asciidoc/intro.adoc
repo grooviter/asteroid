@@ -37,9 +37,9 @@ repositories {
 
 Then you can add the dependency to your project:
 
-[source,groovy]
+[source,groovy, subs="attributes"]
 ----
-compile 'com.github.grooviter:asteroid:0.2.0'
+compile 'com.github.grooviter:asteroid:{project-version}'
 ----
 
 === Example
