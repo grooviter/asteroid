@@ -1,8 +1,15 @@
+buildscript {
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.4.2'
+    }
+}
+
 plugins {
   id 'org.asciidoctor.convert' version '1.5.3'
   id 'com.github.jruby-gradle.base' version '1.2.1'
 }
 
+apply plugin: 'org.ajoberstar.github-pages'
 apply plugin: 'com.github.jruby-gradle.base'
 apply plugin: 'org.asciidoctor.convert'
 
@@ -30,5 +37,21 @@ task allDocs(type: Copy) {
     into "build/asciidoc/html5/javadocs/"
 }
 
+githubPages {
+    repoUri = 'https://github.com/grooviter/asteroid.git'
+    deleteExistingFiles = true
+
+    pages {
+        from file('build/asciidoc/html5')
+    }
+
+    //https://github.com/ajoberstar/gradle-git/wiki/Travis-CI-Authentication
+    credentials {
+        username = project.properties.githubToken
+        password = ''
+    }
+}
+
+publishGhPages.dependsOn 'allDocs'
 allDocs.dependsOn 'asciidoctor'
 asciidoctor.dependsOn ':asteroid-core:javadoc'
