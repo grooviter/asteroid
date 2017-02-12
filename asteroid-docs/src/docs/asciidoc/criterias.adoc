@@ -1,0 +1,67 @@
+== Criterias
+
+Every time we want to apply a transformation we want to target
+specific nodes:
+
+- A method with a specific `annotation`
+- A method with a specific `name`
+- A method with a specific name `and` a specific annotation
+- And so on and so forth
+
+Instead of holding a node reference and start calling methods from
+that reference in order to figure out if it is the node we want to act
+over, we can use criterias.
+
+At the moment criterias are only available in transformers.
+
+IMPORTANT: Because criterias are meant to be shared among many types
+of transformations, it's probably that criterias will be available in
+the future as standalone functions.
+
+Lets say we would like to apply a given transformation to a specific
+set of classes annotated with a certain annotation.
+
+[source, groovy]
+.Criteria
+----
+include::{testMain}/asteroid/utils/AddImportTransformer.groovy[tags=classnodetransformer]
+----
+<1> Using a class node transformer
+<2> Looking for a class node annotated with an annotation with name `AddImport`
+
+What about looking for a `ClassNode` representing an inner class
+having a specific name.
+
+[source, groovy]
+----
+include::{testMain}/asteroid/global/samples/AddPropertyToInnerClass.groovy[]
+----
+<1> Again looking for a class node
+<2> With a name containing a specific `Outer$Inner` class name
+
+Now a different example. Instead of targeting a `ClassNode` we would
+like to find a specific method call expression. We know what is the
+name of the method we are calling, that's why we use
+`methodCallByName` criteria here:
+
+[source, groovy]
+.ExpressionTransformer
+----
+include::{testMain}/asteroid/global/samples/ChangeTripleXToPlusOne.groovy[tags=expressiontransformer]
+----
+
+=== and / or
+
+Sometimes using only one criteria could be limiting, sometimes we may
+want to combine two or more criterias at once. For that purpose you can
+use `A.UTIL.MISC.and` and `A.UTIL.MISC.or`. Check next example:
+
+[source, groovy]
+----
+include::{testMain}/asteroid/global/samples/AddLoggerTransformer.groovy[tags=complexCriteria]
+----
+<1> Criteria looks for class nodes with name starting with
+`asteroid.global.samples` and nodes containing `Logger` or nodes
+ending with `Example`
+<2> Applying the criteria in the constructor
+<3> Adding a note to filtered nodes

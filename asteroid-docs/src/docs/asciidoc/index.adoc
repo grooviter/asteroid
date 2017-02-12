@@ -20,4 +20,6 @@ include::local.adoc[]
 
 include::global.adoc[]
 
+include::criterias.adoc[]
+
 include::api.adoc[]
