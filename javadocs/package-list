@@ -1,5 +1,6 @@
 asteroid
 asteroid.internal
 asteroid.nodes
+asteroid.statements
 asteroid.transformer
 asteroid.utils

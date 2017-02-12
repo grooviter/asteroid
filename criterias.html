@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.4">
-<title>Check</title>
+<meta name="generator" content="Asciidoctor 1.5.5">
+<title>Criterias</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -17,7 +17,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -52,7 +51,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,7 +63,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -119,13 +117,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -416,17 +417,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_check">Check</a>
+<li><a href="#_criterias">Criterias</a>
 <ul class="sectlevel2">
-<li><a href="#_local_transformations">Local transformations</a></li>
-<li><a href="#_your_own_transformations">Your own transformations</a></li>
+<li><a href="#_and_or">and / or</a></li>
 </ul>
 </li>
 </ul>
@@ -434,94 +434,148 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_check">Check</h2>
+<h2 id="_criterias">Criterias</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Check</code> is an effort to avoid boiler plate code when checking the
-AST state. Many times you have to check whether all precoditions are
-correct before applying a given transformation. Without this sanity
-check, many things could go wrong.</p>
-</div>
-<div class="sect2">
-<h3 id="_local_transformations">Local transformations</h3>
-<div class="paragraph">
-<p>By default <code>Check</code> is available in Asteroid local transformations. All
-you have to do is to structure your code using labels <code>check</code> and
-<code>then</code>.</p>
-</div>
-<div class="paragraph">
-<p>Here&#8217;s an example, it&#8217;s a bit silly but I think it will easy to
-understand. We have a annotation called <code>@Serializable</code>.</p>
-</div>
-<div class="paragraph">
-<p>The transformation <code>SerializableImpl</code> will make all classes annotated
-with <code>@Serializable</code> to implement <code>java.io.Serializable</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in checks.adoc - include::{testMain}/asteroid/local/samples/Serializable.groovy[]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As constraints I want to make sure:</p>
+<p>Every time we want to apply a transformation we want to target
+specific nodes:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The annotated class package name should should start by 'asteroid'</p>
+<p>A method with a specific <code>annotation</code></p>
 </li>
 <li>
-<p>The annotated class can only have two method at most</p>
+<p>A class with a specific <code>annotation</code></p>
+</li>
+<li>
+<p>A method with a specific <code>name</code></p>
+</li>
+<li>
+<p>A method with a specific name <code>and</code> a specific annotation</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Instead of holding a node reference and start calling methods from
+that reference in order to figure out if it is the node we want to act
+over, we can use criterias.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+At the moment criterias are only available in <code>global
+transformers</code>. Check transformers <a href="javadocs/index.html">javadocs</a>
+in order to know which criterias are available.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Because criterias are meant to be shared among many types
+of transformations, it&#8217;s probably that criterias will be available in
+the future as standalone functions.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Lets say we would like to apply a given transformation to a specific
+set of classes annotated with a certain annotation.</p>
+</div>
 <div class="listingblock">
+<div class="title">Criteria</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in checks.adoc - include::{testMain}/asteroid/local/samples/SerializableImpl.groovy[]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in criterias.adoc - include::{testMain}/asteroid/utils/AddImportTransformer.groovy[tags=classnodetransformer]</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Checking the annotated class belongs to a certain <code>package</code></td>
+<td>Using a class node transformer</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Checking that the annotated node has less than two methods</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Transformation code</td>
+<td>Looking for a class node annotated with an annotation with name <code>AddImport</code></td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>To prove it, there&#8217;s a test with an annotated class having two
-methods:</p>
+<p>What about looking for a <code>ClassNode</code> representing an inner class
+having a specific name.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in checks.adoc - include::{testTest}/asteroid/local/samples/SerializableTest.groovy[tags=checkersShouldFail]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in criterias.adoc - include::{testMain}/asteroid/global/samples/AddPropertyToInnerClass.groovy[]</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Again looking for a class node</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>With a name containing a specific <code>Outer$Inner</code> class name</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>And the test&#8230;&#8203; passes :)</p>
+<p>Now a different example. Instead of targeting a <code>ClassNode</code> we would
+like to find a specific method call expression. We know what is the
+name of the method we are calling, that&#8217;s why we use
+<code>methodCallByName</code> criteria here:</p>
+</div>
+<div class="listingblock">
+<div class="title">ExpressionTransformer</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in criterias.adoc - include::{testMain}/asteroid/global/samples/ChangeTripleXToPlusOne.groovy[tags=expressiontransformer]</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_your_own_transformations">Your own transformations</h3>
+<h3 id="_and_or">and / or</h3>
 <div class="paragraph">
-<p>If you would like to add this functionality in your project, you can
-use Asteroid utility functions to inject this behavior in your code.</p>
+<p>Sometimes using only one criteria could be limiting, sometimes we may
+want to combine two or more criterias at once. For that purpose you can
+use <code>A.UTIL.MISC.and</code> and <code>A.UTIL.MISC.or</code>. Check next example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Unresolved directive in checks.adoc - include::{coreMain}/asteroid/internal/LocalTransformationTransformation.java[tags=addCheckTo,indent=0]</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in criterias.adoc - include::{testMain}/asteroid/global/samples/AddLoggerTransformer.groovy[tags=complexCriteria]</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>This call is taken from Asteroid local transformations. Checking is added to method <code>doVisit</code>.</p>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Criteria looks for class nodes with name starting with
+<code>asteroid.global.samples</code> and nodes containing <code>Logger</code> or nodes
+ending with <code>Example</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Applying the criteria in the constructor</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Adding a note to filtered nodes</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -529,7 +583,7 @@ use Asteroid utility functions to inject this behavior in your code.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-04-10 15:47:07 +00:00
+Last updated 2017-02-12 10:48:54 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

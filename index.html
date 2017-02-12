@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="generator" content="Asciidoctor 1.5.5">
 <title>Asteroid</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -17,7 +17,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -52,7 +51,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,7 +63,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -119,13 +117,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -416,13 +417,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
 <h1>Asteroid</h1>
 <div class="details">
-<span id="revnumber">version 0.2.1</span>
+<span id="revnumber">version 0.2.3</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -482,13 +483,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_fluent_api">7. Fluent API</a>
+<li><a href="#_criterias">7. Criterias</a>
 <ul class="sectlevel2">
-<li><a href="#_nodes">7.1. Nodes</a></li>
-<li><a href="#_expressions_2">7.2. Expressions</a></li>
-<li><a href="#_statements_2">7.3. Statements</a></li>
-<li><a href="#_modifiers">7.4. Modifiers</a></li>
-<li><a href="#_utils">7.5. Utils</a></li>
+<li><a href="#_and_or">7.1. and / or</a></li>
+</ul>
+</li>
+<li><a href="#_fluent_api">8. Fluent API</a>
+<ul class="sectlevel2">
+<li><a href="#_nodes">8.1. Nodes</a></li>
+<li><a href="#_expressions_2">8.2. Expressions</a></li>
+<li><a href="#_statements_2">8.3. Statements</a></li>
+<li><a href="#_modifiers">8.4. Modifiers</a></li>
+<li><a href="#_utils">8.5. Utils</a></li>
 </ul>
 </li>
 </ul>
@@ -564,7 +570,7 @@ project.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.2.0'</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.2.3'</code></pre>
 </div>
 </div>
 </div>
@@ -750,7 +756,7 @@ classes helping to create new Abstract Syntaxt Tree nodes.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="images//diag-4608b07edeacc2d2670155ae10dc179a.png" alt="diag 4608b07edeacc2d2670155ae10dc179a" width="1000" height="224">
+<img src="images/diag-4608b07edeacc2d2670155ae10dc179a.png" alt="diag 4608b07edeacc2d2670155ae10dc179a" width="1000" height="224">
 </div>
 </div>
 <div class="sect2">
@@ -857,7 +863,7 @@ something about it</p>
 </ul>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="images//grails.png" alt="grails" width="100"></span> <span class="image"><img src="images//spock.png" alt="spock" width="100"></span> <span class="image"><img src="images//swissknife.png" alt="swissknife" width="100" height="100"></span> <span class="image"><img src="images//griffon.png" alt="griffon" width="100"></span></p>
+<p><span class="image"><img src="images/grails.png" alt="grails" width="100"></span> <span class="image"><img src="images/spock.png" alt="spock" width="100"></span> <span class="image"><img src="images/swissknife.png" alt="swissknife" width="100" height="100"></span> <span class="image"><img src="images/griffon.png" alt="griffon" width="100"></span></p>
 </div>
 <div class="paragraph">
 <p>Examples of <strong>checking</strong></p>
@@ -873,7 +879,7 @@ something about it</p>
 </ul>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="images//codenarc.png" alt="codenarc" height="100"></span></p>
+<p><span class="image"><img src="images/codenarc.png" alt="codenarc" height="100"></span></p>
 </div>
 <div class="paragraph">
 <p>Transformations can be of two types:</p>
@@ -919,7 +925,7 @@ generate the bytecode that will be used later by the JVM.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="images//diag-babc24851067e5feb8fc8776b5bb8948.png" alt="diag babc24851067e5feb8fc8776b5bb8948" width="490" height="98">
+<img src="images/diag-babc24851067e5feb8fc8776b5bb8948.png" alt="diag babc24851067e5feb8fc8776b5bb8948" width="490" height="98">
 </div>
 </div>
 <div class="paragraph">
@@ -941,7 +947,7 @@ three types of elements:</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="images//diag-6c894a44eec094de5339c817017775e7.png" alt="diag 6c894a44eec094de5339c817017775e7" width="580" height="336">
+<img src="images/diag-6c894a44eec094de5339c817017775e7.png" alt="diag 6c894a44eec094de5339c817017775e7" width="580" height="336">
 </div>
 </div>
 <div class="sect3">
@@ -960,7 +966,7 @@ value</strong>.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="images//diag-836fe3d4bdb17e1b2addb10be8c7ea6d.png" alt="diag 836fe3d4bdb17e1b2addb10be8c7ea6d" width="250" height="196">
+<img src="images/diag-836fe3d4bdb17e1b2addb10be8c7ea6d.png" alt="diag 836fe3d4bdb17e1b2addb10be8c7ea6d" width="250" height="196">
 </div>
 </div>
 <div class="ulist">
@@ -984,7 +990,7 @@ value</strong>.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="images//diag-c4448142060fbd4b605eb6d5ae5614ca.png" alt="diag c4448142060fbd4b605eb6d5ae5614ca" width="650" height="182">
+<img src="images/diag-c4448142060fbd4b605eb6d5ae5614ca.png" alt="diag c4448142060fbd4b605eb6d5ae5614ca" width="650" height="182">
 </div>
 </div>
 <div class="ulist">
@@ -1196,7 +1202,7 @@ over an entire class.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="images//diag-d1c077a2bcd0cae38f25ad0fa057473d.png" alt="Local annotation transformation" width="1060" height="168">
+<img src="images/diag-d1c077a2bcd0cae38f25ad0fa057473d.png" alt="Local annotation transformation" width="1060" height="168">
 </div>
 <div class="title">Figure 1. Local annotation transformation</div>
 </div>
@@ -1363,7 +1369,7 @@ transformation will be applied.</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="images//diag-865b3d1c4228cc4b6eda9b9f50c36d82.png" alt="Local Transformation" width="1130" height="154">
+<img src="images/diag-865b3d1c4228cc4b6eda9b9f50c36d82.png" alt="Local Transformation" width="1130" height="154">
 </div>
 <div class="title">Figure 2. Local Transformation</div>
 </div>
@@ -1605,7 +1611,7 @@ use Asteroid utility functions to inject this behavior in your code.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Unresolved directive in local.adoc - include::../..//../../../asteroid-core/src/main/java/asteroid/internal/LocalTransformationTransformation.java[tags=addCheckTo,indent=0]</code></pre>
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">A.UTIL.CHECK.addCheckTo(A.UTIL.CLASS.findMethodByName(annotatedNode, METHOD_DOVISIT));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1639,7 +1645,7 @@ manipulate the <code>SourceUnit</code> directly, an <code>Asteroid</code> global
 transformation only holds references to code transformers.</p>
 </div>
 <div class="paragraph">
-<p>In order to create a local transformation you need to:</p>
+<p>In order to create a global transformation you need to:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1896,7 +1902,7 @@ calls <code>xxx()</code> by a constant number <code>1</code>.</p>
     extends AbstractExpressionTransformer&lt;MethodCallExpression&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
 
     ChangeTripleXToPlusOne(final SourceUnit sourceUnit) {
-        super(sourceUnit, methodCallByNameEq('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
+        super(MethodCallExpression, sourceUnit, methodCallByNameEq('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
     }
 
     @Override
@@ -1947,7 +1953,215 @@ replacing an expression cause expressions are considered as values.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fluent_api">7. Fluent API</h2>
+<h2 id="_criterias">7. Criterias</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every time we want to apply a transformation we want to target
+specific nodes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A method with a specific <code>annotation</code></p>
+</li>
+<li>
+<p>A class with a specific <code>annotation</code></p>
+</li>
+<li>
+<p>A method with a specific <code>name</code></p>
+</li>
+<li>
+<p>A method with a specific name <code>and</code> a specific annotation</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Instead of holding a node reference and start calling methods from
+that reference in order to figure out if it is the node we want to act
+over, we can use criterias.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+At the moment criterias are only available in <code>global
+transformers</code>. Check transformers <a href="javadocs/index.html">javadocs</a>
+in order to know which criterias are available.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Because criterias are meant to be shared among many types
+of transformations, it&#8217;s probably that criterias will be available in
+the future as standalone functions.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Lets say we would like to apply a given transformation to a specific
+set of classes annotated with a certain annotation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Criteria</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class AddImportTransformer extends AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    public AddImportTransformer(final SourceUnit sourceUnit) {
+        super(sourceUnit, byAnnotationName(AddImport.simpleName)) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    /**
+     * {@inheritDocs}
+     */
+    @Override
+    void transformClass(final ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        A.UTIL.CLASS.addImport(target, groovy.json.JsonOutput) <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Using a class node transformer</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Looking for a class node annotated with an annotation with name <code>AddImport</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>What about looking for a <code>ClassNode</code> representing an inner class
+having a specific name.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.global.samples
+
+import groovy.transform.CompileStatic
+
+import org.codehaus.groovy.control.SourceUnit
+import org.codehaus.groovy.ast.expr.Expression
+import org.codehaus.groovy.ast.ClassNode
+
+import asteroid.A
+import asteroid.transformer.AbstractClassNodeTransformer
+
+@CompileStatic
+class AddPropertyToInnerClass extends AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    AddPropertyToInnerClass(final SourceUnit sourceUnit) {
+        super(sourceUnit, byNameContains('AddTransformerSpecExample$Input')) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    @Override
+    void transformClass(final ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        A.UTIL.CLASS.addInterfaces(target, java.io.Serializable)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Again looking for a class node</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>With a name containing a specific <code>Outer$Inner</code> class name</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now a different example. Instead of targeting a <code>ClassNode</code> we would
+like to find a specific method call expression. We know what is the
+name of the method we are calling, that&#8217;s why we use
+<code>methodCallByName</code> criteria here:</p>
+</div>
+<div class="listingblock">
+<div class="title">ExpressionTransformer</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class ChangeTripleXToPlusOne
+    extends AbstractExpressionTransformer&lt;MethodCallExpression&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    ChangeTripleXToPlusOne(final SourceUnit sourceUnit) {
+        super(MethodCallExpression, sourceUnit, methodCallByNameEq('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    @Override
+    Expression transformExpression(final MethodCallExpression target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        return A.EXPR.constX(1)  <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_and_or">7.1. and / or</h3>
+<div class="paragraph">
+<p>Sometimes using only one criteria could be limiting, sometimes we may
+want to combine two or more criterias at once. For that purpose you can
+use <code>A.UTIL.MISC.and</code> and <code>A.UTIL.MISC.or</code>. Check next example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class AddLoggerTransformer extends AbstractClassNodeTransformer {
+
+    static final Closure&lt;Boolean&gt; CRITERIA = <i class="conum" data-value="1"></i><b>(1)</b>
+        A.UTIL.MISC.and(byNameStartsWith('asteroid.global.samples'),
+                        A.UTIL.MISC.or(byNameContains('Logger'),
+                                       byNameEndsWith('Example')))
+
+    AddLoggerTransformer(final SourceUnit sourceUnit) {
+        super(sourceUnit, CRITERIA) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    @Override
+    void transformClass(final ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        target.addAnnotation(A.NODES.annotation(Log).build())
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Criteria looks for class nodes with name starting with
+<code>asteroid.global.samples</code> and nodes containing <code>Logger</code> or nodes
+ending with <code>Example</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Applying the criteria in the constructor</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Adding a note to filtered nodes</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fluent_api">8. Fluent API</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -2007,7 +2221,7 @@ the javadoc.
 <p>Please check out the javadoc <a href="javadocs/index.html">here</a></p>
 </div>
 <div class="sect2">
-<h3 id="_nodes">7.1. Nodes</h3>
+<h3 id="_nodes">8.1. Nodes</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Nodes.html"><code>asteroid.A.NODES</code></a></p>
 </div>
@@ -2075,7 +2289,7 @@ you&#8217;ll see the AST and the resulting code explained.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_expressions_2">7.2. Expressions</h3>
+<h3 id="_expressions_2">8.2. Expressions</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Expressions.html"><code>asteroid.A.EXPR</code></a></p>
 </div>
@@ -2132,7 +2346,7 @@ through the <code>DefaultGroovyMethods</code> object.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_statements_2">7.3. Statements</h3>
+<h3 id="_statements_2">8.3. Statements</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Statements.html"><code>asteroid.A.STMT</code></a></p>
 </div>
@@ -2166,7 +2380,7 @@ follows the same design as expressions. Each method returns an statement. For in
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modifiers">7.4. Modifiers</h3>
+<h3 id="_modifiers">8.4. Modifiers</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Modifiers.html"><code>asteroid.A.ACC</code></a></p>
 </div>
@@ -2181,7 +2395,7 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 </div>
 <div class="sect2">
-<h3 id="_utils">7.5. Utils</h3>
+<h3 id="_utils">8.5. Utils</h3>
 <div class="paragraph">
 <p>Check javadoc: <a href="javadocs/asteroid/Utils.html"><code>asteroid.A.UTIL</code></a></p>
 </div>
@@ -2191,8 +2405,8 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.1<br>
-Last updated 2016-05-01 17:10:02 +00:00
+Version 0.2.3<br>
+Last updated 2017-02-12 10:48:54 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
