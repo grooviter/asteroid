@@ -36,8 +36,8 @@ publishing {
 
 bintray {
  /* Normally taken from ~/.gradle/gradle.properties */
-    user         = bintrayUser
-    key          = bintrayKey
+    user         = project.properties.bintrayUser
+    key          = project.properties.bintrayKey
     publish      = false
     publications = ['mavenCustom']
     pkg {
