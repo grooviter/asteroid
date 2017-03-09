@@ -5,9 +5,11 @@ import java.util.List;
 import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.stmt.IfStatement;
 import org.codehaus.groovy.ast.stmt.AssertStatement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
+import org.codehaus.groovy.ast.stmt.ThrowStatement;
 import org.codehaus.groovy.ast.stmt.TryCatchStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
@@ -199,5 +201,82 @@ public final class Statements {
      */
     public static TryCatchStatementBuilder tryCatchSBuilder(){
         return new TryCatchStatementBuilder();
+    }
+
+    /**
+     * Builds a if statement, without the else part. It receives a
+     * boolean expression and the code executed in case the boolean
+     * expression evaluates to true<br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>ifS(boolX('a', Types.COMPARE_GREATER_THAN, 'b'), codeStmt)</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>if (a > b) {
+     *  // content of the codeStmt statement
+     * }</code></pre>
+     *
+     * @param booleanExpr the boolean expression used to decide
+     * whether the next statement will be executed or not
+     * @param ifStmt code that will be executed if the boolean
+     * expression evaluates to true
+     * @since 0.2.4
+     */
+    public static IfStatement ifS(final BooleanExpression booleanExpr, final Statement ifStmt) {
+        return new IfStatement(booleanExpr, ifStmt, emptyStatement());
+    }
+
+    /**
+     * Represents an empty statement. It could be used when building
+     * an {@link IfStatement} with an empty else part.
+     *
+     * @return an empty {@link Statement}
+     * @since 0.2.4
+     */
+    public static Statement emptyStatement() {
+        return A.STMT.stmt(A.EXPR.constX(""));
+    }
+
+    /**
+     * Builds a if-else statement. It receives a boolean expression
+     * and two statements corresponding to the both if and else
+     * parts<br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>ifElseS(boolX('a', Types.COMPARE_GREATER_THAN, 'b'), ifStmt, elseStmt)</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>if (a > b) {
+     *  // ifStmt code
+     * } else {
+     *  // elseStmt
+     * }</code></pre>
+     *
+     * @param booleanExpr the boolean expression used to decide
+     * whether the next statement will be executed or not
+     * @param ifStmt code that will be executed if the boolean
+     * expression evaluates to true
+     * @since 0.2.4
+     */
+    public static IfStatement ifElseS(final BooleanExpression booleanExpr, final Statement ifStmt, final Statement elseStmt) {
+        return new IfStatement(booleanExpr, ifStmt, elseStmt);
+    }
+
+    /**
+     * Represents how to throw an exception
+     *
+     * <strong>AST</strong>
+     * <pre><code>throwS(newX(IllegalStateException, constX('wrong value')))</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>throw new IllegalStateException('wrong value')</code></pre>
+     *
+     * @param expression it will be normally a representation of a new
+     * instance of a given Throwable type
+     * @return an instance of {@link ThrowStatement}
+     * @since 0.2.4
+     */
+    public static ThrowStatement throwS(final Expression expression) {
+        return new ThrowStatement(expression);
     }
 }

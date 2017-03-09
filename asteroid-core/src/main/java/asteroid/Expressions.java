@@ -1,13 +1,19 @@
 package asteroid;
 
+import org.codehaus.groovy.syntax.Token;
+import org.codehaus.groovy.syntax.Types;
 import org.codehaus.groovy.ast.Parameter;
 import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ClassHelper;
+import org.codehaus.groovy.ast.FieldNode;
+import org.codehaus.groovy.ast.expr.NotExpression;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
+import org.codehaus.groovy.ast.expr.DeclarationExpression;
+import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
@@ -16,11 +22,11 @@ import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.FieldExpression;
 import org.codehaus.groovy.ast.expr.BooleanExpression;
 import org.codehaus.groovy.ast.expr.BinaryExpression;
-import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.ast.expr.ClosureExpression;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.stmt.Statement;
+import org.codehaus.groovy.ast.stmt.IfStatement;
 
 import java.util.Arrays;
 
@@ -717,5 +723,264 @@ public final class Expressions {
         expr.setVariableScope(new VariableScope());
 
         return expr;
+    }
+
+    /**
+     *
+     * When creating {@link BooleanExpression} in places such as
+     * {@link IfStatement} you can use this method to create a {@link
+     * BooleanExpression} out of a binary expression using the names
+     * of the compared variables.
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * //...after declaring the variables somewhere
+     * boolX('johnAge', Types.COMPARE_GREATER_THAN, 'peterAge')
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * johnAge > peterAge
+     * </code></pre>
+     *
+     * @param leftVarName name of the variable referenced in the left
+     * side of the binary expression
+     * @param tokenType type of the comparison operator. Use any of
+     * the listed in {@link Types}
+     * @param rightVarName name of the variable referenced in the
+     * right side of the binary expression
+     * @return a boolean expression as a {@link BooleanExpression} instance
+     * @since 0.2.4
+     */
+    public static BooleanExpression boolX(final String leftVarName, final int tokenType, final String rightVarName) {
+        return boolX(binX(leftVarName, tokenType, rightVarName));
+    }
+
+    public static BooleanExpression boolX(final Expression leftExpr, final int tokenType, final Expression rightExpr) {
+        return boolX(binX(leftExpr, tokenType, rightExpr));
+    }
+
+    /**
+     * Builds a new {@link BinaryExpression} with the names of the
+     * variables pointing at both left/right terms in the binary
+     * expression plus the operator in between. The operator can be
+     * anyone found in the {@link Types} type
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * //...after declaring the variables somewhere
+     * boolX('johnAge', Types.PLUS, 'peterAge')
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * johnAge + peterAge
+     * </code></pre>
+     *
+     * @param leftVarName name of the variable referenced in the left
+     * side of the binary expression
+     * @param operator type of the operator. Use any of the listed in
+     * {@link Types}
+     * @param rightVarName name of the variable referenced in the
+     * right side of the binary expression
+     * @return a binary expression as a {@link BinaryExpression} instance
+     * @since 0.2.4
+     */
+    public static BinaryExpression binX(final String leftVarName, final int operator, final String rightVarName) {
+        return new BinaryExpression(A.EXPR.varX(leftVarName),
+                                    Token.newSymbol(operator, 0, 0),
+                                    A.EXPR.varX(rightVarName));
+    }
+
+    /**
+     * Builds a new {@link BinaryExpression} from a left expression
+     * and a right expression joined by a given operator. The operator
+     * can be anyone found in the {@link Types} type
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * //...after declaring the variables somewhere
+     * binX('johnAge', Types.PLUS, 'peterAge')
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * johnAge + peterAge
+     * </code></pre>
+     *
+     * @param leftExpr left term in the binary expression
+     * side of the binary expression
+     * @param operator type of the comparison operator. Use any of
+     * the listed in {@link Types}
+     * @param rightExpr right term in the binary expression
+     * @return a binary expression as a {@link BinaryExpression} instance
+     * @since 0.2.4
+     */
+    public static BinaryExpression binX(final Expression leftExpr, final int operator, final Expression rightExpr) {
+        return new BinaryExpression(leftExpr,
+                                    Token.newSymbol(operator, 0, 0),
+                                    rightExpr);
+    }
+
+    /**
+     * Creates a variable definition expression. Where, in the code a
+     * variable is defined. If could be also initialized.
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * //...after declaring the variables somewhere
+     * varDeclarationX('johnAge',
+     *                  A.NODES.clazz(Integer).build(),
+     *                  A.EXPR.constX(23))
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * Integer johnAge = 23
+     * </code></pre>
+     *
+     * @param varName name of the declared variable
+     * @param type type of the declared variable as a {@link ClassNode} instance
+     * @param defaultValue expression setting the default value of the declared variable
+     * @return an instance of a {@link DeclarationExpression}
+     * @since 0.2.4
+     */
+    public static DeclarationExpression varDeclarationX(final String varName, final ClassNode type, final Expression defaultValue) {
+        return new DeclarationExpression(
+            A.EXPR.varX(varName, type),
+            Token.newSymbol(Types.EQUAL, 0, 0),
+            defaultValue);
+    }
+
+    /**
+     * Creates a variable definition expression. Where, in the code a
+     * variable is defined. If could be also initialized.
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * //...after declaring the variables somewhere
+     * varDeclarationX('johnAge', Integer, A.EXPR.constX(23))
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * Integer johnAge = 23
+     * </code></pre>
+     *
+     * @param varName name of the declared variable
+     * @param type type of the declared variable as a {@link Class} instance
+     * @param defaultValue expression setting the default value of the declared variable
+     * @return an instance of a {@link DeclarationExpression}
+     * @since 0.2.4
+     */
+    public static DeclarationExpression varDeclarationX(final String varName, final Class type, final Expression defaultValue) {
+        return new DeclarationExpression(
+            A.EXPR.varX(varName, A.NODES.clazz(type).build()),
+            Token.newSymbol(Types.EQUAL, 0, 0),
+            defaultValue);
+    }
+
+    /**
+     * <strong>AST</strong>
+     * <pre><code>
+     * newX(ArrayList)
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * new ArrayList()
+     * </code></pre>
+     *
+     * @param type type of the target object
+     * @return an instance of {@link ConstructorCallExpression}
+     * @since 0.2.4
+     */
+    public static ConstructorCallExpression newX(final Class type) {
+        return newX(type);
+    }
+
+    /**
+     * <strong>AST</strong>
+     * <pre><code>
+     * newX(File, varX('path'), constX('myfile.txt'))
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * new File(path, 'myfile.txt')
+     * </code></pre>
+     *
+     * @param type type of the target object
+     * @param expressions a varargs of type {@link Expression}
+     * @return an instance of {@link ConstructorCallExpression}
+     * @since 0.2.4
+     */
+    public static ConstructorCallExpression newX(final Class type, final Expression... expressions) {
+        return new ConstructorCallExpression(A.NODES.clazz(type).build(), new ArgumentListExpression(expressions));
+    }
+
+    /**
+     * Negates a given expression
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * notX(varX('myVariable'))
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * !myVariable
+     * </code></pre>
+     *
+     * @param expression the expression to be negated
+     * @return the expression passed as parameter negated
+     * @since 0.2.4
+     */
+    public static NotExpression notX(final Expression expression) {
+        return GeneralUtils.notX(expression);
+    }
+
+    /**
+     * Builds a binary expression using a logical or (||)
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * lorX(varX('a'), varX('b'))
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * a || b
+     * </code></pre>
+     *
+     * @param leftExpr
+     * @param rightExpr
+     * @return a {@link BooleanExpression} representing a logical OR (||)
+     * @since 0.2.4
+     */
+    public static BooleanExpression lorX(final Expression leftExpr, final Expression rightExpr) {
+        return boolX(leftExpr, Types.LOGICAL_OR, rightExpr);
+    }
+
+    /**
+     * Builds a binary expression using a logical and (&&)
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * landX(varX('a'), varX('b'))
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * a && b
+     * </code></pre>
+     *
+     * @param leftExpr
+     * @param rightExpr
+     * @return a {@link BooleanExpression} representing a logical AND (&&)
+     * @since 0.2.4
+     */
+    public static BooleanExpression landX(final Expression leftExpr, final Expression rightExpr) {
+        return boolX(leftExpr, Types.LOGICAL_AND, rightExpr);
     }
 }
