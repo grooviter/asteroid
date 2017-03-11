@@ -62,10 +62,12 @@ public abstract class AbstractClassNodeTransformer extends AbstractTransformer {
      * Criteria to find those classes with a name containing the term
      * passed as parameter
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @param term the term contained in the {@link ClassNode} name
      * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
      * @since 0.2.0
      */
+    @Deprecated
     public static Closure<Boolean> byNameContains(final String term) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final ClassNode node) {
@@ -78,10 +80,12 @@ public abstract class AbstractClassNodeTransformer extends AbstractTransformer {
      * Criteria to find those classes with a name containing the term
      * passed as parameter at the end.
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @param term the term at the end of the {@link ClassNode} name
      * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
      * @since 0.2.0
      */
+    @Deprecated
     public static Closure<Boolean> byNameEndsWith(final String term) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final ClassNode node) {
@@ -94,10 +98,12 @@ public abstract class AbstractClassNodeTransformer extends AbstractTransformer {
      * Criteria to find those classes with a name containing the term
      * passed as parameter at the beginning.
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @param term at the beginning of the {@link ClassNode} name
      * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
      * @since 0.2.0
      */
+    @Deprecated
     public static Closure<Boolean> byNameStartsWith(final String term) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final ClassNode node) {
@@ -115,10 +121,12 @@ public abstract class AbstractClassNodeTransformer extends AbstractTransformer {
      * package (type information) won't be available for earlier
      * {@link CompilePhase}
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @param simpleName the simple name of the {@link Class} of the annotation used as marker
      * @return a criteria to use in the {@link AbstractClassNodeTransformer} constructor
      * @since 0.2.0
      */
+    @Deprecated
     public static Closure<Boolean> byAnnotationName(final String simpleName) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final ClassNode node) {

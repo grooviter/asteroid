@@ -15,7 +15,9 @@ import asteroid.transformer.AbstractClassNodeTransformer
 class AddImportTransformer extends AbstractClassNodeTransformer { // <1>
 
     public AddImportTransformer(final SourceUnit sourceUnit) {
-        super(sourceUnit, byAnnotationName(AddImport.simpleName)) // <2>
+        super(sourceUnit,
+              A.CRITERIA.byAnnotationSimpleName('AddImport')) // <2>
+
     }
 
     /**

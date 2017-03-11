@@ -43,4 +43,11 @@ public final class A {
      * @since 0.1.0
      */
     public static final Utils UTIL = new Utils();
+
+    /**
+     * Entry point to get criterias
+     *
+     * @since 0.2.4
+     */
+    public static final Criterias CRITERIA = new Criterias();
 }

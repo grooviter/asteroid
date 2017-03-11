@@ -13,7 +13,8 @@ import asteroid.transformer.AbstractClassNodeTransformer
 class AddPropertyToInnerClass extends AbstractClassNodeTransformer { // <1>
 
     AddPropertyToInnerClass(final SourceUnit sourceUnit) {
-        super(sourceUnit, byNameContains('AddTransformerSpecExample$Input')) // <2>
+        super(sourceUnit,
+              A.CRITERIA.byClassNodeNameContains('AddTransformerSpecExample$Input')) // <2>
     }
 
     @Override

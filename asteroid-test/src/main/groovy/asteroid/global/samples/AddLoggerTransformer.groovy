@@ -12,9 +12,11 @@ import org.codehaus.groovy.classgen.VariableScopeVisitor
 class AddLoggerTransformer extends AbstractClassNodeTransformer {
 
     static final Closure<Boolean> CRITERIA = // <1>
-        A.UTIL.MISC.and(byNameStartsWith('asteroid.global.samples'),
-                        A.UTIL.MISC.or(byNameContains('Logger'),
-                                       byNameEndsWith('Example')))
+        A.CRITERIA.with {
+            and(byClassNodeNameStartsWith('asteroid.global.samples'),
+                or(byClassNodeNameContains('Logger'),
+                   byClassNodeNameEndsWith('Example')))
+        }
 
     AddLoggerTransformer(final SourceUnit sourceUnit) {
         super(sourceUnit, CRITERIA) // <2>
