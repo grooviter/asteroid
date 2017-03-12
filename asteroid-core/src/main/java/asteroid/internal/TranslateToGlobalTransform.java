@@ -39,7 +39,7 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
      * @since 0.1.6
      */
     public TranslateToGlobalTransform(final SourceUnit sourceUnit) {
-        super(sourceUnit, byAnnotationName(TX_NAME));
+        super(sourceUnit, A.CRITERIA.byAnnotationSimpleName(TX_NAME));
     }
 
     /**

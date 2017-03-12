@@ -59,10 +59,12 @@ public abstract class AbstractStatementTransformer<T extends Statement> extends 
      * This method returns a criteria to look for {@link Statement}
      * with a specific type
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @param stmtClass the type {@link java.lang.Class}
      * @return a search criteria
      * @since 0.2.0
      */
+    @Deprecated
     public static <T extends Statement> Closure<Boolean> byType(final Class<T> stmtClass) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final Statement statement) {

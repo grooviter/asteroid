@@ -21,7 +21,8 @@ class AddTraitTransformer extends AbstractClassNodeTransformer {
     static final String ANNOTATION_NAME = 'TrickOrTrait'
 
     AddTraitTransformer(final SourceUnit sourceUnit) {
-        super(sourceUnit, byAnnotationName(ANNOTATION_NAME))
+        super(sourceUnit,
+              A.CRITERIA.byAnnotationSimpleName(ANNOTATION_NAME))
     }
 
     @Override

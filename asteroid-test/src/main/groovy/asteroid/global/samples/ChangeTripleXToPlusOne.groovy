@@ -15,7 +15,9 @@ class ChangeTripleXToPlusOne
     extends AbstractExpressionTransformer<MethodCallExpression> { // <1>
 
     ChangeTripleXToPlusOne(final SourceUnit sourceUnit) {
-        super(MethodCallExpression, sourceUnit, methodCallByNameEq('xxx')) // <2>
+        super(MethodCallExpression,
+              sourceUnit,
+              A.CRITERIA.byExprMethodCallByName('xxx')) // <2>
     }
 
     @Override

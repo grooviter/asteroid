@@ -55,10 +55,12 @@ public final class MiscellaneousUtils {
      *
      *def evenOrPositive = or(even, positive)</code></pre>
      *
+     * @deprecated use {@link asteroid.Criterias#or}
      * @param fns functions to combine
      * @return a combined {@link Closure}
      * @since 0.2.3
      */
+    @Deprecated
     public Closure<Boolean> or(final Closure<Boolean>... fns) {
         return new Closure(null) {
             public boolean doCall(final Object o) {
@@ -84,10 +86,12 @@ public final class MiscellaneousUtils {
      *
      *def evenAndPositive = and(even, positive)</code></pre>
      *
+     * @deprecated use {@link asteroid.Criterias#and}
      * @param fns functions to combine
      * @return a combined {@link Closure}
      * @since 0.2.3
      */
+    @Deprecated
     public Closure<Boolean> and(final Closure<Boolean>... fns) {
         return new Closure(null) {
             public boolean doCall(final Object o) {

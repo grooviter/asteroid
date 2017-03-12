@@ -111,10 +111,12 @@ public abstract class AbstractExpressionTransformer<T extends Expression> extend
      * This method returns a criteria to look for {@link MethodCallExpression}
      * with a name equals to the name passed as parameter
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @param name the method name
      * @return a search criteria
      * @since 0.2.0
      */
+    @Deprecated
     public static Closure<Boolean> methodCallByNameEq(final String name) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final Expression expression) {
@@ -132,9 +134,11 @@ public abstract class AbstractExpressionTransformer<T extends Expression> extend
     /**
      * This criteria will make the transformer to process every {@link Expression}
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @return a criteria to process everything
      * @since 0.2.0
      */
+    @Deprecated
     public static Closure<Boolean> everything() {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final Expression expression) {
@@ -148,11 +152,13 @@ public abstract class AbstractExpressionTransformer<T extends Expression> extend
      * token type. The token type is an `int` value. You can use
      * {@link Types} where all token types are declared.
      *
+     * @deprecated use {@link asteroid.Criterias}
      * @param tokenType Check {@link Types} for more info
      * @return a {@link Closure} used as criteria
      * @since 0.2.3
      * @see Types
      */
+    @Deprecated
     public static Closure<Boolean> usesToken(final int tokenType) {
         return new Closure<Boolean>(null) {
             public Boolean doCall(final Expression expression) {

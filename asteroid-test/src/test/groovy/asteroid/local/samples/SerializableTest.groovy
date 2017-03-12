@@ -5,7 +5,7 @@ package asteroid.local.samples
  */
 class SerializableTest extends GroovyTestCase {
 
-    void testSerializableWorks() {
+    void testWorks() {
         assertScript '''
         package asteroid.local.samples
 
@@ -21,7 +21,7 @@ class SerializableTest extends GroovyTestCase {
     }
 
     // tag::checkersShouldFail[]
-    void testSerializableCheckersWork() {
+    void testFailsBecauseNumberOfMethods() {
         shouldFail '''
         package asteroid.local.samples
 
@@ -30,14 +30,18 @@ class SerializableTest extends GroovyTestCase {
             def a() {}
             def b() {}
         }
-
-        A something = new A()
-
-        assert something instanceof java.io.Serializable
-        assert something instanceof Cloneable
-
         '''
     }
     // end::checkersShouldFail[]
 
+    void testFailsBecausePackage() {
+        shouldFail '''
+        package asteroidx.local.samples
+
+        @Serializable
+        class A {
+            def a() {}
+        }
+        '''
+    }
 }

@@ -1,5 +1,7 @@
 /**
- * <b class="warning">Internal</b>: This package contains AST transformations to get rid of boilerplate code when creating
- * a local AST transformation. It is advisable not to use classes from this package directly.
+ * This package contains internal AST transformations to get rid of
+ * boilerplate code when creating a local AST transformation. <b
+ * class="warning">It is strongly recommended not to use classes from
+ * this package directly</b>
  */
 package asteroid.internal;
