@@ -423,7 +423,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Asteroid</h1>
 <div class="details">
-<span id="revnumber">version 0.2.3</span>
+<span id="revnumber">version 0.2.4</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -485,7 +485,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_criterias">7. Criterias</a>
 <ul class="sectlevel2">
-<li><a href="#_and_or">7.1. and / or</a></li>
+<li><a href="#_transformers_2">7.1. Transformers</a></li>
+<li><a href="#_and_or">7.2. and / or</a></li>
+<li><a href="#_as_predicates">7.3. As predicates</a></li>
 </ul>
 </li>
 <li><a href="#_fluent_api">8. Fluent API</a>
@@ -554,14 +556,13 @@ project.
 <div class="sect2">
 <h3 id="_gradle">2.1. Gradle</h3>
 <div class="paragraph">
-<p>In order to use <code>Asteroid</code> in your Groovy code you can find it in Bintray:</p>
+<p>In order to use <code>Asteroid</code> in your Groovy project just add the jcenter
+repository:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">repositories {
-    maven {
-        url  "http://dl.bintray.com/grooviter/maven"
-    }
+    jcenter()
 }</code></pre>
 </div>
 </div>
@@ -570,7 +571,7 @@ project.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.2.3'</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.2.4'</code></pre>
 </div>
 </div>
 </div>
@@ -1581,7 +1582,7 @@ methods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    void testSerializableCheckersWork() {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    void testFailsBecauseNumberOfMethods() {
         shouldFail '''
         package asteroid.local.samples
 
@@ -1590,12 +1591,6 @@ methods:</p>
             def a() {}
             def b() {}
         }
-
-        A something = new A()
-
-        assert something instanceof java.io.Serializable
-        assert something instanceof Cloneable
-
         '''
     }</code></pre>
 </div>
@@ -1736,7 +1731,8 @@ import asteroid.transformer.AbstractClassNodeTransformer
 class AddPropertyToInnerClass extends AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
 
     AddPropertyToInnerClass(final SourceUnit sourceUnit) {
-        super(sourceUnit, byNameContains('AddTransformerSpecExample$Input')) <i class="conum" data-value="2"></i><b>(2)</b>
+        super(sourceUnit,
+              A.CRITERIA.byClassNodeNameContains('AddTransformerSpecExample$Input')) <i class="conum" data-value="2"></i><b>(2)</b>
     }
 
     @Override
@@ -1819,7 +1815,9 @@ of <code>ClassNode</code> instances from the AST.</p>
 <pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class AddImportTransformer extends AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
 
     public AddImportTransformer(final SourceUnit sourceUnit) {
-        super(sourceUnit, byAnnotationName(AddImport.simpleName)) <i class="conum" data-value="2"></i><b>(2)</b>
+        super(sourceUnit,
+              A.CRITERIA.byAnnotationSimpleName('AddImport')) <i class="conum" data-value="2"></i><b>(2)</b>
+
     }
 
     /**
@@ -1902,7 +1900,9 @@ calls <code>xxx()</code> by a constant number <code>1</code>.</p>
     extends AbstractExpressionTransformer&lt;MethodCallExpression&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
 
     ChangeTripleXToPlusOne(final SourceUnit sourceUnit) {
-        super(MethodCallExpression, sourceUnit, methodCallByNameEq('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
+        super(MethodCallExpression,
+              sourceUnit,
+              A.CRITERIA.byExprMethodCallByName('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
     }
 
     @Override
@@ -1980,22 +1980,8 @@ specific nodes:</p>
 </div>
 <div class="paragraph">
 <p>Instead of holding a node reference and start calling methods from
-that reference in order to figure out if it is the node we want to act
-over, we can use criterias.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-At the moment criterias are only available in <code>global
-transformers</code>. Check transformers <a href="javadocs/index.html">javadocs</a>
-in order to know which criterias are available.
-</td>
-</tr>
-</table>
+that reference in order to find out which is the node we are
+interested in, we can use criterias.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -2004,13 +1990,15 @@ in order to know which criterias are available.
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Because criterias are meant to be shared among many types
-of transformations, it&#8217;s probably that criterias will be available in
-the future as standalone functions.
+Criterias are available directly as static nodes in the
+<a href="javadocs/asteroid/Criterias.html"><code>asteroid.Criterias</code></a> or via
+<a href="javadocs/asteroid/A.html"><code>A.CRITERIA</code></a>
 </td>
 </tr>
 </table>
 </div>
+<div class="sect2">
+<h3 id="_transformers_2">7.1. Transformers</h3>
 <div class="paragraph">
 <p>Lets say we would like to apply a given transformation to a specific
 set of classes annotated with a certain annotation.</p>
@@ -2021,7 +2009,9 @@ set of classes annotated with a certain annotation.</p>
 <pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class AddImportTransformer extends AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
 
     public AddImportTransformer(final SourceUnit sourceUnit) {
-        super(sourceUnit, byAnnotationName(AddImport.simpleName)) <i class="conum" data-value="2"></i><b>(2)</b>
+        super(sourceUnit,
+              A.CRITERIA.byAnnotationSimpleName('AddImport')) <i class="conum" data-value="2"></i><b>(2)</b>
+
     }
 
     /**
@@ -2067,7 +2057,8 @@ import asteroid.transformer.AbstractClassNodeTransformer
 class AddPropertyToInnerClass extends AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
 
     AddPropertyToInnerClass(final SourceUnit sourceUnit) {
-        super(sourceUnit, byNameContains('AddTransformerSpecExample$Input')) <i class="conum" data-value="2"></i><b>(2)</b>
+        super(sourceUnit,
+              A.CRITERIA.byClassNodeNameContains('AddTransformerSpecExample$Input')) <i class="conum" data-value="2"></i><b>(2)</b>
     }
 
     @Override
@@ -2102,7 +2093,9 @@ name of the method we are calling, that&#8217;s why we use
     extends AbstractExpressionTransformer&lt;MethodCallExpression&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
 
     ChangeTripleXToPlusOne(final SourceUnit sourceUnit) {
-        super(MethodCallExpression, sourceUnit, methodCallByNameEq('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
+        super(MethodCallExpression,
+              sourceUnit,
+              A.CRITERIA.byExprMethodCallByName('xxx')) <i class="conum" data-value="2"></i><b>(2)</b>
     }
 
     @Override
@@ -2112,21 +2105,24 @@ name of the method we are calling, that&#8217;s why we use
 }</code></pre>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_and_or">7.1. and / or</h3>
+<h3 id="_and_or">7.2. and / or</h3>
 <div class="paragraph">
 <p>Sometimes using only one criteria could be limiting, sometimes we may
 want to combine two or more criterias at once. For that purpose you can
-use <code>A.UTIL.MISC.and</code> and <code>A.UTIL.MISC.or</code>. Check next example:</p>
+use <code>A.CRITERIA.and</code> and <code>A.CRITERIA.or</code>. Check next example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">class AddLoggerTransformer extends AbstractClassNodeTransformer {
 
     static final Closure&lt;Boolean&gt; CRITERIA = <i class="conum" data-value="1"></i><b>(1)</b>
-        A.UTIL.MISC.and(byNameStartsWith('asteroid.global.samples'),
-                        A.UTIL.MISC.or(byNameContains('Logger'),
-                                       byNameEndsWith('Example')))
+        A.CRITERIA.with {
+            and(byClassNodeNameStartsWith('asteroid.global.samples'),
+                or(byClassNodeNameContains('Logger'),
+                   byClassNodeNameEndsWith('Example')))
+        }
 
     AddLoggerTransformer(final SourceUnit sourceUnit) {
         super(sourceUnit, CRITERIA) <i class="conum" data-value="2"></i><b>(2)</b>
@@ -2156,6 +2152,31 @@ ending with <code>Example</code></td>
 <td>Adding a note to filtered nodes</td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_as_predicates">7.3. As predicates</h3>
+<div class="paragraph">
+<p>Although criteras were meant to be used in transformers, the way they
+were designed makes them perfectly valid to be used as predicates when
+filtering lists of AST nodes. The following example ask for all method
+nodes from a given class node and then as any Groovy list tries to
+find all methods that comply with the filter passed as parameter: <code>all
+methods annotated with the <strong>Important</strong> annotation and with a name
+starting with <strong>get</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Criterias in Local Transformations</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">        List&lt;MethodNode&gt; notSoImportantMethods = classNode
+            .methods
+            .findAll(A.CRITERIA.and(A.CRITERIA.byAnnotation(Important),
+                                    A.CRITERIA.byMethodNodeNameStartsWith('get')))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because criterias are just closures that eventually return a boolean
+value they fit perfectly in this scenario.</p>
 </div>
 </div>
 </div>
@@ -2405,7 +2426,7 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.3<br>
+Version 0.2.4<br>
 Last updated 2017-02-12 10:48:54 +00:00
 </div>
 </div>
