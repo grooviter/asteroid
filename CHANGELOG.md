@@ -19,6 +19,7 @@ of nodes
 - `NodeUtils` javadoc
 - `asteroid.statement` package javadoc
 - Deprecation information added to java compilation
+- Binaries are now available at jcenter()
 
 ### Deprecated
 

@@ -24,14 +24,13 @@ project.
 
 === Gradle
 
-In order to use `Asteroid` in your Groovy code you can find it in Bintray:
+In order to use `Asteroid` in your Groovy project just add the jcenter
+repository:
 
 [source,groovy]
 ----
 repositories {
-    maven {
-        url  "http://dl.bintray.com/grooviter/maven"
-    }
+    jcenter()
 }
 ----
 
