@@ -28,3 +28,11 @@ ext.libs = [
     junit: "junit:junit:4.12",
     spock: 'org.spockframework:spock-core:1.0-groovy-2.4'
 ]
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation"
+        }
+    }
+}
