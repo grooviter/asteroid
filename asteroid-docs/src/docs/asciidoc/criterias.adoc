@@ -10,16 +10,14 @@ specific nodes:
 - ...
 
 Instead of holding a node reference and start calling methods from
-that reference in order to figure out if it is the node we want to act
-over, we can use criterias.
+that reference in order to find out which is the node we are
+interested in, we can use criterias.
 
-NOTE: At the moment criterias are only available in `global
-transformers`. Check transformers link:javadocs/index.html[javadocs]
-in order to know which criterias are available.
+IMPORTANT: Criterias are available directly as static nodes in the
+link:javadocs/asteroid/Criterias.html[`asteroid.Criterias`] or via
+link:javadocs/asteroid/A.html[`A.CRITERIA`]
 
-IMPORTANT: Because criterias are meant to be shared among many types
-of transformations, it's probably that criterias will be available in
-the future as standalone functions.
+=== Transformers
 
 Lets say we would like to apply a given transformation to a specific
 set of classes annotated with a certain annotation.
@@ -57,7 +55,7 @@ include::{testMain}/asteroid/global/samples/ChangeTripleXToPlusOne.groovy[tags=e
 
 Sometimes using only one criteria could be limiting, sometimes we may
 want to combine two or more criterias at once. For that purpose you can
-use `A.UTIL.MISC.and` and `A.UTIL.MISC.or`. Check next example:
+use `A.CRITERIA.and` and `A.CRITERIA.or`. Check next example:
 
 [source, groovy]
 ----
@@ -68,3 +66,22 @@ include::{testMain}/asteroid/global/samples/AddLoggerTransformer.groovy[tags=com
 ending with `Example`
 <2> Applying the criteria in the constructor
 <3> Adding a note to filtered nodes
+
+=== As predicates
+
+Although criteras were meant to be used in transformers, the way they
+were designed makes them perfectly valid to be used as predicates when
+filtering lists of AST nodes. The following example ask for all method
+nodes from a given class node and then as any Groovy list tries to
+find all methods that comply with the filter passed as parameter: `all
+methods annotated with the **Important** annotation and with a name
+starting with **get**`.
+
+[source, groovy]
+.Criterias in Local Transformations
+----
+include::{testMain}/asteroid/local/samples/criterias/CheckImportantMethodsImpl.groovy[tags=criteriasaspredicates]
+----
+
+Because criterias are just closures that eventually return a boolean
+value they fit perfectly in this scenario.
