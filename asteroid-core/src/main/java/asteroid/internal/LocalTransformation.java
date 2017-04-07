@@ -1,10 +1,12 @@
 package asteroid.internal;
 
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
 import asteroid.A;
 import asteroid.Local;
+import groovy.lang.Closure;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
@@ -23,6 +25,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Reduces the boiler plate code when declaring an annotation as possible target for a given
@@ -88,15 +92,46 @@ public class LocalTransformation extends AbstractASTTransformation {
     }
 
     private AnnotationNode getTargetAnnotation(final String resolvedTarget) {
-        final String             targetString = resolvedTarget == null ? ElementType.TYPE.toString() : resolvedTarget;
-        final ConstantExpression constantExpr = A.EXPR.constX(targetString);
-        final ClassExpression    classExpr    = A.EXPR.classX(ElementType.class);
-        final PropertyExpression propertyExpr = A.EXPR.propX(classExpr, constantExpr);
-        final ListExpression     listExpr     = A.EXPR.listX(propertyExpr);
+        final List<ElementType> types = resolveAnnotationTarget(resolvedTarget);
+        final ListExpression listExpr = resolveTargetFromElementType(types);
 
         return A.NODES.annotation(Target.class)
                 .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, listExpr)
                 .build();
+    }
+
+    private ListExpression resolveTargetFromElementType(List<ElementType> types) {
+        List<PropertyExpression> expressions =
+                collect(types, new Closure<PropertyExpression>(null) {
+                    PropertyExpression doCall(ElementType type) {
+                        return A.EXPR.propX(
+                                A.EXPR.classX(ElementType.class),
+                                A.EXPR.constX(type.toString()));
+                    }
+                });
+
+        return A.EXPR.listX(expressions.toArray(new PropertyExpression[expressions.size()]));
+
+    }
+
+    private List<ElementType> resolveAnnotationTarget(String target) {
+        if (target == null) {
+            return Arrays.asList(ElementType.TYPE);
+        }
+
+        if ("ANNOTATED".equals(target)) {
+            return Arrays
+                    .asList(ElementType.ANNOTATION_TYPE,
+                            ElementType.CONSTRUCTOR,
+                            ElementType.FIELD,
+                            ElementType.LOCAL_VARIABLE,
+                            ElementType.METHOD,
+                            ElementType.PACKAGE,
+                            ElementType.PARAMETER,
+                            ElementType.TYPE);
+        }
+
+        return Arrays.asList(ElementType.valueOf(target));
     }
 
     private AnnotationNode getRetentionAnnotation() {
