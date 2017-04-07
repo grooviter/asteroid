@@ -6,7 +6,7 @@ class NotNullTest extends GroovyTestCase {
         shouldFail '''
         package asteroid.local.samples
         class A {
-          String value
+          String value = 'default'
           
           @NotNull
           A(String value) {
