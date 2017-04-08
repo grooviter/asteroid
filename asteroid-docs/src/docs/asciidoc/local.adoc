@@ -65,6 +65,50 @@ include::{testMain}/asteroid/local/samples/WithLogging.groovy[]
 <1> This annotation will be applied to method elements.
 <2> The class of the AST transformation implementation
 
+Sometimes you may want to target more than one element: a class and
+a method, or a parameter and a local variable. Then you can use
+`TO.ANNOTATED` that means that the transformation could be applied
+to any annotated node.
+
+[source, groovy]
+.annotation
+----
+include::{testMain}/asteroid/local/samples/NameChecker.groovy[]
+----
+
+NOTE: Most of the times a single node type is targeted. That
+idea was kept in mind when creating the `applyTo` parameter. That's
+why `applyTo` doesn't receive a list of possible targets. `ANNOTATED`
+is the exception to the rule that allows to do so.
+
+Therefore in your implementation you should
+use the `AnnotatedNode` type.
+
+WARNING: The following example of method overriding only works with dynamic Groovy, if
+you statically compiled the code it would only be executing `getName(AnnotatedNode)`. So
+if you compile your code statically you should probably be using a `instanceof` to
+dispatch your actions.
+
+[source, groovy]
+.implementation
+----
+include::{testMain}/asteroid/local/samples/NameCheckerImpl.groovy[]
+----
+
+<1> You expect to receive any type of node extending `AnnotatedNode`
+<2> Receiving the annotated node as a parameter
+<3> Executing logic if the node is of type `ClassNode`
+<4> Executing logic if the node is of type `FieldNode`
+<5> Executing logic if the node is of any other type extending `AnnotatedNode`
+
+Then you can use it in any annotated node:
+
+[source, groovy]
+.example
+----
+include::{testTest}/asteroid/local/samples/NameCheckerTest.groovy[tags=checkerSucceeds, indent=0]
+----
+
 === AbstractLocalTransformation
 
 `asteroid.local.AbstractLocalTransformation` exists to avoid some of the
@@ -238,7 +282,7 @@ use Asteroid utility functions to inject this behavior in your code.
 
 [source, java]
 ----
-include::{coreMain}/asteroid/internal/PhaseTransformation.java[tags=addCheckTo,indent=0]
+include::{coreMain}/asteroid/internal/PhaseTransformation.java[tags=addCheckTo, indent=0]
 ----
 
 This call is taken from Asteroid local transformations. Checking is added to method `doVisit`.

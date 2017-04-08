@@ -1,6 +1,15 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.5] - [2017-04-08]
+
+Adding all remaining targets for local transforms annotations.
+
+### Added
+
+- All targets available individually
+- Now you can use ANNOTATED to address more than one target at a time
+
 ## [0.2.4] - [2017-03-12]
 
 Criterias release

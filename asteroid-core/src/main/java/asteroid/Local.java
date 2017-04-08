@@ -67,6 +67,36 @@ public @interface Local {
          *
          * @since 0.1.0
          */
-        METHOD
+        METHOD,
+        /**
+         * Applies to a {@link org.codehaus.groovy.ast.ConstructorNode}
+         *
+         * @since 0.2.5
+         */
+        CONSTRUCTOR,
+        /**
+         * Applies to a {@link org.codehaus.groovy.ast.Variable}
+         *
+         * @since 0.2.5
+         */
+        LOCAL_VARIABLE,
+        /**
+         * Applies to a {@link org.codehaus.groovy.ast.PackageNode}
+         *
+         * @since 0.2.5
+         */
+        PACKAGE,
+        /**
+         * Applies to a {@link org.codehaus.groovy.ast.Parameter}
+         *
+         * @since 0.2.5
+         */
+        PARAMETER,
+        /**
+         * Applies to any {@link org.codehaus.groovy.ast.AnnotatedNode}
+         *
+         * @since 0.2.5
+         */
+        ANNOTATED
     }
 }
