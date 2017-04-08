@@ -15,9 +15,9 @@ import org.codehaus.groovy.ast.FieldNode
  * @since 0.2.5
  */
 @Phase(Phase.LOCAL.INSTRUCTION_SELECTION)
-class NameCheckerImpl extends AbstractLocalTransformation<NameChecker, AnnotatedNode> {
+class NameCheckerImpl extends AbstractLocalTransformation<NameChecker, AnnotatedNode> { // <1>
     @Override
-    void doVisit(AnnotationNode annotation, AnnotatedNode annotated) {
+    void doVisit(AnnotationNode annotation, AnnotatedNode annotated) { // <2>
         String pattern = A.UTIL.ANNOTATION.getStringValue(annotation)
         String nodeText = getName(annotated)
         Boolean matches = nodeText ==~ pattern
@@ -27,15 +27,15 @@ class NameCheckerImpl extends AbstractLocalTransformation<NameChecker, Annotated
         }
     }
 
-    String getName(ClassNode classNode){
+    String getName(ClassNode classNode){  // <3>
         return classNode.name
     }
 
-    String getName(FieldNode fieldNode) {
+    String getName(FieldNode fieldNode) { // <4>
         return fieldNode.name
     }
 
-    String getName(AnnotatedNode annotatedNode) {
+    String getName(AnnotatedNode annotatedNode) { // <5>
         addError "Pattern doesn't match annotated name", annotatedNode
     }
 }

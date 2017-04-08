@@ -4,6 +4,7 @@ class NameCheckerTest extends GroovyTestCase {
 
     void testCheckerSucceeds() {
         assertScript '''
+        // tag::checkerSucceeds[]
         package asteroid.local.samples
         
         @NameChecker('.*Subject')
@@ -14,6 +15,7 @@ class NameCheckerTest extends GroovyTestCase {
         }
         
         assert new CheckerSubject().stringField == 'doSomething'
+        // end::checkerSucceeds[]
         '''
     }
 
