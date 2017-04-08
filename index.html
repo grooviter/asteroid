@@ -423,7 +423,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Asteroid</h1>
 <div class="details">
-<span id="revnumber">version 0.2.4</span>
+<span id="revnumber">version 0.2.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -571,7 +571,7 @@ repository:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.2.4'</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile 'com.github.grooviter:asteroid:0.2.5'</code></pre>
 </div>
 </div>
 </div>
@@ -1237,6 +1237,147 @@ import asteroid.Local
 <td>The class of the AST transformation implementation</td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Sometimes you may want to target more than one element: a class and
+a method, or a parameter and a local variable. Then you can use
+<code>TO.ANNOTATED</code> that means that the transformation could be applied
+to any annotated node.</p>
+</div>
+<div class="listingblock">
+<div class="title">annotation</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
+
+import asteroid.Local
+
+@Local(value = NameCheckerImpl, applyTo = Local.TO.ANNOTATED)
+@interface NameChecker {
+    String value()
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Most of the times a single node type is targeted. That
+idea was kept in mind when creating the <code>applyTo</code> parameter. That&#8217;s
+why <code>applyTo</code> doesn&#8217;t receive a list of possible targets. <code>ANNOTATED</code>
+is the exception to the rule that allows to do so.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Therefore in your implementation you should
+use the <code>AnnotatedNode</code> type.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The following example of method overriding only works with dynamic Groovy, if
+you statically compiled the code it would only be executing <code>getName(AnnotatedNode)</code>. So
+if you compile your code statically you should probably be using a <code>instanceof</code> to
+dispatch your actions.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">implementation</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
+
+import asteroid.A
+import asteroid.AbstractLocalTransformation
+import asteroid.Phase
+import org.codehaus.groovy.ast.AnnotatedNode
+import org.codehaus.groovy.ast.AnnotationNode
+import org.codehaus.groovy.ast.ClassNode
+import org.codehaus.groovy.ast.FieldNode
+
+/**
+ * Checks whether an {@link AnnotatedNode} follows the defined pattern in the
+ * pattern property
+ *
+ * @since 0.2.5
+ */
+@Phase(Phase.LOCAL.INSTRUCTION_SELECTION)
+class NameCheckerImpl extends AbstractLocalTransformation&lt;NameChecker, AnnotatedNode&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
+    @Override
+    void doVisit(AnnotationNode annotation, AnnotatedNode annotated) { <i class="conum" data-value="2"></i><b>(2)</b>
+        String pattern = A.UTIL.ANNOTATION.getStringValue(annotation)
+        String nodeText = getName(annotated)
+        Boolean matches = nodeText ==~ pattern
+
+        if (!matches) {
+            addError 'Pattern doesn\'t match annotated name', annotated
+        }
+    }
+
+    String getName(ClassNode classNode){  <i class="conum" data-value="3"></i><b>(3)</b>
+        return classNode.name
+    }
+
+    String getName(FieldNode fieldNode) { <i class="conum" data-value="4"></i><b>(4)</b>
+        return fieldNode.name
+    }
+
+    String getName(AnnotatedNode annotatedNode) { <i class="conum" data-value="5"></i><b>(5)</b>
+        addError "Pattern doesn't match annotated name", annotatedNode
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>You expect to receive any type of node extending <code>AnnotatedNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Receiving the annotated node as a parameter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Executing logic if the node is of type <code>ClassNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Executing logic if the node is of type <code>FieldNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Executing logic if the node is of any other type extending <code>AnnotatedNode</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then you can use it in any annotated node:</p>
+</div>
+<div class="listingblock">
+<div class="title">example</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package asteroid.local.samples
+
+@NameChecker('.*Subject')
+class CheckerSubject {
+
+  @NameChecker('.*Field')
+  String stringField = 'doSomething'
+}
+
+assert new CheckerSubject().stringField == 'doSomething'</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -2426,7 +2567,7 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.4<br>
+Version 0.2.5<br>
 Last updated 2017-02-12 10:48:54 +00:00
 </div>
 </div>

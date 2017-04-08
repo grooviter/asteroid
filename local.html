@@ -535,6 +535,91 @@ element type other than <code>TYPE</code>: a method, annotation, field&#8230;&#8
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Sometimes you may want to target more than one element: a class and
+a method, or a parameter and a local variable. Then you can use
+<code>TO.ANNOTATED</code> that means that the transformation could be applied
+to any annotated node.</p>
+</div>
+<div class="listingblock">
+<div class="title">annotation</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/NameChecker.groovy[]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Most of the times a single node type is targeted. That
+idea was kept in mind when creating the <code>applyTo</code> parameter. That&#8217;s
+why <code>applyTo</code> doesn&#8217;t receive a list of possible targets. <code>ANNOTATED</code>
+is the exception to the rule that allows to do so.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Therefore in your implementation you should
+use the <code>AnnotatedNode</code> type.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The following example of method overriding only works with dynamic Groovy, if
+you statically compiled the code it would only be executing <code>getName(AnnotatedNode)</code>. So
+if you compile your code statically you should probably be using a <code>instanceof</code> to
+dispatch your actions.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">implementation</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testMain}/asteroid/local/samples/NameCheckerImpl.groovy[]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>You expect to receive any type of node extending <code>AnnotatedNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Receiving the annotated node as a parameter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Executing logic if the node is of type <code>ClassNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Executing logic if the node is of type <code>FieldNode</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Executing logic if the node is of any other type extending <code>AnnotatedNode</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then you can use it in any annotated node:</p>
+</div>
+<div class="listingblock">
+<div class="title">example</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">Unresolved directive in local.adoc - include::{testTest}/asteroid/local/samples/NameCheckerTest.groovy[tags=checkerSucceeds, indent=0]</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_abstractlocaltransformation">AbstractLocalTransformation</h3>
@@ -786,7 +871,7 @@ use Asteroid utility functions to inject this behavior in your code.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Unresolved directive in local.adoc - include::{coreMain}/asteroid/internal/PhaseTransformation.java[tags=addCheckTo,indent=0]</code></pre>
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Unresolved directive in local.adoc - include::{coreMain}/asteroid/internal/PhaseTransformation.java[tags=addCheckTo, indent=0]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -799,7 +884,7 @@ use Asteroid utility functions to inject this behavior in your code.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-12 10:48:54 +00:00
+Last updated 2017-04-08 14:51:01 +00:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
