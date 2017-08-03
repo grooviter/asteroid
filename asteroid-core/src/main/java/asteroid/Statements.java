@@ -5,11 +5,16 @@ import java.util.List;
 import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.stmt.*;
+import org.codehaus.groovy.ast.stmt.Statement;
+import org.codehaus.groovy.ast.stmt.IfStatement;
+import org.codehaus.groovy.ast.stmt.BlockStatement;
+import org.codehaus.groovy.ast.stmt.ThrowStatement;
+import org.codehaus.groovy.ast.stmt.ReturnStatement;
+import org.codehaus.groovy.ast.stmt.AssertStatement;
+import org.codehaus.groovy.ast.stmt.DoWhileStatement;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.builder.AstBuilder;
 import org.codehaus.groovy.ast.expr.BooleanExpression;
-
 import asteroid.statements.TryCatchStatementBuilder;
 
 /**
@@ -220,6 +225,17 @@ public final class Statements {
         return new IfStatement(booleanExpr, ifStmt, emptyStatement());
     }
 
+    /**
+     * Represents a do-while statement. A do while loop is a control
+     * flow statement that executes a block of code at least once, and
+     * then repeatedly executes the block, or not, depending on a
+     * given boolean condition at the end of the block
+     *
+     * @param booleanExpr boolean condition
+     * @param loopBlock the block that could be repeated
+     * @return an instance of type {@link DoWhileStatement}
+     * @since 0.2.6
+     */
     public static DoWhileStatement doWhileStatement(final BooleanExpression booleanExpr, final Statement loopBlock) {
         return new DoWhileStatement(booleanExpr, loopBlock);
     }
