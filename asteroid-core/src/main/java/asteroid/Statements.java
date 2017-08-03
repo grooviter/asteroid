@@ -5,13 +5,7 @@ import java.util.List;
 import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.stmt.IfStatement;
-import org.codehaus.groovy.ast.stmt.AssertStatement;
-import org.codehaus.groovy.ast.stmt.BlockStatement;
-import org.codehaus.groovy.ast.stmt.ReturnStatement;
-import org.codehaus.groovy.ast.stmt.ThrowStatement;
-import org.codehaus.groovy.ast.stmt.TryCatchStatement;
-import org.codehaus.groovy.ast.stmt.Statement;
+import org.codehaus.groovy.ast.stmt.*;
 import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.builder.AstBuilder;
 import org.codehaus.groovy.ast.expr.BooleanExpression;
@@ -224,6 +218,10 @@ public final class Statements {
      */
     public static IfStatement ifS(final BooleanExpression booleanExpr, final Statement ifStmt) {
         return new IfStatement(booleanExpr, ifStmt, emptyStatement());
+    }
+
+    public static DoWhileStatement doWhileStatement(final BooleanExpression booleanExpr, final Statement loopBlock) {
+        return new DoWhileStatement(booleanExpr, loopBlock);
     }
 
     /**
