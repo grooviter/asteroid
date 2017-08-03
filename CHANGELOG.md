@@ -1,6 +1,10 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.6] - [2017-08-03]
+### Added
+- Add do-while statement (Thanks to josejuanmontiel)
+
 ## [0.2.5] - [2017-04-08]
 
 Adding all remaining targets for local transforms annotations.
