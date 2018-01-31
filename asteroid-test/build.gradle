@@ -22,8 +22,8 @@ dependencies {
     testCompile libs.groovy_json
     testCompile libs.spock
     testCompile libs.junit
-    testCompile 'cglib:cglib:2.2.2'
-    testCompile 'org.objenesis:objenesis:2.1'
+    testCompile libs.cglib
+    testCompile libs.objenesis
 }
 
 task('console', dependsOn:'classes', type: JavaExec) {
