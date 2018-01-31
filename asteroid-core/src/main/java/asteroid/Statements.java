@@ -7,6 +7,7 @@ import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.IfStatement;
+import org.codehaus.groovy.ast.stmt.WhileStatement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ThrowStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
@@ -234,10 +235,41 @@ public final class Statements {
      * @param booleanExpr boolean condition
      * @param loopBlock the block that could be repeated
      * @return an instance of type {@link DoWhileStatement}
+     * @deprecated As of release 2.4.7, replaced by {@link #doWhileStmt()}
      * @since 0.2.6
      */
+    @Deprecated
     public static DoWhileStatement doWhileStatement(final BooleanExpression booleanExpr, final Statement loopBlock) {
         return new DoWhileStatement(booleanExpr, loopBlock);
+    }
+
+    /**
+     * Represents a do-while statement. A do while loop is a control
+     * flow statement that executes a block of code at least once, and
+     * then repeatedly executes the block, or not, depending on a
+     * given boolean condition at the end of the block
+     *
+     * @param booleanExpr boolean condition
+     * @param loopBlock the block that could be repeated
+     * @return an instance of type {@link DoWhileStatement}
+     * @since 0.2.7
+     */
+    public static DoWhileStatement doWhileS(final BooleanExpression booleanExpr, final Statement loopBlock) {
+        return new DoWhileStatement(booleanExpr, loopBlock);
+    }
+
+    /**
+     * Represents a while statement. A while loop is a control flow
+     * statement that executes maybe repeatedly a code block,
+     * depending on a given boolean condition.
+     *
+     * @param booleanExpr boolean condition
+     * @param loopBlock the block that could be repeated
+     * @return an instance of type {@link DoWhileStatement}
+     * @since 0.2.7
+     */
+    public static WhileStatement whileS(final BooleanExpression booleanExpr, final Statement loopBlock) {
+        return new WhileStatement(booleanExpr, loopBlock);
     }
 
     /**
@@ -245,9 +277,21 @@ public final class Statements {
      * an {@link IfStatement} with an empty else part.
      *
      * @return an empty {@link Statement}
+     * @deprecated As of release 2.4.7, replaced by {@link #emptyS()}
      * @since 0.2.4
      */
     public static Statement emptyStatement() {
+        return A.STMT.stmt(A.EXPR.constX(""));
+    }
+
+    /**
+     * Represents an empty statement. It could be used when building
+     * an {@link IfStatement} with an empty else part.
+     *
+     * @return an empty {@link Statement}
+     * @since 0.2.7
+     */
+    public static Statement emptyS() {
         return A.STMT.stmt(A.EXPR.constX(""));
     }
 

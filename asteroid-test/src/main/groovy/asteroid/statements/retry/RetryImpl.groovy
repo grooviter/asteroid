@@ -4,100 +4,122 @@ import asteroid.A
 import asteroid.AbstractLocalTransformation
 import asteroid.Expressions
 import asteroid.Phase
-import asteroid.statements.retry.Log
+import java.util.logging.Logger
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.AnnotationNode
+import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.PropertyNode
+import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.expr.BooleanExpression
 import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
-import org.codehaus.groovy.ast.stmt.DoWhileStatement
+import org.codehaus.groovy.ast.stmt.WhileStatement
 import org.codehaus.groovy.ast.stmt.Statement
 import org.codehaus.groovy.ast.stmt.TryCatchStatement
 import org.codehaus.groovy.syntax.Types
 
 /**
- *  int counter = 0;
+ *  AtomicInteger counter = new AtomicInteger(0);
+ *
  *  do {
  *    try {
  *        buggyCall()
- *        counter = repeatTimes;
  *    } catch(Exception ex) {
- *        logger.error(ex);
- *        counter++;
+ *        logger.severe(ex.getMessage());
  *    } finally {
  *        log.info "safe!!"
  *    }
- *  } while (conter<repeatTimes)
+ *  } while (counter.getAndAdd(1) <= repeatTimes)
  */
 @CompileStatic
 @Phase(Phase.LOCAL.INSTRUCTION_SELECTION)
 class RetryImpl extends AbstractLocalTransformation<Retry, MethodNode> {
 
-    static final String EXCEPTION_VAR_NAME = 'ex'
-
     @Override
     void doVisit(final AnnotationNode annotation, final MethodNode methodNode) {
-        // Logger logger
-        PropertyNode loggerPropertyNode = A.NODES.property('logger').type(Log).build()
-        methodNode.declaringClass.addProperty(loggerPropertyNode)
-        VariableExpression loggerVarExpr = A.EXPR.varX('logger')
-
         // Integer counter
-        PropertyNode counterPropertyNode = A.NODES.property('counter')
-                .modifiers(A.ACC.ACC_PUBLIC)
-                .type(Integer)
-                .initialValueExpression(A.EXPR.constX('1'))
-                .build()
-        methodNode.declaringClass.addProperty(counterPropertyNode)
+        ClassNode declaringClass = methodNode.declaringClass
+
+        A.UTIL.CLASS.addPropertyIfNotPresent(declaringClass, counterPropertyNode)
+        A.UTIL.CLASS.addPropertyIfNotPresent(declaringClass, getLoggerPropertyNode(declaringClass))
+
         VariableExpression counterVarExpr = A.EXPR.varX('counter')
 
         // retryTimes
-        ConstantExpression retryNumberValueExpr = A.EXPR.constX(A.UTIL.ANNOTATION.get(annotation, Integer))
+        ConstantExpression retryNumberValueExpr = A
+            .EXPR
+            .constX(A.UTIL.ANNOTATION.get(annotation, Integer))
 
-        // logger.error(ex)
-        // counter++;
-        Statement mutateNumberStmt = A.STMT.stmt(
-                        A.EXPR.binX(
-                                counterVarExpr,
-                                    Types.PLUS_EQUAL,
-                                A.EXPR.constX(1)))
-        MethodCallExpression loggerErrorExpr = A.EXPR.callX(loggerVarExpr, 'error', A.EXPR.varX('ex'))
-        Statement catchStmt = A.STMT.blockS(
-                                    A.STMT.stmt(loggerErrorExpr),
-                                    mutateNumberStmt)
+        // log.severe(ex)
+        MethodCallExpression loggerErrorExpr = logExpr('severe', A.EXPR.callX(A.EXPR.varX('ex'), 'getMessage'))
+        Statement catchStmt = A
+            .STMT
+            .blockS(A.STMT.stmt(loggerErrorExpr))
 
-        // logger.info('safe!!')
-        MethodCallExpression loggerInfoExpr = A.EXPR.callX(loggerVarExpr, 'info', A.EXPR.constX('safe!!'))
+        // log.info('safe!!')
+        MethodCallExpression loggerInfoExpr = logExpr('info', A.EXPR.constX('safe!!'))
         Statement finallyStmt = A.STMT.stmt(loggerInfoExpr)
 
-        Statement finishCounter = A.STMT.stmt(
-                                        A.EXPR.binX(
-                                                counterVarExpr,
-                                                    Types.EQUAL,
-                                                retryNumberValueExpr))
+        // try/catch/finally
+        TryCatchStatement protectedCode = A
+            .STMT
+            .tryCatchSBuilder()
+            .tryStmt(A.STMT.blockS(methodNode.code))
+            .addCatchStmt(Exception, 'ex', catchStmt)
+            .finallyStmt(finallyStmt)
+            .build()
 
-        // try { buggy; counter = repeatTimes; } catch(Exception ex) { logger.error(ex); counter++; } finally { log.info "safe!!" }
-        TryCatchStatement protectedCode = A.STMT.tryCatchSBuilder()
-                .tryStmt(
-                    A.STMT.blockS(
-                            methodNode.code,
-                            finishCounter))
-                .addCatchStmt(Exception, EXCEPTION_VAR_NAME, catchStmt)
-                .finallyStmt(finallyStmt)
-                .build()
+        // do { ... } while (counter<repeatTimes)
+        BooleanExpression counterLessEqualsRepeatTimes = A
+            .EXPR
+            .boolX(A.EXPR.callX(A.EXPR.varX('counter'), 'getAndAdd', A.EXPR.constX(1)),
+                   Types.COMPARE_LESS_THAN_EQUAL,
+                   retryNumberValueExpr)
 
-        // do { ... } while (conter<repeatTimes)
-        DoWhileStatement doWhileStatement = A.STMT.doWhileStatement(
-                A.EXPR.boolX(
-                        counterVarExpr,
-                        Types.COMPARE_LESS_THAN,
-                        retryNumberValueExpr),
-                protectedCode)
+        WhileStatement whileS = A
+            .STMT
+            .whileS(counterLessEqualsRepeatTimes, protectedCode)
 
-        // do { try { buggy; counter = repeatTimes;  } catch(Exception ex) { counter++; } finally { log.info "safe!!" } } while (conter<repeatTimes)
-        methodNode.code = doWhileStatement
+        // method code
+        methodNode.code = whileS
+    }
+
+    PropertyNode getCounterPropertyNode() {
+        PropertyNode counterPropertyNode = A.NODES.property('counter')
+            .modifiers(A.ACC.ACC_PUBLIC)
+            .type(java.util.concurrent.atomic.AtomicInteger)
+            .initialValueExpression(initializateAtomicInteger())
+            .build()
+
+        return counterPropertyNode
+    }
+
+    PropertyNode getLoggerPropertyNode(ClassNode classNode) {
+        // = Logger.getLogger(MyClass.getClass().getName())
+        Expression newLogger = A
+            .EXPR
+            .staticCallX(Logger,
+                         'getLogger',
+                         A.EXPR.callX(A.EXPR.staticCallX(classNode, 'getClass'), 'getName'))
+
+        return A.NODES.property('logger')
+            .modifiers(A.ACC.ACC_PUBLIC)
+            .type(Logger)
+            .initialValueExpression(newLogger)
+            .build()
+    }
+
+    MethodCallExpression logExpr(String level, Expression expression) {
+        return A.EXPR.callX(A.EXPR.varX('logger'), level, expression)
+    }
+
+    AnnotationNode getLoggerAnnotation() {
+        return A.NODES.annotation(groovy.util.logging.Log).build()
+    }
+
+    Expression initializateAtomicInteger() {
+        return A.EXPR.newX(java.util.concurrent.atomic.AtomicInteger, A.EXPR.constX(0))
     }
 }
