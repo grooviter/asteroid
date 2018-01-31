@@ -22,6 +22,8 @@ dependencies {
     testCompile libs.groovy_json
     testCompile libs.spock
     testCompile libs.junit
+    testCompile libs.cglib
+    testCompile libs.objenesis
 }
 
 task('console', dependsOn:'classes', type: JavaExec) {

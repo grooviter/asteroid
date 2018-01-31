@@ -1,6 +1,29 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.7] - [2018-01-31]
+### Breaking changes
+
+- Removed functions deprecated in version `0.2.4`
+
+### Added
+- `emptyS` to create empty statements
+- `whileS` to create while loop statements
+
+### Changed
+
+- Upgrade to Groovy `2.4.13`
+- Upgrade to Spock `1.1-groovy-2.4`
+
+### Deprecated
+
+- A.STMT.`doWhileStatement` -> A.STMT.`doWhileS`
+- A.STMT.`emptyStatement` -> A.STMT.`emptyS`
+
+### Fixed
+
+- `RetryImpl` in `asteroid-test` examples
+
 ## [0.2.6] - [2017-08-03]
 ### Added
 - Add do-while statement (Thanks to josejuanmontiel)
