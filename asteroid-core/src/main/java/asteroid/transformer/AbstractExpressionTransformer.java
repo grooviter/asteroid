@@ -29,22 +29,6 @@ public abstract class AbstractExpressionTransformer<T extends Expression> extend
      * Every instance needs the source unit awareness and the name of the method
      * it's going to transform
      *
-     * @param sourceUnit Needed to apply scope
-     * @param criteria the criteria used to search the interesting
-     * {@link Expression}
-     * @since 0.2.0
-     */
-    @Deprecated
-    public AbstractExpressionTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
-        super(sourceUnit);
-        this.criteria = criteria;
-        this.clazz = null;
-    }
-
-    /**
-     * Every instance needs the source unit awareness and the name of the method
-     * it's going to transform
-     *
      * @param clazz the type of the expression we're interested in
      * @param sourceUnit Needed to apply scope
      * @param criteria the criteria used to search the interesting
@@ -106,31 +90,6 @@ public abstract class AbstractExpressionTransformer<T extends Expression> extend
      * @since 0.2.0
      */
     public abstract Expression transformExpression(T expression);
-
-    /**
-     * This method returns a criteria to look for {@link MethodCallExpression}
-     * with a name equals to the name passed as parameter
-     *
-     * @deprecated use {@link asteroid.Criterias}
-     * @param name the method name
-     * @return a search criteria
-     * @since 0.2.0
-     */
-    @Deprecated
-    public static Closure<Boolean> methodCallByNameEq(final String name) {
-        return new Closure<Boolean>(null) {
-            public Boolean doCall(final Expression expression) {
-                if (!(expression instanceof MethodCallExpression)) {
-                    return false;
-                }
-
-                final MethodCallExpression expr = (MethodCallExpression) expression;
-
-                return expr.getMethodAsString().equals(name);
-            }
-        };
-    }
-
     /**
      * This criteria will make the transformer to process every {@link Expression}
      *
@@ -143,34 +102,6 @@ public abstract class AbstractExpressionTransformer<T extends Expression> extend
         return new Closure<Boolean>(null) {
             public Boolean doCall(final Expression expression) {
                 return true;
-            }
-        };
-    }
-
-    /**
-     * Checks that a given {@link BinaryExpression} uses a specific
-     * token type. The token type is an `int` value. You can use
-     * {@link Types} where all token types are declared.
-     *
-     * @deprecated use {@link asteroid.Criterias}
-     * @param tokenType Check {@link Types} for more info
-     * @return a {@link Closure} used as criteria
-     * @since 0.2.3
-     * @see Types
-     */
-    @Deprecated
-    public static Closure<Boolean> usesToken(final int tokenType) {
-        return new Closure<Boolean>(null) {
-            public Boolean doCall(final Expression expression) {
-                if (!(expression instanceof BinaryExpression)) {
-                    return false;
-                }
-
-                final BinaryExpression binaryExpression = (BinaryExpression) expression;
-
-                return binaryExpression
-                    .getOperation()
-                    .getType() == tokenType;
             }
         };
     }

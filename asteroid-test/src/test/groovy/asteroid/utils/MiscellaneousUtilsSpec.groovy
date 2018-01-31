@@ -8,8 +8,8 @@ class MiscellaneousUtilsSpec extends AsteroidSpec {
 
     void 'combine closures with and'() {
         setup:
-        def fn = A.UTIL.MISC.and({ x -> x % 2 == 0 },
-                                 { y -> y > 0 })
+        def fn = A.CRITERIA.and({ x -> x % 2 == 0 },
+                                { y -> y > 0 })
         expect:
         fn(x) == y
 
@@ -22,8 +22,8 @@ class MiscellaneousUtilsSpec extends AsteroidSpec {
 
     void 'combine closures with or'() {
         setup:
-        def fn = A.UTIL.MISC.or({ x -> x % 2 == 0 },
-                                { y -> y > 0 })
+        def fn = A.CRITERIA.or({ x -> x % 2 == 0 },
+                               { y -> y > 0 })
         expect:
         fn(x) == y
 
