@@ -13,6 +13,7 @@ import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.expr.ConstantExpression;
 
 /**
  * General utility methods to deal with {@link Statement} instances
@@ -144,9 +145,26 @@ public final class StatementUtils {
 
         final String labelName    = exprStmt.getStatementLabel();
         final Expression descExpr = exprStmt.getExpression();
-        final String description  = descExpr == null ? "" : descExpr.toString();
+        final String description  = getDescription(descExpr);
 
         return new Label(labelName, description);
+    }
+
+    /**
+     * Extracts the String value of a given expression
+     *
+     * @return a {@link String} of a given {@link Expression}
+     */
+    private String getDescription(Expression expression) {
+        if (expression == null) {
+            return "";
+        }
+
+        if (expression instanceof ConstantExpression) {
+            return ((ConstantExpression) expression).getText();
+        }
+
+        return expression.toString();
     }
 
     /**

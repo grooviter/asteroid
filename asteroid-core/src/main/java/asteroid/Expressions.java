@@ -16,6 +16,8 @@ import org.codehaus.groovy.ast.expr.DeclarationExpression;
 import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ListExpression;
+import org.codehaus.groovy.ast.expr.MapExpression;
+import org.codehaus.groovy.ast.expr.MapEntryExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
@@ -28,6 +30,7 @@ import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.IfStatement;
 
+import java.util.List;
 import java.util.Arrays;
 
 /**
@@ -392,12 +395,60 @@ public final class Expressions {
      * <strong>Result</strong>:
      * <pre><code>[1,2]</code></pre>
      *
-     * @param expressions
+     * @param expressions list items as expressions
      * @return an instance of {@link ListExpression}
      * @since 0.1.0
      */
     public static ListExpression listX(final Expression... expressions) {
         return new ListExpression(Arrays.asList(expressions));
+    }
+
+    /**
+     * Creates an instance of {@link MapExpression}:
+     * <br/><br/>
+     *
+     * <strong>AST</strong>
+     * <pre><code>mapX(mapEntryX(constX('key'), constX('value')))</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>[key: 'value']</code></pre>
+     *
+     * @param expressions different map entries as {@link MapEntryExpression}
+     * @return an instance of {@link MapExpression}
+     * @since 0.2.8
+     */
+    public static MapExpression mapX(final MapEntryExpression... expressions) {
+        return new MapExpression(Arrays.asList(expressions));
+    }
+
+    /**
+     * Creates an instance of {@link MapExpression}:
+     * <br/><br/>
+     *
+     * <strong>AST</strong>
+     * <pre><code>mapX(mapEntryX(constX('key'), constX('value')))</code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>[key: 'value']</code></pre>
+     *
+     * @param expressions different map entries as {@link MapEntryExpression}
+     * @return an instance of {@link MapExpression}
+     * @since 0.2.8
+     */
+    public static MapExpression mapX(final List<MapEntryExpression> expressions) {
+        return new MapExpression(expressions);
+    }
+
+    /**
+     * Creates an instance of type {@link MapEntryExpression}
+     *
+     * @param key an {@link Expression} as the map entry key
+     * @param value an {@link Expression} as the map entry value
+     * @return an instance of {@link MapEntryExpression}
+     * @since 0.2.8
+     */
+    public static MapEntryExpression mapEntryX(Expression key, Expression value) {
+        return new MapEntryExpression(key, value);
     }
 
     /**
