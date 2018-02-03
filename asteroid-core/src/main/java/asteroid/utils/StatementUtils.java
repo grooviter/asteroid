@@ -155,7 +155,7 @@ public final class StatementUtils {
      *
      * @return a {@link String} of a given {@link Expression}
      */
-    private String getDescription(Expression expression) {
+    private String getDescription(final Expression expression) {
         if (expression == null) {
             return "";
         }

@@ -1,12 +1,7 @@
 package asteroid.transformer;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
-
 import org.codehaus.groovy.ast.ClassNode;
-import org.codehaus.groovy.ast.AnnotationNode;
-
 import org.codehaus.groovy.control.SourceUnit;
-import org.codehaus.groovy.control.CompilePhase;
 import groovy.lang.Closure;
 
 /**

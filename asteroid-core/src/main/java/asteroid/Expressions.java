@@ -447,7 +447,7 @@ public final class Expressions {
      * @return an instance of {@link MapEntryExpression}
      * @since 0.2.8
      */
-    public static MapEntryExpression mapEntryX(Expression key, Expression value) {
+    public static MapEntryExpression mapEntryX(final Expression key, final Expression value) {
         return new MapEntryExpression(key, value);
     }
 

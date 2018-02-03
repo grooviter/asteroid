@@ -1,9 +1,5 @@
 package asteroid.utils;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.every;
-
-import groovy.lang.Closure;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 

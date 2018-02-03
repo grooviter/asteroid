@@ -1,12 +1,8 @@
 package asteroid.transformer;
 
 import groovy.lang.Closure;
-
-import org.codehaus.groovy.syntax.Types;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.expr.BinaryExpression;
-import org.codehaus.groovy.ast.expr.MethodCallExpression;
 
 /**
  * This {@link Transformer} could be used as a base for transforming
