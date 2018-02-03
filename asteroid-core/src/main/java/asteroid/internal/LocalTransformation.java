@@ -100,10 +100,10 @@ public class LocalTransformation extends AbstractASTTransformation {
                 .build();
     }
 
-    private ListExpression resolveTargetFromElementType(List<ElementType> types) {
-        List<PropertyExpression> expressions =
+    private ListExpression resolveTargetFromElementType(final List<ElementType> types) {
+        final List<PropertyExpression> expressions =
                 collect(types, new Closure<PropertyExpression>(null) {
-                    PropertyExpression doCall(ElementType type) {
+                    PropertyExpression doCall(final ElementType type) {
                         return A.EXPR.propX(
                                 A.EXPR.classX(ElementType.class),
                                 A.EXPR.constX(type.toString()));
@@ -114,7 +114,7 @@ public class LocalTransformation extends AbstractASTTransformation {
 
     }
 
-    private List<ElementType> resolveAnnotationTarget(String target) {
+    private List<ElementType> resolveAnnotationTarget(final String target) {
         if (target == null) {
             return Arrays.asList(ElementType.TYPE);
         }
