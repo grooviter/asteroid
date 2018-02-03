@@ -1,6 +1,13 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.9] - [2018-02-03]
+
+### Added
+
+- `Criterias.byExprMethodCallByArgs` to filter method calls by its
+  parameter types
+
 ## [0.2.8] - [2018-02-03]
 
 ### Fixed
