@@ -2,6 +2,7 @@ package asteroid;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.every;
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 
 import groovy.lang.Closure;
 import org.codehaus.groovy.ast.AnnotationNode;
@@ -14,9 +15,12 @@ import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.syntax.Types;
+import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 
 import asteroid.transformer.AbstractMethodNodeTransformer;
 import asteroid.transformer.AbstractClassNodeTransformer;
+
+import java.util.List;
 
 /**
  * This class contains out-of-the-box criterias, they are used to help
@@ -95,9 +99,9 @@ public final class Criterias {
      * @return a criteria to look for annotated nodes annotated with a given type
      * @since 0.2.4
      */
-    public static <A extends AnnotatedNode> Closure<Boolean> byAnnotation(final Class annotationClazz) {
+    public static <T extends AnnotatedNode> Closure<Boolean> byAnnotation(final Class annotationClazz) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return any(node.getAnnotations(), new Closure(null) {
                         Boolean doCall(final AnnotationNode annotationNode) {
                             return annotationNode
@@ -122,9 +126,9 @@ public final class Criterias {
      * @return a criteria to look for annotated nodes annotated with a given type
      * @since 0.2.4
      */
-    public static <A extends AnnotatedNode> Closure<Boolean> byAnnotationSimpleName(final String annotationName) {
+    public static <T extends AnnotatedNode> Closure<Boolean> byAnnotationSimpleName(final String annotationName) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return any(node.getAnnotations(), new Closure(null) {
                         public boolean doCall(final AnnotationNode annotationNode) {
                             return annotationNode
@@ -150,9 +154,9 @@ public final class Criterias {
      * @return a criteria that can be used in a {@link AbstractMethodNodeTransformer} constructor
      * @since 0.2.4
      */
-    public static <A extends MethodNode> Closure<Boolean> byMethodNodeName(final String methodName) {
+    public static <T extends MethodNode> Closure<Boolean> byMethodNodeName(final String methodName) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return node.getName().equals(methodName);
             }
         };
@@ -166,9 +170,9 @@ public final class Criterias {
      * @return a criteria that can be used in a {@link AbstractMethodNodeTransformer} constructor
      * @since 0.2.4
      */
-    public static <A extends MethodNode> Closure<Boolean> byMethodNodeNameContains(final String term) {
+    public static <T extends MethodNode> Closure<Boolean> byMethodNodeNameContains(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return node.getName().contains(term);
             }
         };
@@ -182,9 +186,9 @@ public final class Criterias {
      * @return a criteria that can be used in a {@link AbstractMethodNodeTransformer} constructor
      * @since 0.2.4
      */
-    public static <A extends MethodNode> Closure<Boolean> byMethodNodeNameEndsWith(final String suffix) {
+    public static <T extends MethodNode> Closure<Boolean> byMethodNodeNameEndsWith(final String suffix) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return node.getName().contains(suffix);
             }
         };
@@ -198,9 +202,9 @@ public final class Criterias {
      * @return a criteria that can be used in a {@link AbstractMethodNodeTransformer} constructor
      * @since 0.2.4
      */
-    public static <A extends MethodNode> Closure<Boolean> byMethodNodeNameStartsWith(final String prefix) {
+    public static <T extends MethodNode> Closure<Boolean> byMethodNodeNameStartsWith(final String prefix) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return node.getName().contains(prefix);
             }
         };
@@ -220,9 +224,9 @@ public final class Criterias {
      * @return a criteria that can be used in a {@link AbstractClassNodeTransformer} constructor
      * @since 0.2.4
      */
-    public static <A extends ClassNode> Closure<Boolean> byClassNodeNameContains(final String term) {
+    public static <T extends ClassNode> Closure<Boolean> byClassNodeNameContains(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return node.getName().contains(term);
             }
         };
@@ -236,9 +240,9 @@ public final class Criterias {
      * @return a criteria that can be used in a {@link AbstractClassNodeTransformer} constructor
      * @since 0.2.4
      */
-    public static <A extends ClassNode> Closure<Boolean> byClassNodeNameEndsWith(final String term) {
+    public static <T extends ClassNode> Closure<Boolean> byClassNodeNameEndsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return node.getName().endsWith(term);
             }
         };
@@ -252,9 +256,9 @@ public final class Criterias {
      * @return a criteria that can be used in a {@link AbstractClassNodeTransformer} constructor
      * @since 0.2.4
      */
-    public static <A extends ClassNode> Closure<Boolean> byClassNodeNameStartsWith(final String term) {
+    public static <T extends ClassNode> Closure<Boolean> byClassNodeNameStartsWith(final String term) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A node) {
+            public Boolean doCall(final T node) {
                 return node.getName().startsWith(term);
             }
         };
@@ -274,9 +278,9 @@ public final class Criterias {
      * @return a search criteria
      * @since 0.2.4
      */
-    public static <A extends Expression> Closure<Boolean> byExprMethodCallByName(final String name) {
+    public static <T extends Expression> Closure<Boolean> byExprMethodCallByName(final String name) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A expression) {
+            public Boolean doCall(final T expression) {
                 if (!(expression instanceof MethodCallExpression)) {
                     return false;
                 }
@@ -289,14 +293,85 @@ public final class Criterias {
     }
 
     /**
+     * This method returns a criteria to look for {@link
+     * MethodCallExpression} with arguments with the types specified
+     * as parameters
+     *
+     * @param args the classes of every parameter
+     * @return a search criteria
+     * @since 0.2.9
+     */
+    public static Closure<Boolean> byExprMethodCallByArgs(final Class... argTypes) {
+        return byExprMethodCallByArgs(collect(argTypes, toClassNode()).toArray(new ClassNode[argTypes.length]));
+    }
+
+    private static Closure<ClassNode> toClassNode() {
+        return new Closure<ClassNode>(null) {
+            ClassNode doCall(final Class clazz) {
+                return A.NODES.clazz(clazz).build();
+            }
+        };
+    }
+
+    /**
+     * This method returns a criteria to look for {@link
+     * MethodCallExpression} with arguments with the types specified
+     * as parameters
+     *
+     * @param args the classes of every parameter
+     * @return a search criteria
+     * @since 0.2.9
+     */
+    private static Closure<Boolean> byExprMethodCallByArgs(final ClassNode... argTypes) {
+        return new Closure<Boolean>(null) {
+            public Boolean doCall(final Expression expression) {
+                if (!(expression instanceof MethodCallExpression)) {
+                    return false;
+                }
+
+                final MethodCallExpression expr = (MethodCallExpression) expression;
+                final List<Expression> args = A.UTIL.METHODX
+                    .getArgs(expr)
+                    .getExpressions();
+
+                if (args.size() != argTypes.length) {
+                    return false;
+                }
+
+                final List<String> left = collect(argTypes, getClassNodeName());
+                final List<String> right = collect(collect(args, extractExpressionClassNode()),
+                                                   getClassNodeName());
+
+                return DefaultGroovyMethods.equals(left, right);
+            }
+        };
+    }
+
+    private static Closure<ClassNode> extractExpressionClassNode() {
+        return new Closure<ClassNode>(null) {
+            ClassNode doCall(final Expression expression) {
+                return expression.getType();
+            }
+        };
+    }
+
+    private static Closure<String> getClassNodeName() {
+        return new Closure<String>(null) {
+            String doCall(final ClassNode classNode) {
+                return classNode.getName();
+            }
+        };
+    }
+
+    /**
      * This criteria will make the transformer to process every {@link Expression}
      *
      * @return a criteria to process everything
      * @since 0.2.4
      */
-    public static <A extends Expression> Closure<Boolean> byExprAny() {
+    public static <T extends Expression> Closure<Boolean> byExprAny() {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A expression) {
+            public Boolean doCall(final T expression) {
                 return true;
             }
         };
@@ -312,9 +387,9 @@ public final class Criterias {
      * @since 0.2.4
      * @see Types
      */
-    public static <A extends Expression> Closure<Boolean> byExprBinaryUsingToken(final int tokenType) {
+    public static <T extends Expression> Closure<Boolean> byExprBinaryUsingToken(final int tokenType) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A expression) {
+            public Boolean doCall(final T expression) {
                 if (!(expression instanceof BinaryExpression)) {
                     return false;
                 }
@@ -342,9 +417,9 @@ public final class Criterias {
      * @return a search criteria
      * @since 0.2.4
      */
-    public static <A extends Statement> Closure<Boolean> byStmtByType(final Class<A> stmtClass) {
+    public static <T extends Statement> Closure<Boolean> byStmtByType(final Class<T> stmtClass) {
         return new Closure<Boolean>(null) {
-            public Boolean doCall(final A statement) {
+            public Boolean doCall(final T statement) {
                 return stmtClass != null && stmtClass.isInstance(statement);
             }
         };
