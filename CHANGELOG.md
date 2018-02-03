@@ -1,6 +1,18 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.2.8] - [2018-02-03]
+
+### Fixed
+
+- Fix getting label desc property in `A.UTIL.METHODX.extractLabelFrom`
+- Fix some PMD warnings
+
+### Added
+
+- `A.EXPR.mapX()` y `A.EXPR.mapEntryX()`
+- Getting expression from `ArgumentListExpression` by index
+
 ## [0.2.7] - [2018-01-31]
 ### Breaking changes
 
