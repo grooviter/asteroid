@@ -19,6 +19,6 @@ class AddPropertyToInnerClass extends AbstractClassNodeTransformer { // <1>
 
     @Override
     void transformClass(final ClassNode target) { // <3>
-        A.UTIL.CLASS.addInterfaces(target, java.io.Serializable)
+        A.UTIL.NODE.addInterfaces(target, java.io.Serializable)
     }
 }

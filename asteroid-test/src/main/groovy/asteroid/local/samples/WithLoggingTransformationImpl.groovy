@@ -17,14 +17,13 @@ class WithLoggingTransformationImpl extends AbstractLocalTransformation<WithLogg
 
     @Override
     void doVisit(final AnnotationNode annotation, final MethodNode methodNode) {
-        def oldCode   = methodNode.code   // <2>
-        def startCode = printlnS("start") // <3>
-        def endCode   = printlnS("end")   // <4>
+        def before = printlnS("start") // <2>
+        def after = printlnS("end")   // <3>
 
-        methodNode.code = A.STMT.blockS(startCode, oldCode, endCode) // <5>
+        A.UTIL.NODE.addAroundCodeBlock(methodNode, before, after) // <4>
     }
 
     Statement printlnS(String message) {
-        return A.STMT.stmt(A.EXPR.callThisX("println", A.EXPR.constX(message))) // <6>
+        return A.STMT.stmt(A.EXPR.callThisX("println", A.EXPR.constX(message))) // <5>
     }
 }

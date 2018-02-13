@@ -16,7 +16,7 @@ class ClassNodeUtilsSpec extends AsteroidSpec {
             ClassNode classNode = A.NODES.clazz(DummyClass).build()
 
         expect: 'it responds true'
-            A.UTIL.CLASS.hasFieldOfType(classNode, List.name)
-            A.UTIL.CLASS.hasFieldOfType(classNode, String.name)
+            A.UTIL.NODE.hasFieldOfType(classNode, List.name)
+            A.UTIL.NODE.hasFieldOfType(classNode, String.name)
     }
 }

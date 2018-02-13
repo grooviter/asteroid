@@ -27,12 +27,12 @@ class AddTraitTransformer extends AbstractClassNodeTransformer {
 
     @Override
     void transformClass(final ClassNode target) {
-        AnnotationNode annotation = A.UTIL.CLASS.getAnnotationFrom(target, ANNOTATION_NAME)
-        String              value = A.UTIL.ANNOTATION.getStringValue(annotation)
+        AnnotationNode annotation = A.UTIL.NODE.getAnnotationFrom(target, ANNOTATION_NAME)
+        String              value = A.UTIL.NODE.getStringValue(annotation)
         ClassNode       traitType = A.NODES.clazz(value).build()
 
         println "AddTraitTransformer is applied at: ${CompilePhase.fromPhaseNumber(sourceUnit.phase)} phase"
 
-        A.UTIL.CLASS.addInterfaces(target, traitType)
+        A.UTIL.NODE.addInterfaces(target, traitType)
     }
 }

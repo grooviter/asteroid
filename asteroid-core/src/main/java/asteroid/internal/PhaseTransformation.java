@@ -45,7 +45,7 @@ public class PhaseTransformation extends AbstractLocalTransformation<Phase,Class
      */
     @Override
     public void doVisit(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        if(!A.UTIL.CLASS.isOrExtends(annotatedNode, AbstractLocalTransformation.class)) {
+        if(!A.UTIL.NODE.isOrExtends(annotatedNode, AbstractLocalTransformation.class)) {
             return;
         }
 
@@ -55,9 +55,9 @@ public class PhaseTransformation extends AbstractLocalTransformation<Phase,Class
         addClassConstructor(annotatedNode);
 
         // tag::addCheckTo[]
-        A.UTIL.CHECK.addCheckTo(A.UTIL.CLASS.findMethodByName(annotatedNode, METHOD_DOVISIT));
+        A.UTIL.NODE.addCheckTo(A.UTIL.NODE.findMethodByName(annotatedNode, METHOD_DOVISIT));
         // end::addCheckTo[]
-        A.UTIL.CLASS.removeAnnotation(annotatedNode, annotationNode);
+        A.UTIL.NODE.removeAnnotation(annotatedNode, annotationNode);
     }
 
     private void addClassConstructor(final ClassNode annotatedNode) {
@@ -76,7 +76,7 @@ public class PhaseTransformation extends AbstractLocalTransformation<Phase,Class
     }
 
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
-        final String phaseAsString = A.UTIL.ANNOTATION.get(annotationNode, String.class);
+        final String phaseAsString = A.UTIL.NODE.get(annotationNode, String.class);
         final CompilePhase compilePhase = CompilePhase.valueOf(phaseAsString);
 
         return compilePhase;

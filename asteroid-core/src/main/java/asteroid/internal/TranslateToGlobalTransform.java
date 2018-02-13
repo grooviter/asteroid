@@ -54,17 +54,17 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
         }
 
         final ClassNode reference = A.NODES.clazz(AbstractGlobalTransformation.class).build();
-        final Boolean isGlobal = A.UTIL.CLASS.isOrExtendsUnsafe(annotated, reference);
+        final Boolean isGlobal = A.UTIL.NODE.isOrExtendsUnsafe(annotated, reference);
 
         if (!isGlobal) {
             return;
         }
 
-        final AnnotationNode annotation = A.UTIL.CLASS.getAnnotationFrom(annotated, TX_NAME);
+        final AnnotationNode annotation = A.UTIL.NODE.getAnnotationFrom(annotated, TX_NAME);
         final CompilePhase phase = extractCompilePhaseFromSafely(annotation);
 
         TransformationUtils.addASTAnnotationsFromTo(annotated, phase);
-        A.UTIL.CLASS.removeAnnotation(annotated, annotation);
+        A.UTIL.NODE.removeAnnotation(annotated, annotation);
     }
 
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
@@ -79,7 +79,7 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
     }
 
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
-        final String       value         = A.UTIL.ANNOTATION.getStringValue(annotationNode);
+        final String       value         = A.UTIL.NODE.getStringValue(annotationNode);
         final String       phaseAsString = value
             .replace(PHASE_PFIX, BLANK)
             .replace(PHASE_PFIX_SHORT, BLANK);

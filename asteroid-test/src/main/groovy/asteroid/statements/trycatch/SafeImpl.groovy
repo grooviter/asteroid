@@ -44,7 +44,7 @@ class SafeImpl extends AbstractLocalTransformation<Safe, MethodNode> {
 
         // logger.error(ex)
         VariableExpression loggerVarExpr = A.EXPR.varX('logger')
-        ConstantExpression defaultValueExpr = A.EXPR.constX(A.UTIL.ANNOTATION.get(annotation, Integer))
+        ConstantExpression defaultValueExpr = A.EXPR.constX(A.UTIL.NODE.get(annotation, Integer))
         MethodCallExpression loggerErrorExpr = A.EXPR.callX(loggerVarExpr, 'error', A.EXPR.varX('ex'))
         Statement catchStmt = A.STMT.blockS(
             A.STMT.stmt(loggerErrorExpr),

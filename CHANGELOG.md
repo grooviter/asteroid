@@ -1,8 +1,19 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
-## [0.2.9] - [2018-02-03]
+## [0.3.0] - [2018-02-13]
+### Breaking Changes
 
+- Unify expression utils inside `ExpressionUtils` and
+  `NodeUtils`. Removed `MiscelaneousUtils`,
+  `MethodCallExpressionUtils` and `AnnotationNodeUtils`
+
+### Added
+
+- AOP like utility methods to add `before/after` code blocks to
+  existing `MethodNode` nodes
+
+## [0.2.9] - [2018-02-03]
 ### Added
 
 - `Criterias.byExprMethodCallByArgs` to filter method calls by its

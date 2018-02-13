@@ -330,8 +330,8 @@ public final class Criterias {
                 }
 
                 final MethodCallExpression expr = (MethodCallExpression) expression;
-                final List<Expression> args = A.UTIL.METHODX
-                    .getArgs(expr)
+                final List<Expression> args = A.UTIL.EXPR
+                    .getArgumentList(expr)
                     .getExpressions();
 
                 if (args.size() != argTypes.length) {

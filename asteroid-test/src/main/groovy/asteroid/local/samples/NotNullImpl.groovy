@@ -15,9 +15,8 @@ class NotNullImpl extends AbstractLocalTransformation<NotNull, ConstructorNode> 
     void doVisit(AnnotationNode annotation, ConstructorNode annotated) {
         List<Statement> params = annotated.parameters.collect(this.&createCheckFor)
         Statement newStatement = A.STMT.blockS(params)
-        Statement oldStatement = annotated.getCode()
-        
-        annotated.code = A.STMT.blockS(newStatement, oldStatement)
+
+        A.UTIL.NODE.addBeforeCodeBlock(annotated, newStatement)
     }
 
     IfStatement createCheckFor(Parameter parameter) {

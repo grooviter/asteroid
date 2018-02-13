@@ -21,7 +21,7 @@ class ToJsonImpl extends AbstractLocalTransformation<ToJson,ClassNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, ClassNode annotatedNode) {
-        A.UTIL.CLASS.addMethodIfNotPresent(annotatedNode, createToJsonNode(annotatedNode))
+        A.UTIL.NODE.addMethodIfNotPresent(annotatedNode, createToJsonNode(annotatedNode))
     }
 
     MethodNode createToJsonNode(ClassNode classNode) {
@@ -40,12 +40,12 @@ class ToJsonImpl extends AbstractLocalTransformation<ToJson,ClassNode> {
     }
 
     MapExpression createMapExpression(final ClassNode classNode) {
-        List<MapEntryExpression> entries = A.UTIL.CLASS.getInstancePropertyFields(classNode).collect(this.&toMapEntry)
+        List<MapEntryExpression> entries = A.UTIL.NODE.getInstancePropertyFields(classNode).collect(this.&toMapEntry)
 
-        return new MapExpression(entries)
+        return A.EXPR.mapX(entries)
     }
 
     MapEntryExpression toMapEntry(final FieldNode field) {
-        return new MapEntryExpression(A.EXPR.constX(field.name), A.EXPR.varX(field.name))
+        return A.EXPR.mapEntryX(A.EXPR.constX(field.name), A.EXPR.varX(field.name))
     }
 }

@@ -807,6 +807,31 @@ public final class Expressions {
         return boolX(binX(leftVarName, tokenType, rightVarName));
     }
 
+    /**
+     *
+     * When creating {@link BooleanExpression} in places such as
+     * {@link IfStatement} you can use this method to create a {@link
+     * BooleanExpression} out of a binary expression using constant
+     * expressions
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * //...after declaring the variables somewhere
+     * boolX(constX(4), Types.COMPARE_GREATER_THAN, 2)
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>
+     * 4 > 2
+     * </code></pre>
+     *
+     * @param leftExpr left expression
+     * @param tokenType type of the comparison operator. Use any of
+     * the listed in {@link Types}
+     * @param rightExpr right expression
+     * @return a boolean expression as a {@link BooleanExpression} instance
+     * @since 0.2.4
+     */
     public static BooleanExpression boolX(final Expression leftExpr, final int tokenType, final Expression rightExpr) {
         return boolX(binX(leftExpr, tokenType, rightExpr));
     }

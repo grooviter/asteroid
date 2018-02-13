@@ -21,6 +21,6 @@ class SerializableImpl extends AbstractLocalTransformation<Serializable, ClassNo
         classNode.methods.size() < 2 // <2>
 
         then: 'make it implements Serializable and Cloneable'
-        A.UTIL.CLASS.addInterfaces(classNode, java.io.Serializable, Cloneable) // <3>
+        A.UTIL.NODE.addInterfaces(classNode, java.io.Serializable, Cloneable) // <3>
     }
 }

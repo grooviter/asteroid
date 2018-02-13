@@ -24,7 +24,7 @@ class ToMD5Impl extends AbstractLocalTransformation<ToMD5, FieldNode> { // <2>
             .code(block)
             .build()
 
-        A.UTIL.CLASS.addMethod(node.declaringClass, methodNode)
+        A.UTIL.NODE.addMethod(node.declaringClass, methodNode)
     }
 
     private BlockStatement buildMethodCode(final String name) {
