@@ -17,8 +17,8 @@ class AddElementsImpl extends AbstractLocalTransformation<AsList, ClassNode> {
 
     @Override
     void doVisit(AnnotationNode annotation, ClassNode clazz) {
-        A.UTIL.CLASS.addPropertyIfNotPresent(clazz, createPropertyFor(clazz))
-        A.UTIL.CLASS.addMethodIfNotPresent(clazz, createMethod())
+        A.UTIL.NODE.addPropertyIfNotPresent(clazz, createPropertyFor(clazz))
+        A.UTIL.NODE.addMethodIfNotPresent(clazz, createMethod())
     }
 
     PropertyNode createPropertyFor(ClassNode owner) {

@@ -119,7 +119,7 @@ public abstract class AbstractLocalTransformation<T extends Annotation,S extends
 
         final ClassNode type = marker.getClassNode();
         final ClassNode reference = make(annotation);
-        final Boolean isAnnotationOk = A.UTIL.CLASS.isOrExtends(type, reference);
+        final Boolean isAnnotationOk = A.UTIL.NODE.isOrExtends(type, reference);
 
         if (!isAnnotationOk) {
             return;

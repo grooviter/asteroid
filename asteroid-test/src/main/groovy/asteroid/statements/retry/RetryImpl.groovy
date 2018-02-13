@@ -42,15 +42,15 @@ class RetryImpl extends AbstractLocalTransformation<Retry, MethodNode> {
         // Integer counter
         ClassNode declaringClass = methodNode.declaringClass
 
-        A.UTIL.CLASS.addPropertyIfNotPresent(declaringClass, counterPropertyNode)
-        A.UTIL.CLASS.addPropertyIfNotPresent(declaringClass, getLoggerPropertyNode(declaringClass))
+        A.UTIL.NODE.addPropertyIfNotPresent(declaringClass, counterPropertyNode)
+        A.UTIL.NODE.addPropertyIfNotPresent(declaringClass, getLoggerPropertyNode(declaringClass))
 
         VariableExpression counterVarExpr = A.EXPR.varX('counter')
 
         // retryTimes
         ConstantExpression retryNumberValueExpr = A
             .EXPR
-            .constX(A.UTIL.ANNOTATION.get(annotation, Integer))
+            .constX(A.UTIL.NODE.get(annotation, Integer))
 
         // log.severe(ex)
         MethodCallExpression loggerErrorExpr = logExpr('severe', A.EXPR.callX(A.EXPR.varX('ex'), 'getMessage'))

@@ -25,7 +25,7 @@ class AddImportTransformer extends AbstractClassNodeTransformer { // <1>
      */
     @Override
     void transformClass(final ClassNode target) { // <3>
-        A.UTIL.CLASS.addImport(target, groovy.json.JsonOutput) // <4>
+        A.UTIL.NODE.addImport(target, groovy.json.JsonOutput) // <4>
     }
 }
 // end::classnodetransformer[]

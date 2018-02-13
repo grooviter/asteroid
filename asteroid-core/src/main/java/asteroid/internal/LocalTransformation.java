@@ -76,15 +76,15 @@ public class LocalTransformation extends AbstractASTTransformation {
             return;
         }
 
-        final AnnotationNode annotationNode = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
-        final ClassNode      annotatedNode  = A.UTIL.MISC.getLastNodeAs(nodes, ClassNode.class);
+        final AnnotationNode annotationNode = A.UTIL.NODE.getFirstNodeAs(nodes, AnnotationNode.class);
+        final ClassNode      annotatedNode  = A.UTIL.NODE.getLastNodeAs(nodes, ClassNode.class);
 
         addAnnotationsFromTo(annotationNode, annotatedNode);
     }
 
     private void addAnnotationsFromTo(final AnnotationNode annotationNode, final ClassNode annotatedNode) {
-        final String qualifiedName = A.UTIL.ANNOTATION.get(annotationNode, String.class);
-        final String target        = A.UTIL.ANNOTATION.get(annotationNode, "applyTo", String.class);
+        final String qualifiedName = A.UTIL.NODE.get(annotationNode, String.class);
+        final String target        = A.UTIL.NODE.get(annotationNode, "applyTo", String.class);
 
         annotatedNode.addAnnotation(getTargetAnnotation(target));
         annotatedNode.addAnnotation(getRetentionAnnotation());
@@ -96,7 +96,7 @@ public class LocalTransformation extends AbstractASTTransformation {
         final ListExpression listExpr = resolveTargetFromElementType(types);
 
         return A.NODES.annotation(Target.class)
-                .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, listExpr)
+                .member(A.UTIL.NODE.ANNOTATION_VALUE, listExpr)
                 .build();
     }
 
@@ -140,7 +140,7 @@ public class LocalTransformation extends AbstractASTTransformation {
         final PropertyExpression propertyExpr = A.EXPR.propX(classExpr, constantExpr);
 
         return A.NODES.annotation(Retention.class)
-                .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, propertyExpr)
+                .member(A.UTIL.NODE.ANNOTATION_VALUE, propertyExpr)
                 .build();
     }
 
@@ -148,7 +148,7 @@ public class LocalTransformation extends AbstractASTTransformation {
         final ConstantExpression constant = A.EXPR.constX(qualifiedName);
 
         return A.NODES.annotation(GroovyASTTransformationClass.class)
-                .member(A.UTIL.ANNOTATION.ANNOTATION_VALUE, constant)
+                .member(A.UTIL.NODE.ANNOTATION_VALUE, constant)
                 .build();
     }
 
@@ -177,7 +177,7 @@ public class LocalTransformation extends AbstractASTTransformation {
     }
 
     private boolean firstNodeIsNotAnAnnotationOfType(final ASTNode[] nodes, final Class annotationType) {
-        final AnnotationNode annotation = A.UTIL.MISC.getFirstNodeAs(nodes, AnnotationNode.class);
+        final AnnotationNode annotation = A.UTIL.NODE.getFirstNodeAs(nodes, AnnotationNode.class);
         final ClassNode annotationClass = A.NODES.clazz(annotationType).build();
 
         return !annotation.getClassNode().isDerivedFrom(annotationClass);
