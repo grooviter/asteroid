@@ -42,10 +42,10 @@ class ToJsonImpl extends AbstractLocalTransformation<ToJson,ClassNode> {
     MapExpression createMapExpression(final ClassNode classNode) {
         List<MapEntryExpression> entries = A.UTIL.NODE.getInstancePropertyFields(classNode).collect(this.&toMapEntry)
 
-        return new MapExpression(entries)
+        return A.EXPR.mapX(entries)
     }
 
     MapEntryExpression toMapEntry(final FieldNode field) {
-        return new MapEntryExpression(A.EXPR.constX(field.name), A.EXPR.varX(field.name))
+        return A.EXPR.mapEntryX(A.EXPR.constX(field.name), A.EXPR.varX(field.name))
     }
 }
