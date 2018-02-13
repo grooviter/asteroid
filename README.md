@@ -10,6 +10,6 @@ In order to use `Asteroid` in your Groovy code you can find it in Bintray:
 
 Then you can add the dependency to your project:
 
-    compile com.github.grooviter:asteroid:0.2.9'
+    compile com.github.grooviter:asteroid:0.3.0'
 
 Current documentation is available at: http://grooviter.github.io/asteroid/
