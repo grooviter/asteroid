@@ -97,12 +97,10 @@ include::{testMain}/asteroid/local/samples/WithLoggingTransformationImpl.groovy[
 ----
 
 <1> The `@Phase` annotation indicates in which compilation phase this transformation will be applied.
-<2> Storing temporary the old code we want to transform which is an `org.codehaus.groovy.ast.stmt.Statement`
-<3> Building `println "start"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
-<4> Building `println "end"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
-<5> Building the new method code re-arranging the new and old code in order. We are adding all previous in a
-`BlockStatement` in the order we want them to execute.
-<6> Building a generic `println constantValue` expression
+<2> Building `println "start"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
+<3> Building `println "end"` code, which is wrapped in a `org.codehaus.groovy.ast.stmt.Statement`
+<4> Building the new method code re-arranging the new and old code in order.
+<5> Building a generic `println constantValue` expression
 
 The `@CompileStatic` annotation is not required it's only used here to highlight that all the code used in this
 transformation is safely typed and can be optimized by this annotation.

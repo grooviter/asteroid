@@ -542,4 +542,36 @@ public class NodeUtils {
     public BlockStatement getCodeBlock(final MethodNode methodNode) {
         return (BlockStatement) methodNode.getCode();
     }
+
+    /**
+     * Adds the statement passed as argument before the current method code
+     *
+     * @param statement the statement to be executed before current code
+     * @since 0.3.0
+     */
+    public void addBeforeCodeBlock(final MethodNode methodNode, final Statement statement) {
+        methodNode.setCode(A.STMT.blockS(statement, getCodeBlock(methodNode)));
+    }
+
+    /**
+     * Adds the statement passed as argument after the current method code
+     *
+     * @param statement the statement to be executed after current code
+     * @since 0.3.0
+     */
+    public void addAfterCodeBlock(final MethodNode methodNode, final Statement statement) {
+        methodNode.setCode(A.STMT.blockS(getCodeBlock(methodNode), statement));
+    }
+
+    /**
+     * Adds two different statements to be executed before and after the current
+     * method code
+     *
+     * @param before to be executed before
+     * @param after to be executed after
+     * @since 0.3.0
+     */
+    public void addAroundCodeBlock(final MethodNode methodNode, final Statement before, final Statement after) {
+        methodNode.setCode(A.STMT.blockS(before, getCodeBlock(methodNode), after));
+    }
 }
