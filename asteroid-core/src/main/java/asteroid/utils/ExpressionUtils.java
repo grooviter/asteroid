@@ -4,11 +4,12 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.BinaryExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.syntax.Types;
-
+import groovy.lang.Closure;
 import java.util.List;
 
 /**
@@ -145,7 +146,7 @@ public final class ExpressionUtils {
      * @return true if the expression is an instance of {@link MethodCallExpression}
      * @since 0.3.0
      */
-    public boolean isMethodCallExpr(Expression expr) {
+    public boolean isMethodCallExpr(final Expression expr) {
         return expr instanceof MethodCallExpression;
     }
 
@@ -156,7 +157,7 @@ public final class ExpressionUtils {
      * @return true if the expression is an instance of {@link ListExpression}
      * @since 0.3.0
      */
-    public boolean isListExpr(Expression expr) {
+    public boolean isListExpr(final Expression expr) {
         return expr instanceof ListExpression;
     }
 
@@ -167,7 +168,7 @@ public final class ExpressionUtils {
      * @return true if the expression is an instance of {@link BinaryExpression}
      * @since 0.3.0
      */
-    public boolean isBinaryExpr(Expression expr) {
+    public boolean isBinaryExpr(final Expression expr) {
         return expr instanceof BinaryExpression;
     }
 
@@ -180,11 +181,59 @@ public final class ExpressionUtils {
      * @return true if the expression is an instance of {@link BinaryExpression}
      * @since 0.3.0
      */
-    public boolean isBinaryExpr(Expression expr, int operator) {
+    public boolean isBinaryExpr(final Expression expr, final int operator) {
         return isBinaryExpr(expr) && asBinaryExpr(expr).getOperation().getType() == operator;
     }
 
-    private BinaryExpression asBinaryExpr(Expression expr) {
+    /**
+     * Executes a given computation if the expression is of type
+     * {@link BinaryExpression} if not, then a default value is
+     * provided
+     *
+     * @param expr the expression we want to compute over
+     * @param defaultValue a value in case the expression is not of type {@link BinaryExpression}
+     * @param func function executed in case expression is not of type {@link BinaryExpression}
+     * @return the result of the computation or the default value
+     * @since 0.3.0
+     */
+    public <T> T asBinaryExpr(final Expression expr, final T defaultValue, final Closure<T> func) {
+        return isBinaryExpr(expr) ? func.call(asBinaryExpr(expr)) : defaultValue;
+    }
+
+    /**
+     * Unsafe cast of a given @{link Expression} to a {@link BinaryExpression}
+     *
+     * @param expr the expression we want to cast
+     * @return the expression cast as a {@link BinaryExpression}
+     * @since 0.3.0
+     */
+    public BinaryExpression asBinaryExpr(final Expression expr) {
         return (BinaryExpression) expr;
+    }
+
+    /**
+     * From a {@link BinaryExpression} gets the left expression as if
+     * it were of a given type
+     *
+     * @param binaryExpr the binary expression we want the left expr from
+     * @param type the type we would like to cast the left expr to
+     * @return the left expression cast to a given type
+     * @since 0.3.0
+     */
+    public <T> T leftExprAs(final BinaryExpression binaryExpr, final Class<T> type) {
+        return type.cast(binaryExpr.getLeftExpression());
+    }
+
+    /**
+     * From a {@link BinaryExpression} gets the right expression as if
+     * it were of a given type
+     *
+     * @param binaryExpr the binary expression we want the right expr from
+     * @param type the type we would like to cast the right expr to
+     * @return the right expression cast to a given type
+     * @since 0.3.0
+     */
+    public <T> T rightExprAs(final BinaryExpression binaryExpr, final Class<T> type) {
+        return type.cast(binaryExpr.getRightExpression());
     }
 }
