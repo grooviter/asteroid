@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import asteroid.A;
+import asteroid.Expressions;
 import groovy.lang.Closure;
+import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
@@ -74,6 +77,16 @@ public final class StatementUtils {
             this.name = name;
             this.expression = expression;
         }
+
+        /**
+         * Returns the label name as a {@link ConstantExpression}
+         *
+         * @return the label name as a {@link ConstantExpression}
+         * @since 0.4.0
+         */
+        ConstantExpression nameAsExpression() {
+            return name != null ? Expressions.constX(name) : null;
+        }
     }
 
     /**
@@ -135,14 +148,15 @@ public final class StatementUtils {
         }
 
         final ExpressionStatement exprStmt = (ExpressionStatement) stmt;
-        final boolean isThereAnyLabel = exprStmt.getStatementLabel() != null;
+        final String labelName = exprStmt.getStatementLabel();
+
+        final boolean isThereAnyLabel = labelName != null;
 
         /* If there is no label detected there is nothing to do either */
         if (!isThereAnyLabel) {
             return null;
         }
 
-        final String labelName    = exprStmt.getStatementLabel();
         final Expression labelExpr = exprStmt.getExpression();
 
         return new Label(labelName, labelExpr);
