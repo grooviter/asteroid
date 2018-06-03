@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import asteroid.A;
 import asteroid.Expressions;
 import groovy.lang.Closure;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
