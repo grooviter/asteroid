@@ -3,6 +3,7 @@ package asteroid.utils;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 
+import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ListExpression;
 import org.codehaus.groovy.ast.expr.BinaryExpression;
@@ -117,7 +118,6 @@ public final class ExpressionUtils {
      * Return the last element of the {@link ArgumentListExpression}
      * passed as parameters as the expected type.
      *
-     * @param args the list of arguments
      * @param asType the expected type
      * @return the last argument casted as the expected type
      * @since 0.3.0
@@ -177,7 +177,7 @@ public final class ExpressionUtils {
      * a specific binary operator
      *
      * @param expr the evaluated expression
-     * @param an int value taken from {@link Types}
+     * @param operator int value taken from {@link Types}
      * @return true if the expression is an instance of {@link BinaryExpression}
      * @since 0.3.0
      */
@@ -235,5 +235,24 @@ public final class ExpressionUtils {
      */
     public <T> T rightExprAs(final BinaryExpression binaryExpr, final Class<T> type) {
         return type.cast(binaryExpr.getRightExpression());
+    }
+
+    /**
+     * Extracts the String value of a given expression
+     *
+     * @param expression expression to get text from
+     * @return a {@link String} of a given {@link Expression}
+     * @since 0.3.2
+     */
+    public String getText(Expression expression) {
+        if (expression == null) {
+            return "";
+        }
+
+        if (expression instanceof ConstantExpression) {
+            return ((ConstantExpression) expression).getText();
+        }
+
+        return expression.toString();
     }
 }

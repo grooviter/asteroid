@@ -12,5 +12,11 @@ class CollectLabelsSpecExample {
 
         third: 'paul'
         println '=====>3'
+
+        fourth: [
+            name: 'paul',
+            age: 22
+        ]
+        println "=====>4"
     }
 }

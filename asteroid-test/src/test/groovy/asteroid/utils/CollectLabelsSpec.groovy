@@ -14,7 +14,7 @@ class CollectLabelsSpec extends AsteroidSpec {
         def result = instance.execute()
 
         then: 'method should return label names'
-        result == [first:'john', second:'peter', third:'paul']
+        result == [first:'john', second:'peter', third:'paul', fourth: [name: "paul", age: 22]]
     }
 
     private Class getTransformedClass() {

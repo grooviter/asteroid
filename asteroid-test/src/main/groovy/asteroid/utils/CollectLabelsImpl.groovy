@@ -25,7 +25,7 @@ class CollectLabelsImpl extends AbstractLocalTransformation<CollectLabels, Metho
         List<MapEntryExpression> entries = stmtGroups.collect { Group group ->
             A.EXPR.mapEntryX(
                 A.EXPR.constX(group.label.name),
-                A.EXPR.constX(group.label.desc))
+                group.label.expression)
         }
 
         node.code = A.STMT.returnS(A.EXPR.mapX(entries))
