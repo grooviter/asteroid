@@ -75,7 +75,9 @@ public class NodeUtils {
     }
 
     private Statement createAssertStatement(final Group group, final ExpressionStatement stmt) {
-        return A.STMT.assertS(A.EXPR.boolX(stmt.getExpression()), group.label.desc);
+        Expression expression = group.label.expression;
+
+        return A.STMT.assertS(A.EXPR.boolX(stmt.getExpression()), A.UTIL.EXPR.getText(expression));
     }
 
     /**

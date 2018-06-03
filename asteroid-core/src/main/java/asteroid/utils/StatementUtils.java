@@ -1,19 +1,20 @@
 package asteroid.utils;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.inject;
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
 
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
-import groovy.lang.Closure;
+import java.util.List;
+import java.util.Map;
 
-import org.codehaus.groovy.ast.stmt.Statement;
+import asteroid.Expressions;
+import groovy.lang.Closure;
+import org.codehaus.groovy.ast.expr.ConstantExpression;
+import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
-import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.expr.ConstantExpression;
+import org.codehaus.groovy.ast.stmt.Statement;
 
 /**
  * General utility methods to deal with {@link Statement} instances
@@ -51,7 +52,7 @@ public final class StatementUtils {
          * @return a new {@link Group}
          */
         public Group copyWithStatements(final List<Statement> newStatements) {
-            return new Group(new Label(label.name, label.desc), newStatements);
+            return new Group(new Label(label.name, label.expression), newStatements);
         }
     }
 
@@ -63,17 +64,27 @@ public final class StatementUtils {
     @SuppressWarnings("PMD.BeanMembersShouldSerialize")
     public static class Label {
         public final String name;
-        public final String desc;
+        public final Expression expression;
 
         /**
          * Default constructor
          *
          * @param name the name found in the label
-         * @param desc a longer description
+         * @param expression could be any expression. It's normally an expression
          */
-        Label(final String name, final String desc) {
+        Label(final String name, final Expression expression) {
             this.name = name;
-            this.desc = desc;
+            this.expression = expression;
+        }
+
+        /**
+         * Returns the label name as a {@link ConstantExpression}
+         *
+         * @return the label name as a {@link ConstantExpression}
+         * @since 0.4.0
+         */
+        ConstantExpression nameAsExpression() {
+            return name != null ? Expressions.constX(name) : null;
         }
     }
 
@@ -136,35 +147,18 @@ public final class StatementUtils {
         }
 
         final ExpressionStatement exprStmt = (ExpressionStatement) stmt;
-        final boolean isThereAnyLabel = exprStmt.getStatementLabel() != null;
+        final String labelName = exprStmt.getStatementLabel();
+
+        final boolean isThereAnyLabel = labelName != null;
 
         /* If there is no label detected there is nothing to do either */
         if (!isThereAnyLabel) {
             return null;
         }
 
-        final String labelName    = exprStmt.getStatementLabel();
-        final Expression descExpr = exprStmt.getExpression();
-        final String description  = getDescription(descExpr);
+        final Expression labelExpr = exprStmt.getExpression();
 
-        return new Label(labelName, description);
-    }
-
-    /**
-     * Extracts the String value of a given expression
-     *
-     * @return a {@link String} of a given {@link Expression}
-     */
-    private String getDescription(final Expression expression) {
-        if (expression == null) {
-            return "";
-        }
-
-        if (expression instanceof ConstantExpression) {
-            return ((ConstantExpression) expression).getText();
-        }
-
-        return expression.toString();
+        return new Label(labelName, labelExpr);
     }
 
     /**

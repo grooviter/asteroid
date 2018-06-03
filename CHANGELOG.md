@@ -1,6 +1,11 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - [2018-06-03]
+### Breaking Changes
+
+- `Group.Label` now represents a label with a name and having any type of expression as value
+
 ## [0.3.0] - [2018-02-13]
 ### Breaking Changes
 

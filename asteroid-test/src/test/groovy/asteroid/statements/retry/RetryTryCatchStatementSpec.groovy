@@ -1,9 +1,10 @@
 package asteroid.statements.retry
 
+import java.util.logging.Logger
+
 import asteroid.spec.AsteroidSpec
 import asteroid.statements.retry.RetryImpl
 import spock.lang.Unroll
-import java.util.logging.Logger
 
 class RetryTryCatchStatementSpec extends AsteroidSpec {
 
