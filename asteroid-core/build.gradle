@@ -4,42 +4,116 @@ buildscript {
     }
 }
 
-apply plugin: 'pmd'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
+apply from: rootProject.file('gradle/pmd.gradle')
+
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-// WARNING: Only useful when intalling locally but then keep in mind
+// WARNING: Only useful when installing locally but then keep in mind
 // artifactId will be `asteroid-core` instead of `asteroid`
 group   = releaseGroup
-version = releaseVersion
+version = releaseVersion;
 
 dependencies {
     compile libs.groovy
 }
 
+javadoc {
+    options.stylesheetFile = "$projectDir/src/javadoc/stylesheet.css" as File
+    options.windowTitle = 'Asteroid API Documentation'
+    options.docTitle = "Asteroid ($releaseVersion)"
+    options.links = ["http://docs.groovy-lang.org/latest/html/api/"]
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+def pomConfig = {
+    name rootProject.name
+    description releaseDesc
+    version releaseVersion
+    url 'http://grooviter.github.io/asteroid/'
+    inceptionYear '2015'
+    licenses {
+        license([:]) {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+        }
+    }
+    scm {
+        url 'https://github.com/grooviter/asteroid'
+    }
+    developers {
+        developer {
+            id 'mariogarcia'
+            name 'Mario Garcia'
+            roles {
+                role 'Developer'
+            }
+        }
+    }
+    contributors {
+        contributor {
+            name 'Jorge Aguilera'
+            roles {
+                role 'contributor'
+            }
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    group       = 'Build'
+    description = 'An archive of the source code'
+    classifier  = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar) {
+    dependsOn('javadoc')
+
+    group       = 'Build'
+    description = 'An archive of the Javadocs'
+    classifier  = 'javadoc'
+    from javadoc.destinationDir
+}
+
 publishing {
     publications {
-        mavenCustom(MavenPublication) {
-            groupId    releaseGroup
-            artifactId 'asteroid'
-            version    releaseVersion
-
+        binaries(MavenPublication) {
             from components.java
+            groupId releaseGroup
+            artifactId 'asteroid'
+            version releaseVersion
+            artifact sourceJar
+            artifact javadocJar
+            pom.withXml {
+                // all dependencies should use the default scope (compile) but
+                // Gradle insists in using runtime as default
+                asNode().dependencies.dependency.each { dep ->
+                    if (dep.scope.text() == 'runtime') {
+                        dep.remove(dep.scope)
+                    }
+                }
+                asNode().children().last() + pomConfig
+                asNode().appendNode('description', releaseDesc)
+            }
         }
     }
 }
 
 bintray {
- /* Normally taken from ~/.gradle/gradle.properties */
+    /* Normally taken from ~/.gradle/gradle.properties */
     user         = project.properties.bintrayUser
     key          = project.properties.bintrayKey
-    publish      = false
-    publications = ['mavenCustom']
+    publish      = true
+    publications = ['binaries']
     pkg {
         repo            = 'maven'
         name            = 'asteroid'
@@ -57,30 +131,4 @@ bintray {
             vcsTag    = releaseVersion
         }
     }
-}
-
-
-javadoc {
-    options.stylesheetFile = "$projectDir/src/javadoc/stylesheet.css" as File
-    options.windowTitle = 'Asteroid API Documentation'
-    options.docTitle = "Asteroid ($releaseVersion)"
-    options.links = ["http://docs.groovy-lang.org/latest/html/api/"]
-}
-
-
-pmd {
-    ruleSets = [
-        'java-design',
-        'java-empty',
-        'java-finalizers',
-        'java-imports',
-        'java-naming',
-        'java-optimizations',
-        'java-strictexception',
-        'java-strings',
-        'java-typeresolution',
-        'java-unnecessary',
-        'java-unusedcode'
-    ]
-    ignoreFailures = true
 }
