@@ -83,7 +83,7 @@ public final class StatementUtils {
          * @return the label name as a {@link ConstantExpression}
          * @since 0.4.0
          */
-        ConstantExpression nameAsExpression() {
+        public ConstantExpression nameAsExpression() {
             return name != null ? Expressions.constX(name) : null;
         }
     }
