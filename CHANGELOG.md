@@ -1,6 +1,22 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - [2018-06-05]
+
+Important release as is the first **available from Maven Central**.
+### Fixed
+
+- Visibility of `StatementUtils#Label#nameAsExpression()`
+- Fix javadoc warnings
+
+### Added
+
+- Configuration to make `asteroid` available from maven-central
+
+### Changed
+
+- Upgrade Groovy version to 2.4.15
+
 ## [0.4.0] - [2018-06-03]
 ### Breaking Changes
 

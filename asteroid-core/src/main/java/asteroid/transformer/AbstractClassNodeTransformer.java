@@ -15,9 +15,9 @@ import groovy.lang.Closure;
  * There are some static methods creating some default criterias:
  * </br></br>
  * <ul>
- *    <li>{@link AbstractClassNodeTransformer#byNameContains}</li>
- *    <li>{@link AbstractClassNodeTransformer#byNameStartsWith}</li>
- *    <li>{@link AbstractClassNodeTransformer#byNameEndsWith}</li>
+ *    <li>{@link asteroid.Criterias#byClassNodeNameContains(String)}</li>
+ *    <li>{@link asteroid.Criterias#byClassNodeNameStartsWith(String)}</li>
+ *    <li>{@link asteroid.Criterias#byClassNodeNameEndsWith(String)}</li>
  * </ul>
  *
  * @since 0.2.0
@@ -46,7 +46,7 @@ public abstract class AbstractClassNodeTransformer extends AbstractTransformer {
      * @param criteria used to locate target classes
      * look for the qualified class)
      * @since 0.2.0
-     * @see AbstractClassNodeTransformer#byNameContains
+     * @see asteroid.Criterias#byClassNodeNameContains(String)
      */
     public AbstractClassNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);

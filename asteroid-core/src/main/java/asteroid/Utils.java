@@ -13,21 +13,21 @@ import asteroid.utils.StatementUtils;
 public final class Utils {
 
     /**
-     * Access to utility functions to deal with {@link ASTNode} instances
+     * Access to utility functions to deal with {@link org.codehaus.groovy.ast.ASTNode} instances
      *
      * @since 0.1.4
      */
     public static final NodeUtils NODE = new NodeUtils();
 
     /**
-     * Access to utility functions to deal with {@link Expression} instances
+     * Access to utility functions to deal with {@link org.codehaus.groovy.ast.expr.Expression} instances
      *
      * @since 0.3.0
      */
     public static final ExpressionUtils EXPR = new ExpressionUtils();
 
     /**
-     * Access to utility functions to deal with {@link Statement} instances
+     * Access to utility functions to deal with {@link org.codehaus.groovy.ast.stmt.Statement} instances
      *
      * @since 0.1.5
      */
