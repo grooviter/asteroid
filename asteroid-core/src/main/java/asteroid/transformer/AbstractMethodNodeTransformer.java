@@ -16,9 +16,9 @@ import groovy.lang.Closure;
  * There are some static methods creating some default criterias:
  * </br></br>
  * <ul>
- *    <li>{@link AbstractMethodNodeTransformer#byNameContains}</li>
- *    <li>{@link AbstractMethodNodeTransformer#byNameStartsWith}</li>
- *    <li>{@link AbstractMethodNodeTransformer#byNameEndsWith}</li>
+ *    <li>{@link asteroid.Criterias#byMethodNodeNameContains(String)}</li>
+ *    <li>{@link asteroid.Criterias#byMethodNodeNameStartsWith(String)}</li>
+ *    <li>{@link asteroid.Criterias#byMethodNodeNameEndsWith(String)}</li>
  * </ul>
  *
  * @since 0.2.0
@@ -48,7 +48,7 @@ public abstract class AbstractMethodNodeTransformer extends AbstractTransformer 
      * @param criteria used to locate target classes
      * look for the qualified method)
      * @since 0.2.0
-     * @see AbstractMethodNodeTransformer#byNameContains
+     * @see asteroid.Criterias#byMethodNodeNameContains(String)
      */
     public AbstractMethodNodeTransformer(final SourceUnit sourceUnit, final Closure<Boolean> criteria) {
         super(sourceUnit);

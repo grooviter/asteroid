@@ -195,7 +195,7 @@ public final class Statements {
      * build complex try/catch statements the easy way. Check {@link
      * TryCatchStatementBuilder} javadoc to know how to use it.
      *
-     * @return an instance of {@link TryCatchStatement}
+     * @return an instance of {@link TryCatchStatementBuilder}
      * @see TryCatchStatementBuilder
      * @since 0.2.3
      */
@@ -235,7 +235,7 @@ public final class Statements {
      * @param booleanExpr boolean condition
      * @param loopBlock the block that could be repeated
      * @return an instance of type {@link DoWhileStatement}
-     * @deprecated As of release 2.4.7, replaced by {@link #doWhileStmt()}
+     * @deprecated As of release 2.4.7, replaced by {@link Statements#doWhileS(BooleanExpression, Statement)}
      * @since 0.2.6
      */
     @Deprecated

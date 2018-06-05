@@ -297,7 +297,7 @@ public final class Criterias {
      * MethodCallExpression} with arguments with the types specified
      * as parameters
      *
-     * @param args the classes of every parameter
+     * @param argTypes the classes of every parameter
      * @return a search criteria
      * @since 0.2.9
      */
