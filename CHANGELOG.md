@@ -1,6 +1,11 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.4.2] - [2018-06-13]
+### Fixed
+- Add information about maven central to README.md (#10)
+- Compilation shouldn't fail if users use `CompilePhase` directly in a `@Phase` annotation (#11)
+
 ## [0.4.1] - [2018-06-05]
 
 Important release as is the first **available from Maven Central**.
