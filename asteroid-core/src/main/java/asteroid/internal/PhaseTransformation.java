@@ -2,6 +2,12 @@ package asteroid.internal;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 
+import java.util.Arrays;
+import java.util.List;
+
+import asteroid.A;
+import asteroid.AbstractLocalTransformation;
+import asteroid.Phase;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ConstructorNode;
@@ -9,13 +15,6 @@ import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
-
-import java.util.List;
-import java.util.Arrays;
-
-import asteroid.A;
-import asteroid.Phase;
-import asteroid.AbstractLocalTransformation;
 
 /**
  * This transformation makes easier to declare a given local transformation. It narrows the available
@@ -76,9 +75,8 @@ public class PhaseTransformation extends AbstractLocalTransformation<Phase,Class
     }
 
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
-        final String phaseAsString = A.UTIL.NODE.get(annotationNode, String.class);
-        final CompilePhase compilePhase = CompilePhase.valueOf(phaseAsString);
+        String compilePhaseAsString = A.UTIL.NODE.get(annotationNode, String.class);
 
-        return compilePhase;
+        return CompilePhase.valueOf(compilePhaseAsString);
     }
 }

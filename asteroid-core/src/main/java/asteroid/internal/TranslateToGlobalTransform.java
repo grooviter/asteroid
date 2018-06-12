@@ -29,6 +29,7 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
     private static final String TX_NAME = "Phase";
     private static final String PHASE_PFIX = "Phase.GLOBAL.";
     private static final String PHASE_PFIX_SHORT = "GLOBAL.";
+    private static final String PHASE_GROOVY = "CompilePhase.";
     private static final String PHASE_WRONG = "GlobalAnnotation compilation phase is wrong!!";
     private static final String PHASE_MISSING = "GlobalAnnotation compilation phase is missing!!";
 
@@ -81,6 +82,7 @@ public class TranslateToGlobalTransform extends AbstractClassNodeTransformer {
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
         final String       value         = A.UTIL.NODE.getStringValue(annotationNode);
         final String       phaseAsString = value
+            .replace(PHASE_GROOVY, BLANK)
             .replace(PHASE_PFIX, BLANK)
             .replace(PHASE_PFIX_SHORT, BLANK);
         final CompilePhase compilePhase  = CompilePhase.valueOf(phaseAsString);
