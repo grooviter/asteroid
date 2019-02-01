@@ -7,6 +7,7 @@ import asteroid.nodes.ConstructorNodeBuilder;
 import asteroid.nodes.MethodNodeBuilder;
 import asteroid.nodes.ParameterNodeBuilder;
 import asteroid.nodes.PropertyNodeBuilder;
+import asteroid.nodes.FieldNodeBuilder;
 
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.GenericsType;
@@ -83,6 +84,17 @@ public final class Nodes {
      */
     public ConstructorNodeBuilder constructor(final int modifiers) {
         return ConstructorNodeBuilder.constructor(modifiers);
+    }
+
+    /**
+     * Creates an instance of {@link FieldNodeBuilder}
+     *
+     * @param name name of the configured {@link FieldNode}
+     * @return an instance of {@link FieldNodeBuilder}
+     * @since 0.4.3
+     */
+    public FieldNodeBuilder field(final String name) {
+        return FieldNodeBuilder.field(name);
     }
 
     /**

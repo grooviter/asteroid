@@ -1,6 +1,10 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.4.3] - [2019-02-02]
+### Added
+- Add new builder to create **FieldNode** instances
+
 ## [0.4.2] - [2018-06-13]
 ### Fixed
 - Add information about maven central to README.md (#10)
