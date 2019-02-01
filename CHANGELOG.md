@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [0.4.3] - [2019-02-02]
+### Changed
+- Update Groovy to version 2.5.5
+- Update Spock to version 1.2-groovy-2.5
+
 ### Added
 - Add new builder to create **FieldNode** instances
 
