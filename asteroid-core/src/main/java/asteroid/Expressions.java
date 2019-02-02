@@ -30,6 +30,7 @@ import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.IfStatement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
@@ -367,6 +368,29 @@ public final class Expressions {
     }
 
     /**
+     * Builds an instance of {@link ConstantExpression} from the constant value
+     * passed as argument, and it keeps the type as primitive if it has to.
+     * <br><br>
+     *
+     * <strong>AST</strong>
+     * <pre><code>
+     * callThisX("println",
+     *     constX(1, true) // constant value 1 of type primitive int
+     * )
+     * </code></pre>
+     *
+     * <strong>Result</strong>
+     * <pre><code>println 1 // print constant primitive type 1</code></pre>
+     *
+     * @param constant the constant value
+     * @return an instance of {@link ConstantExpression}
+     * @since 0.4.3
+     */
+    public static ConstantExpression constX(final Object constant, final Boolean keepPrimitive) {
+        return GeneralUtils.constX(constant, keepPrimitive);
+    }
+
+    /**
      * Builds an instance of {@link PropertyExpression}:
      * <br><br>
      *
@@ -449,6 +473,19 @@ public final class Expressions {
      */
     public static MapEntryExpression mapEntryX(final Expression key, final Expression value) {
         return new MapEntryExpression(key, value);
+    }
+
+    /**
+     * Creates an instance of type {@link MapEntryExpression} with the
+     * key of type {@link String}
+     *
+     * @param key an {@link String} as the map entry key
+     * @param value an {@link Expression} as the map entry value
+     * @return an instance of {@link MapEntryExpression}
+     * @since 0.4.3
+     */
+    public static MapEntryExpression mapEntryX(final String key, final Expression value) {
+        return new MapEntryExpression(constX(key), value);
     }
 
     /**

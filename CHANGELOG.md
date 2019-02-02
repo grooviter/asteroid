@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Add new builder to create **FieldNode** instances
+- Add constX(val, keep) to honor Groovy's macro expression creation
+- Add mapEntryX(String, Object) to speed up creating entries in a Map<String,?> map
 
 ## [0.4.2] - [2018-06-13]
 ### Fixed
