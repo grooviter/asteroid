@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.HashMap;
 
 import groovy.lang.Closure;
+import groovy.transform.Generated;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.AnnotationNode;
@@ -31,6 +32,7 @@ import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.control.CompilePhase;
 import asteroid.A;
 import asteroid.utils.StatementUtils.Group;
+import asteroid.nodes.AnnotationNodeBuilder;
 
 /**
  * General utility methods to deal with {@link ASTNode} instances
@@ -41,6 +43,10 @@ import asteroid.utils.StatementUtils.Group;
 public class NodeUtils {
 
     public static final String ANNOTATION_VALUE = "value";
+
+    private static AnnotationNode GENERATED = AnnotationNodeBuilder
+        .annotation(Generated.class)
+        .build();
 
     /**
      * Adds checks to the method node passed as parameter
@@ -180,6 +186,35 @@ public class NodeUtils {
     }
 
     /**
+     * Adds a {@link FieldNode} annotated with {@link Generated} to
+     * the {@link ClassNode} passed as argument
+     *
+     * @param classNode {@link ClassNode} to add the field to
+     * @param fieldNode {@link FieldNode} to add to the class node
+     * @since 0.4.3
+     */
+    public void addGeneratedField(final ClassNode classNode, final FieldNode fieldNode) {
+        fieldNode.addAnnotation(GENERATED);
+
+        classNode.addField(fieldNode);
+    }
+
+    /**
+     * Adds a {@link FieldNode} annotated with {@link Generated} to
+     * the {@link ClassNode} passed as argument ONLY if it wasn't
+     * added before
+     *
+     * @param classNode {@link ClassNode} to add the field to
+     * @param fieldNode {@link FieldNode} to add to the class node
+     * @since 0.4.3
+     */
+    public void addGeneratedFieldIfNotPresent(final ClassNode classNode, final FieldNode fieldNode) {
+        if (!hasField(classNode, fieldNode.getName())) {
+            addGeneratedField(classNode, fieldNode);
+        }
+    }
+
+    /**
      * Adds the property to the class node passed as first argument
      *
      * @param classNode the class we want to add the property to
@@ -216,6 +251,20 @@ public class NodeUtils {
     }
 
     /**
+     * Adds the method marked as {@link Generated} to the class node
+     * passed as first argument
+     *
+     * @param classNode the class we want to add the method to
+     * @param methodNode the method we want to add
+     * @since 0.4.3
+     */
+    public void addGeneratedMethod(final ClassNode classNode, final MethodNode methodNode) {
+        methodNode.addAnnotation(GENERATED);
+
+        addMethod(classNode, methodNode);
+    }
+
+    /**
      * Adds a method to the class node passed as first argument only
      * if it wasn't present in the first place
      *
@@ -225,7 +274,22 @@ public class NodeUtils {
      */
     public void addMethodIfNotPresent(final ClassNode classNode, final MethodNode methodNode) {
         if (!classNode.hasMethod(methodNode.getName(), methodNode.getParameters())) {
-            classNode.addMethod(methodNode);
+            addMethod(classNode, methodNode);
+        }
+    }
+
+    /**
+     * Adds a method marked as {@link Generated} to the class node
+     * passed as first argument only if it wasn't present in the first
+     * place
+     *
+     * @param classNode the class we want to add the method to
+     * @param methodNode the method we want to add
+     * @since 0.4.3
+     */
+    public void addGeneratedMethodIfNotPresent(final ClassNode classNode, final MethodNode methodNode) {
+        if (!classNode.hasMethod(methodNode.getName(), methodNode.getParameters())) {
+            addGeneratedMethod(classNode, methodNode);
         }
     }
 
@@ -323,6 +387,47 @@ public class NodeUtils {
                     .equals(annotationName);
             }
         };
+    }
+
+    /**
+     * Checks whether the {@link ClassNode} passed as a parameter has
+     * a {@link FieldNode} with the name passed as second argument
+     *
+     * @param node {@link ClassNode} to look the field from
+     * @param fieldName the name of the field we're looking for
+     * @return true if the {@link ClassNode} has a field with the name
+     * @since 0.4.3
+     */
+    public Boolean hasField(ClassNode node, String fieldName) {
+        final List<FieldNode> nodeFields = node.getFields();
+        for (FieldNode fieldNode: nodeFields) {
+            if (fieldNode.getName().equals(fieldName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Looks for a {@link FieldNode} with a name as the one passed as
+     * parameter. Returns null if the field is not found.
+     *
+     * @param node the class where the field is supposed to be
+     * @param name the name of the field
+     * @return if found, and instance of {@link FieldNode} null otherwise
+     * @since 0.4.3
+     */
+    public FieldNode findFieldByName(ClassNode node, String name) {
+        final List<FieldNode> nodeFields = node.getFields();
+
+        for (FieldNode fieldNode: nodeFields) {
+            if (fieldNode.getName().equals(name)) {
+                return fieldNode;
+            }
+        }
+
+        return null;
     }
 
     /**
