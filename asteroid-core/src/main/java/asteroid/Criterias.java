@@ -2,7 +2,7 @@ package asteroid;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.every;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
+import static asteroid.utils.InternalUtils.collect;
 
 import groovy.lang.Closure;
 import org.codehaus.groovy.ast.AnnotationNode;

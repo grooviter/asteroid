@@ -1,7 +1,7 @@
 package asteroid;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.newInstance;
+import static asteroid.utils.InternalUtils.collect;
 
 import java.util.List;
 import org.codehaus.groovy.ast.ASTNode;

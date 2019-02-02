@@ -1,8 +1,8 @@
 package asteroid.utils;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.inject;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
+import static asteroid.utils.InternalUtils.collect;
 
 import java.util.ArrayList;
 import java.util.List;

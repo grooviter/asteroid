@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
 - Add mapEntryX(String, Object) to speed up creating entries in a Map<String,?> map
 - Add util methods to add generated methods and fields to a ClassNode
 
+### Fixed
+- Remove warnings because DefaultGroovyMethod#collect deprecations
+
 ## [0.4.2] - [2018-06-13]
 ### Fixed
 - Add information about maven central to README.md (#10)

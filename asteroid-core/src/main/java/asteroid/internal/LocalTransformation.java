@@ -1,8 +1,8 @@
 package asteroid.internal;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.first;
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.last;
+import static asteroid.utils.InternalUtils.collect;
 
 import asteroid.A;
 import asteroid.Local;
