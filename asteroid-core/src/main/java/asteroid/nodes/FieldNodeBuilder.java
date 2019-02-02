@@ -9,16 +9,17 @@ import org.codehaus.groovy.ast.expr.Expression;
  *
  * @since 0.4.3
  */
-public class FieldNodeBuilder {
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+final public class FieldNodeBuilder {
 
-    private FieldNode fieldNode;
-    private String name;
+    private final  String name;
+
     private int modifiers;
     private ClassNode type;
     private ClassNode owner;
     private Expression initialExpression;
 
-    private FieldNodeBuilder(String name) {
+    private FieldNodeBuilder(final String name) {
         this.name = name;
     }
 
@@ -29,7 +30,7 @@ public class FieldNodeBuilder {
      * @return an instance of {@link FieldNodeBuilder}
      * @since 0.4.3
      */
-    public static FieldNodeBuilder field(String name) {
+    public static FieldNodeBuilder field(final String name) {
         return new FieldNodeBuilder(name);
     }
 
@@ -40,7 +41,7 @@ public class FieldNodeBuilder {
      * @return the current builder instance
      * @since 0.4.3
      */
-    public FieldNodeBuilder modifiers(int modifiers) {
+    public FieldNodeBuilder modifiers(final int modifiers) {
         this.modifiers = modifiers;
         return this;
     }
@@ -52,7 +53,7 @@ public class FieldNodeBuilder {
      * @return the current builder instance
      * @since 0.4.3
      */
-    public FieldNodeBuilder type(ClassNode type) {
+    public FieldNodeBuilder type(final ClassNode type) {
         this.type = type;
         return this;
     }
@@ -64,7 +65,7 @@ public class FieldNodeBuilder {
      * @return the current builder instance
      * @since 0.4.3
      */
-    public FieldNodeBuilder type(Class<?> type) {
+    public FieldNodeBuilder type(final Class<?> type) {
         this.type = ClassNodeBuilder.clazz(type).build();
         return this;
     }
@@ -76,7 +77,7 @@ public class FieldNodeBuilder {
      * @return the current builder instance
      * @since 0.4.3
      */
-    public FieldNodeBuilder owner(ClassNode owner) {
+    public FieldNodeBuilder owner(final ClassNode owner) {
         this.owner = owner;
         return this;
     }
@@ -88,7 +89,7 @@ public class FieldNodeBuilder {
      * @return the current builder instance
      * @since 0.4.3
      */
-    public FieldNodeBuilder expression(Expression initialExpression) {
+    public FieldNodeBuilder expression(final Expression initialExpression) {
         this.initialExpression = initialExpression;
         return this;
     }

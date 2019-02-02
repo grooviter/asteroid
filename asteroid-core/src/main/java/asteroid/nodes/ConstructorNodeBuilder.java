@@ -24,6 +24,7 @@ import org.codehaus.groovy.ast.stmt.Statement;
  *
  * @since 0.1.5
  */
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public final class ConstructorNodeBuilder {
 
     private final int modifiers;

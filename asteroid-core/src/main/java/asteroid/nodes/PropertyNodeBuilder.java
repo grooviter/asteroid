@@ -10,6 +10,7 @@ import org.codehaus.groovy.ast.expr.Expression;
  *
  * @since 0.1.4
  */
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 final public class PropertyNodeBuilder {
 
     private final String name;

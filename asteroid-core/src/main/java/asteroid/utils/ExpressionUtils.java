@@ -244,7 +244,7 @@ public final class ExpressionUtils {
      * @return a {@link String} of a given {@link Expression}
      * @since 0.3.2
      */
-    public String getText(Expression expression) {
+    public String getText(final Expression expression) {
         if (expression == null) {
             return "";
         }

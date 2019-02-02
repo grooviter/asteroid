@@ -75,7 +75,7 @@ public class PhaseTransformation extends AbstractLocalTransformation<Phase,Class
     }
 
     private CompilePhase extractCompilePhaseFrom(final AnnotationNode annotationNode) {
-        String compilePhaseAsString = A.UTIL.NODE.get(annotationNode, String.class);
+        final String compilePhaseAsString = A.UTIL.NODE.get(annotationNode, String.class);
 
         return CompilePhase.valueOf(compilePhaseAsString);
     }

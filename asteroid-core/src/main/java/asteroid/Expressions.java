@@ -30,7 +30,6 @@ import org.codehaus.groovy.ast.tools.GeneralUtils;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.IfStatement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 

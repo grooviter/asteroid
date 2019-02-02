@@ -8,6 +8,7 @@ import org.codehaus.groovy.ast.Parameter;
  *
  * @since 0.1.0
  */
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public class ParameterNodeBuilder {
 
     private final String name;

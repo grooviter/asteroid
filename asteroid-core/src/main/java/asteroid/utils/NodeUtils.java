@@ -44,7 +44,7 @@ public class NodeUtils {
 
     public static final String ANNOTATION_VALUE = "value";
 
-    private static AnnotationNode GENERATED = AnnotationNodeBuilder
+    private static final AnnotationNode GENERATED = AnnotationNodeBuilder
         .annotation(Generated.class)
         .build();
 
@@ -81,7 +81,7 @@ public class NodeUtils {
     }
 
     private Statement createAssertStatement(final Group group, final ExpressionStatement stmt) {
-        Expression expression = group.label.expression;
+        final Expression expression = group.label.expression;
 
         return A.STMT.assertS(A.EXPR.boolX(stmt.getExpression()), A.UTIL.EXPR.getText(expression));
     }
@@ -398,9 +398,9 @@ public class NodeUtils {
      * @return true if the {@link ClassNode} has a field with the name
      * @since 0.4.3
      */
-    public Boolean hasField(ClassNode node, String fieldName) {
+    public Boolean hasField(final ClassNode node, final String fieldName) {
         final List<FieldNode> nodeFields = node.getFields();
-        for (FieldNode fieldNode: nodeFields) {
+        for (final FieldNode fieldNode: nodeFields) {
             if (fieldNode.getName().equals(fieldName)) {
                 return true;
             }
@@ -418,10 +418,10 @@ public class NodeUtils {
      * @return if found, and instance of {@link FieldNode} null otherwise
      * @since 0.4.3
      */
-    public FieldNode findFieldByName(ClassNode node, String name) {
+    public FieldNode findFieldByName(final ClassNode node, final String name) {
         final List<FieldNode> nodeFields = node.getFields();
 
-        for (FieldNode fieldNode: nodeFields) {
+        for (final FieldNode fieldNode: nodeFields) {
             if (fieldNode.getName().equals(name)) {
                 return fieldNode;
             }
