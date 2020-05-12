@@ -1,8 +1,10 @@
 package asteroid
 
 import org.codehaus.groovy.ast.expr.ConstantExpression
+import org.codehaus.groovy.ast.expr.ConstructorCallExpression
 import org.codehaus.groovy.ast.expr.MapEntryExpression
 import org.codehaus.groovy.ast.expr.MapExpression
+import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.macro.matcher.ASTMatcher
 import spock.lang.Specification
 
@@ -49,6 +51,24 @@ class ExpressionsSpec extends Specification {
         )
 
         expect: 'comparing entries'
+        ASTMatcher.matches(ref, asteroid)
+    }
+
+    void "newX: create without parameters"() {
+        given: 'a ref expression'
+        ConstructorCallExpression ref = macro(CompilePhase.INSTRUCTION_SELECTION) { new String() }
+        ConstructorCallExpression asteroid = Expressions.newX(String)
+
+        expect: "both are constructor call expressions of the same type"
+        ASTMatcher.matches(ref, asteroid)
+    }
+
+    void "newX: create with parameters"() {
+        given: 'a ref expression'
+        ConstructorCallExpression ref = macro(CompilePhase.INSTRUCTION_SELECTION) { new String("a") }
+        ConstructorCallExpression asteroid = Expressions.newX(String, Expressions.constX("a"))
+
+        expect:
         ASTMatcher.matches(ref, asteroid)
     }
 }
