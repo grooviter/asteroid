@@ -1008,7 +1008,7 @@ public final class Expressions {
      * @since 0.2.4
      */
     public static ConstructorCallExpression newX(final Class type) {
-        return newX(type);
+        return newX(type, new Expression[]{});
     }
 
     /**

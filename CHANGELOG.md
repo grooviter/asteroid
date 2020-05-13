@@ -1,6 +1,16 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.4.4] - [2020-05-13]
+Maintenance version mainly for upgrading dependencies
+### Fixed
+- Recursive function call (Fix #12)
+
+### Upgraded
+- Update Groovy to version 2.5.11 (Fix #13)
+- Update Spock to version 1.3-groovy-2.5 (Fix #13)
+- Update Gradle wrapper to 4.8.1 (Fix #14)
+
 ## [0.4.3] - [2019-02-02]
 ### Changed
 - Update Groovy to version 2.5.5
