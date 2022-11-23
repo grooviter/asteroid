@@ -5,7 +5,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'maven'
+//apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
@@ -20,7 +20,7 @@ group   = releaseGroup
 version = releaseVersion;
 
 dependencies {
-    compile libs.groovy
+    implementation libs.groovy
 }
 
 javadoc {

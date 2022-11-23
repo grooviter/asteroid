@@ -9,27 +9,27 @@ jacoco {
 test { finalizedBy jacocoTestReport }
 
 dependencies {
-    compile libs.groovy
+    implementation libs.groovy
 }
 
 
 dependencies {
 
-    compile project(':asteroid-core')
-    compile libs.groovy_json
+    implementation project(':asteroid-core')
+    implementation libs.groovy_json
 
-    testCompile libs.groovy_test
-    testCompile libs.groovy_json
-    testCompile libs.spock
-    testCompile libs.junit
-    testCompile libs.cglib
-    testCompile libs.objenesis
+    testImplementation libs.groovy_test
+    testImplementation libs.groovy_json
+    testImplementation libs.spock
+    testImplementation libs.junit
+    testImplementation libs.cglib
+    testImplementation libs.objenesis
 }
 
 task('console', dependsOn:'classes', type: JavaExec) {
     group = 'help'
     description 'starts a Groovy console with the classpath of the current project'
     main='groovy.ui.Console'
-    project.dependencies.add("compile", 'org.codehaus.groovy:groovy-console:2.4.4')
+    project.dependencies.add("implementation", 'org.codehaus.groovy:groovy-console:2.4.4')
     classpath = sourceSets.main.runtimeClasspath
 }
