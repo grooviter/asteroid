@@ -123,7 +123,7 @@ Document title and Copyright styles
 Navigation bar styles
 */
 .bar {
-    background-color:#4D7A97;
+    background-color:#02244b;
     color:#FFFFFF;
     padding:.8em .5em .4em .8em;
     height:auto;/*height:1.8em;*/
@@ -131,7 +131,7 @@ Navigation bar styles
     margin:0;
 }
 .topNav {
-    background-color:#4D7A97;
+    background-color:#02244b;
     color:#FFFFFF;
     float:left;
     padding:0;
@@ -144,7 +144,7 @@ Navigation bar styles
 }
 .bottomNav {
     margin-top:10px;
-    background-color:#4D7A97;
+    background-color:#02244b;
     color:#FFFFFF;
     float:left;
     padding:0;
@@ -432,7 +432,7 @@ Table styles
     margin-right:3px;
     display:inline-block;
     float:left;
-    background-color:#4D7A97;
+    background-color:#02244b;
     height:16px;
 }
 .memberSummary caption span.tableTab, .memberSummary caption span.activeTableTab {
@@ -464,7 +464,7 @@ Table styles
     width:5px;
     margin-right:3px;
     position:relative;
-    background-color:#4D7A97;
+    background-color:#02244b;
     float:left;
 
 }

@@ -74,11 +74,6 @@ config {
             }
         }
     }
-    quality {
-        pmd {
-            enabled = true
-        }
-    }
     coverage {
         jacoco {
             enabled = true
