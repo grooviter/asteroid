@@ -1,0 +1,25 @@
+= Asteroid
+:revnumber: {project-version}
+:numbered:
+:imagesDir: images/
+:baseDir: ../../
+:stem:
+
+:coreMain: {baseDir}/../../../asteroid-core/src/main/java
+:testMain: {baseDir}/../../../asteroid-test/src/main/groovy
+:testTest: {baseDir}/../../../asteroid-test/src/test/groovy
+
+Asteroid is a set of utilities to make it easier to develop
+http://www.groovy-lang.org[Groovy] AST transformations.
+
+include::{includedir}/intro.adoc[]
+
+include::{includedir}/theory.adoc[]
+
+include::{includedir}/local.adoc[]
+
+include::{includedir}/global.adoc[]
+
+include::{includedir}/criterias.adoc[]
+
+include::{includedir}/api.adoc[]

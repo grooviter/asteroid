@@ -1,0 +1,23 @@
+apply plugin: 'org.kordamp.gradle.guide'
+
+asciidoctor {
+    sourceDir 'src/docs/asciidoc'
+    outputDir file("$buildDir/site/docs")
+
+    sources {
+        include 'index.adoc'
+    }
+
+    attributes  'endpoint-url'       : 'http://github.com/grooviter/gql',
+                'source-highlighter' : 'coderay',
+                'releaseVersion'     : version,
+                'toc'                : 'left',
+                'icons'              : 'font',
+                'toclevels'          : 3
+}
+
+asciidoctorj {
+    modules {
+        diagram.version '2.2.3'
+    }
+}

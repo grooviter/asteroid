@@ -1,6 +1,22 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - [2022-23-11]
+Maintenance version after 2 years of stand by
+### Upgraded
+- Gradle 7.2
+
+### Changed
+- Min Java version 1.8
+
+### Added
+- Kordamp Gradle plugin
+- Publishing to Maven Central via Sonatype
+
+### Removed
+- Bintray deployment
+
+
 ## [0.4.4] - [2020-05-13]
 Maintenance version mainly for upgrading dependencies
 ### Fixed

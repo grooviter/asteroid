@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+java {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+dependencies {
+    implementation project(':asteroid-core')
+    implementation "org.codehaus.groovy:groovy:$groovy"
+    implementation "org.codehaus.groovy:groovy-json:$groovy"
+
+    testImplementation "org.codehaus.groovy:groovy-test:$groovy"
+    testImplementation "org.codehaus.groovy:groovy-json:$groovy"
+    testImplementation "org.spockframework:spock-core:$spock"
+    testImplementation "junit:junit:$junit"
+    testImplementation "cglib:cglib:$cglib"
+    testImplementation "org.objenesis:objenesis:$objenesis"
+}
+
+task('console', dependsOn:'classes', type: JavaExec) {
+    group       = 'help'
+    description = 'starts a Groovy console with the classpath of the current project'
+    mainClass   = 'groovy.ui.Console'
+    classpath   = sourceSets.main.runtimeClasspath
+    project.dependencies.add("implementation", "org.codehaus.groovy:groovy-console:$groovy")
+}
