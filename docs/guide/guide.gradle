@@ -3,14 +3,13 @@ plugins {
     id 'org.ajoberstar.git-publish'
 }
 
-asciidoctor {
-    sourceDir 'src/docs/asciidoc'
-    outputDir file("$buildDir/site/docs")
-
-    sources {
-        include 'index.adoc'
+task setAuthentication() {
+    doLast {
+        System.setProperty('org.ajoberstar.grgit.auth.username', findProperty('PUBLISH_GH_TOKEN'))
     }
+}
 
+asciidoctor {
     attributes  'endpoint-url'       : 'http://github.com/grooviter/gql',
                 'source-highlighter' : 'coderay',
                 'releaseVersion'     : version,
@@ -24,3 +23,5 @@ asciidoctorj {
         diagram.version '2.2.3'
     }
 }
+
+gitPublishPush.dependsOn(['setAuthentication'])

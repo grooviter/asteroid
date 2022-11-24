@@ -12,5 +12,5 @@ apply plugin: 'org.kordamp.gradle.settings'
 rootProject.name = 'asteroid'
 
 projects {
-    directories = ['modules']
+    directories = ['docs', 'modules']
 }

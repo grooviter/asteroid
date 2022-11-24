@@ -27,12 +27,6 @@ config {
                 roles = ['contributor']
             }
         }
-        credentials {
-            github {
-                username = findProperty("PUBLISH_GH_USERNAME")
-                password = findProperty("PUBLISH_GH_TOKEN")
-            }
-        }
         repositories {
             repository {
                 name = 'releases'
@@ -74,6 +68,12 @@ config {
         guide {
             publish {
                 enabled = true
+            }
+        }
+        sourceHtml {
+            enabled = false
+            aggregate {
+                enabled = false
             }
         }
         javadoc {
