@@ -1,8 +1,6 @@
 [![license](https://img.shields.io/github/license/grooviter/asteroid.svg)](https://www.apache.org/licenses/LICENSE-2.0) 
 
-Asteroid is a set of utilities to make it easier to develop [Groovy](http://www.groovy-lang.org) AST transformations.
-
-In order to use `Asteroid` in your Groovy code you can find it in Maven Central:
+Asteroid is a set of utilities to make it easier to develop [Groovy](http://www.groovy-lang.org) AST transformations. In order to use `Asteroid` in your Groovy code you can find it in Maven Central:
 
     repositories {
         mavenCentral()
