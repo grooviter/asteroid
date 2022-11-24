@@ -110,3 +110,7 @@ allprojects {
         mavenCentral()
     }
 }
+
+task release(group: "Release") {
+    dependsOn ':asteroid-core:publish', ':asteroid-docs:gitPublishPush'
+}
