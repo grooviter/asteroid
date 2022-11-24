@@ -1,40 +1,112 @@
-subprojects {
-    buildscript {
-        repositories {
-            mavenLocal()
-            jcenter()
-            maven {
-                url "https://plugins.gradle.org/m2/"
+plugins {
+    id 'org.kordamp.gradle.java-project'
+}
+
+config {
+    release = Boolean.valueOf(findProperty("PUBLISH_RELEASE"))
+
+    info {
+        name        = 'Asteroid'
+        vendor      = 'Grooviter'
+        description = 'Asteroid is a set of utilities to make AST transformations easier'
+
+        links {
+            website      = 'http://grooviter.github.io/asteroid/'
+            issueTracker = 'https://github.com/grooviter/asteroid/issues'
+            scm          = 'https://github.com/grooviter/asteroid.git'
+        }
+        people {
+            person {
+                id = 'mariogarcia'
+                name = 'Mario Garcia'
+                roles = ['developer']
             }
-            mavenCentral()
+            person {
+                id = 'jorge'
+                name = 'Jorge Aguilera'
+                roles = ['contributor']
+            }
+        }
+        credentials {
+            github {
+                username = findProperty("PUBLISH_GH_USERNAME")
+                password = findProperty("PUBLISH_GH_TOKEN")
+            }
+        }
+        repositories {
+            repository {
+                name = 'releases'
+                url  = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+                credentials {
+                    username = findProperty("PUBLISH_REPO_USERNAME")
+                    password = findProperty("PUBLISH_REPO_PASSWORD")
+                }
+            }
+            repository {
+                name = 'snapshots'
+                url  = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                credentials {
+                    username = findProperty("PUBLISH_REPO_USERNAME")
+                    password = findProperty("PUBLISH_REPO_PASSWORD")
+                }
+            }
         }
     }
-
-    repositories {
-        jcenter()
-        maven { url "https://oss.sonatype.org/content/groups/public" }
+    artifacts {
+        minpom {
+            enabled
+        }
+    }
+    publishing {
+        releasesRepository  = "releases"
+        snapshotsRepository = "snapshots"
+        signing {
+            enabled   = findProperty("PUBLISH_SIGN_ENABLED")
+            keyId     = findProperty("PUBLISH_SIGN_KEY_ID")
+            secretKey = findProperty("PUBLISH_SIGN_KEY")
+            password  = findProperty("PUBLISH_SIGN_SECRET")
+        }
+        pom {
+            overwriteInceptionYear = "2015"
+        }
+    }
+    docs {
+        guide {
+            publish {
+                enabled = true
+            }
+        }
+        javadoc {
+            enabled = true
+            options {
+                stylesheetFile = "$rootDir/modules/asteroid-core/src/javadoc/stylesheet.css" as File
+                windowTitle = 'Asteroid API Documentation'
+                docTitle = "Asteroid $version"
+                links = ["http://docs.groovy-lang.org/latest/html/api/"]
+                addStringOption('Xdoclint:none', '-quiet')
+                addStringOption('encoding', 'UTF-8')
+                addStringOption('charSet', 'UTF-8')
+            }
+        }
+    }
+    licensing {
+        enabled = false
+        licenses {
+            license {
+                id = 'Apache-2.0'
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+        }
+    }
+    coverage {
+        jacoco {
+            enabled = true
+        }
     }
 }
 
-ext.versions = [
-    groovy: "2.5.11"
-]
-
-ext.libs = [
-    groovy: "org.codehaus.groovy:groovy:${versions.groovy}",
-    groovy_json: "org.codehaus.groovy:groovy-json:${versions.groovy}",
-    groovy_test: "org.codehaus.groovy:groovy-test:${versions.groovy}",
-    groovy_all: "org.codehaus.groovy:groovy-all:${versions.groovy}",
-    junit: "junit:junit:4.12",
-    spock: 'org.spockframework:spock-core:1.3-groovy-2.5',
-    cglib: 'cglib:cglib:2.2.2',
-    objenesis: 'org.objenesis:objenesis:2.1'
-]
-
 allprojects {
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:deprecation"
-        }
+    repositories {
+        mavenCentral()
     }
 }

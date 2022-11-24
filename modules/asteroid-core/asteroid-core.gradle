@@ -1,0 +1,22 @@
+apply plugin: 'java-library'
+apply plugin: 'pmd'
+
+java {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+dependencies {
+    api "org.codehaus.groovy:groovy:$groovy"
+}
+
+pmd {
+    ignoreFailures = true
+    ruleSets = [
+        'category/java/design.xml',
+        'category/java/codestyle.xml',
+        'category/java/performance.xml',
+        'category/java/errorprone.xml',
+        'category/java/bestpractices.xml'
+    ]
+}
