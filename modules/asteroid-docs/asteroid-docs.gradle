@@ -1,4 +1,7 @@
-apply plugin: 'org.kordamp.gradle.guide'
+plugins {
+    id 'org.kordamp.gradle.guide'
+    id 'org.ajoberstar.git-publish'
+}
 
 asciidoctor {
     sourceDir 'src/docs/asciidoc'
