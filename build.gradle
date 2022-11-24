@@ -33,9 +33,33 @@ config {
                 password = findProperty("PUBLISH_GH_TOKEN")
             }
         }
+        repositories {
+            repository {
+                name = 'releases'
+                url  = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+                credentials {
+                    username = findProperty("PUBLISH_REPO_USERNAME")
+                    password = findProperty("PUBLISH_REPO_PASSWORD")
+                }
+            }
+            repository {
+                name = 'snapshots'
+                url  = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                credentials {
+                    username = findProperty("PUBLISH_REPO_USERNAME")
+                    password = findProperty("PUBLISH_REPO_PASSWORD")
+                }
+            }
+        }
+    }
+    artifacts {
+        minpom {
+            enabled
+        }
     }
     publishing {
-        publications = ['asteroid-core']
+        releasesRepository  = "releases"
+        snapshotsRepository = "snapshots"
         signing {
             enabled   = findProperty("PUBLISH_SIGN_ENABLED")
             keyId     = findProperty("PUBLISH_SIGN_KEY_ID")
