@@ -112,5 +112,5 @@ allprojects {
 }
 
 task release(group: "Release") {
-    dependsOn ':asteroid:publish', ':asteroid-docs:gitPublishPush'
+    dependsOn ':asteroid:publish', ':guide:gitPublishPush'
 }
