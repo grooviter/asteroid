@@ -1,5 +1,7 @@
-apply plugin: 'java-library'
-apply plugin: 'pmd'
+plugins {
+    id 'java-library'
+    id 'pmd'
+}
 
 java {
     sourceCompatibility = 1.8

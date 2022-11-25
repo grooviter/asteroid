@@ -79,7 +79,7 @@ config {
         javadoc {
             enabled = true
             options {
-                stylesheetFile = "$rootDir/modules/asteroid-core/src/javadoc/stylesheet.css" as File
+                stylesheetFile = "$rootDir/modules/asteroid/src/javadoc/stylesheet.css" as File
                 windowTitle = 'Asteroid API Documentation'
                 docTitle = "Asteroid $version"
                 links = ["http://docs.groovy-lang.org/latest/html/api/"]
@@ -112,5 +112,5 @@ allprojects {
 }
 
 task release(group: "Release") {
-    dependsOn ':asteroid-core:publish', ':asteroid-docs:gitPublishPush'
+    dependsOn ':asteroid:publish', ':asteroid-docs:gitPublishPush'
 }
