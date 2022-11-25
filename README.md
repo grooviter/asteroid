@@ -1,4 +1,4 @@
-[![license](https://img.shields.io/github/license/grooviter/asteroid.svg)](https://www.apache.org/licenses/LICENSE-2.0) 
+[![license](https://img.shields.io/github/license/grooviter/asteroid.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![release](https://github.com/grooviter/asteroid/actions/workflows/release.yml/badge.svg)](https://github.com/grooviter/asteroid/actions/workflows/release.yml)
 
 Asteroid is a set of utilities to make it easier to develop [Groovy](http://www.groovy-lang.org) AST transformations. In order to use `Asteroid` in your Groovy code you can find it in Maven Central:
 
