@@ -181,7 +181,12 @@ official site</a>. The code of the following example is available at the
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/intro.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/test/groovy/asteroid/local/samples/WithLoggingTest.groovy[tags=testCode, indent=<span class="integer">0</span>]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="annotation">@WithLogging</span>
+<span class="keyword">def</span> <span class="function">greet</span>() {
+    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello World</span><span class="delimiter">&quot;</span></span>
+}
+
+greet()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -213,7 +218,14 @@ stop greet</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/intro.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/WithLogging.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.Local
+
+<span class="annotation">@Local</span>(
+    value   = WithLoggingTransformationImpl, <i class="conum" data-value="1"></i><b>(1)</b>
+    applyTo = Local.TO.METHOD)               <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="annotation">@interface</span> WithLogging { }</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -258,7 +270,34 @@ should be an instance of
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/intro.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/WithLoggingTransformationImpl.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.A
+<span class="keyword">import</span> asteroid.Phase
+<span class="keyword">import</span> asteroid.AbstractLocalTransformation
+
+<span class="keyword">import</span> <span class="include">groovy.transform.CompileStatic</span>
+
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.AnnotationNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.MethodNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.stmt.Statement</span>
+
+<span class="annotation">@CompileStatic</span>
+<span class="annotation">@Phase</span>(Phase.LOCAL.SEMANTIC_ANALYSIS) <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="type">class</span> <span class="class">WithLoggingTransformationImpl</span> <span class="directive">extends</span> AbstractLocalTransformation&lt;WithLogging, MethodNode&gt; {
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> doVisit(<span class="directive">final</span> AnnotationNode annotation, <span class="directive">final</span> MethodNode methodNode) {
+        <span class="keyword">def</span> before = printlnS(<span class="string"><span class="delimiter">&quot;</span><span class="content">start</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        <span class="keyword">def</span> after = printlnS(<span class="string"><span class="delimiter">&quot;</span><span class="content">end</span><span class="delimiter">&quot;</span></span>)   <i class="conum" data-value="3"></i><b>(3)</b>
+
+        A.UTIL.NODE.addAroundCodeBlock(methodNode, before, after) <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+
+    <span class="predefined-type">Statement</span> printlnS(<span class="predefined-type">String</span> message) {
+        <span class="keyword">return</span> A.STMT.stmt(A.EXPR.callThisX(<span class="string"><span class="delimiter">&quot;</span><span class="content">println</span><span class="delimiter">&quot;</span></span>, A.EXPR.constX(message))) <i class="conum" data-value="5"></i><b>(5)</b>
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -729,7 +768,12 @@ classes should always extend
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/AsList.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.Local
+
+<span class="annotation">@Local</span>(AsListImpl)
+<span class="annotation">@interface</span> AsList { }</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -756,7 +800,14 @@ element type other than <code>TYPE</code>: a method, annotation, field&#8230;&#8
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/WithLogging.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.Local
+
+<span class="annotation">@Local</span>(
+    value   = WithLoggingTransformationImpl, <i class="conum" data-value="1"></i><b>(1)</b>
+    applyTo = Local.TO.METHOD)               <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="annotation">@interface</span> WithLogging { }</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -780,7 +831,14 @@ to any annotated node.</p>
 <div class="listingblock">
 <div class="title">annotation</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/NameChecker.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.Local
+
+<span class="annotation">@Local</span>(value = NameCheckerImpl, applyTo = Local.TO.ANNOTATED)
+<span class="annotation">@interface</span> NameChecker {
+    <span class="predefined-type">String</span> value()
+}</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -820,7 +878,47 @@ dispatch your actions.
 <div class="listingblock">
 <div class="title">implementation</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/NameCheckerImpl.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.A
+<span class="keyword">import</span> asteroid.AbstractLocalTransformation
+<span class="keyword">import</span> asteroid.Phase
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.AnnotatedNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.AnnotationNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.ClassNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.FieldNode</span>
+
+<span class="comment">/**
+ * Checks whether an {@link AnnotatedNode} follows the defined pattern in the
+ * pattern property
+ *
+ * @since 0.2.5
+ */</span>
+<span class="annotation">@Phase</span>(Phase.LOCAL.INSTRUCTION_SELECTION)
+<span class="type">class</span> <span class="class">NameCheckerImpl</span> <span class="directive">extends</span> AbstractLocalTransformation&lt;NameChecker, AnnotatedNode&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> doVisit(AnnotationNode annotation, AnnotatedNode annotated) { <i class="conum" data-value="2"></i><b>(2)</b>
+        <span class="predefined-type">String</span> pattern = A.UTIL.NODE.getStringValue(annotation)
+        <span class="predefined-type">String</span> nodeText = getName(annotated)
+        <span class="predefined-type">Boolean</span> matches = nodeText ==~ pattern
+
+        <span class="keyword">if</span> (!matches) {
+            addError <span class="string"><span class="delimiter">'</span><span class="content">Pattern doesn</span><span class="char">\'</span><span class="content">t match annotated name</span><span class="delimiter">'</span></span>, annotated
+        }
+    }
+
+    <span class="predefined-type">String</span> getName(ClassNode classNode){  <i class="conum" data-value="3"></i><b>(3)</b>
+        <span class="keyword">return</span> classNode.name
+    }
+
+    <span class="predefined-type">String</span> getName(FieldNode fieldNode) { <i class="conum" data-value="4"></i><b>(4)</b>
+        <span class="keyword">return</span> fieldNode.name
+    }
+
+    <span class="predefined-type">String</span> getName(AnnotatedNode annotatedNode) { <i class="conum" data-value="5"></i><b>(5)</b>
+        addError <span class="string"><span class="delimiter">&quot;</span><span class="content">Pattern doesn't match annotated name</span><span class="delimiter">&quot;</span></span>, annotatedNode
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -853,7 +951,16 @@ dispatch your actions.
 <div class="listingblock">
 <div class="title">example</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/test/groovy/asteroid/local/samples/NameCheckerTest.groovy[tags=checkerSucceeds, indent=<span class="integer">0</span>]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="annotation">@NameChecker</span>(<span class="string"><span class="delimiter">'</span><span class="content">.*Subject</span><span class="delimiter">'</span></span>)
+<span class="type">class</span> <span class="class">CheckerSubject</span> {
+
+  <span class="annotation">@NameChecker</span>(<span class="string"><span class="delimiter">'</span><span class="content">.*Field</span><span class="delimiter">'</span></span>)
+  <span class="predefined-type">String</span> stringField = <span class="string"><span class="delimiter">'</span><span class="content">doSomething</span><span class="delimiter">'</span></span>
+}
+
+<span class="keyword">assert</span> <span class="keyword">new</span> CheckerSubject().stringField == <span class="string"><span class="delimiter">'</span><span class="content">doSomething</span><span class="delimiter">'</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -876,7 +983,12 @@ used in elements of type <code>FIELD</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/ToMD5.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.Local
+
+<span class="annotation">@Local</span>(value = ToMD5Impl, applyTo = Local.TO.FIELD)
+<span class="annotation">@interface</span> ToMD5 { }</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -888,7 +1000,46 @@ returning the MD5 signature of the content of that field.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/ToMD5Impl.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.A
+<span class="keyword">import</span> asteroid.Phase
+<span class="keyword">import</span> asteroid.AbstractLocalTransformation
+
+<span class="keyword">import</span> <span class="include">groovy.transform.CompileStatic</span>
+
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.AnnotationNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.FieldNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.MethodNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.stmt.BlockStatement</span>
+
+<span class="annotation">@CompileStatic</span>
+<span class="annotation">@Phase</span>(Phase.LOCAL.SEMANTIC_ANALYSIS) <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="type">class</span> <span class="class">ToMD5Impl</span> <span class="directive">extends</span> AbstractLocalTransformation&lt;ToMD5, FieldNode&gt; { <i class="conum" data-value="2"></i><b>(2)</b>
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> doVisit(AnnotationNode annotation, FieldNode node) { <i class="conum" data-value="3"></i><b>(3)</b>
+        BlockStatement block  = buildMethodCode(node.name)
+        MethodNode methodNode = A.NODES.method(<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>node.name<span class="inline-delimiter">}</span></span><span class="content">ToMD5</span><span class="delimiter">&quot;</span></span>)
+            .modifiers(A.ACC.ACC_PUBLIC)
+            .returnType(<span class="predefined-type">String</span>)
+            .code(block)
+            .build()
+
+        A.UTIL.NODE.addMethod(node.declaringClass, methodNode)
+    }
+
+    <span class="directive">private</span> BlockStatement buildMethodCode(<span class="directive">final</span> <span class="predefined-type">String</span> name) {
+        A.STMT.blockSFromString <span class="string"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">
+            return java.security.MessageDigest
+                .getInstance('MD5')
+                .digest(</span><span class="inline"><span class="inline-delimiter">${</span>name<span class="inline-delimiter">}</span></span><span class="content">.getBytes())
+                .encodeHex()
+                .toString()
+        </span><span class="delimiter">&quot;&quot;&quot;</span></span>
+    }
+
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -971,7 +1122,23 @@ compilation phase. Here&#8217;s an example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/AsListImpl.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.A
+<span class="keyword">import</span> asteroid.Phase
+<span class="keyword">import</span> asteroid.AbstractLocalTransformation
+
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.ClassNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.AnnotationNode</span>
+
+<span class="annotation">@Phase</span>(Phase.LOCAL.SEMANTIC_ANALYSIS) <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="type">class</span> <span class="class">AsListImpl</span> <span class="directive">extends</span> AbstractLocalTransformation&lt;AsList, ClassNode&gt; {
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> doVisit(AnnotationNode annotation, ClassNode classNode) {
+        classNode.superClass = A.NODES.clazz(<span class="predefined-type">ArrayList</span>).build()
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1012,7 +1179,24 @@ in both <code>AbstractLocalTransformation</code> and <code>AbstractGlobalTransfo
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/GrumpyImpl.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.Phase
+<span class="keyword">import</span> asteroid.AbstractLocalTransformation
+
+<span class="keyword">import</span> <span class="include">groovy.transform.CompileStatic</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.ClassNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.AnnotationNode</span>
+
+<span class="annotation">@CompileStatic</span>
+<span class="annotation">@Phase</span>(Phase.LOCAL.SEMANTIC_ANALYSIS)
+<span class="type">class</span> <span class="class">GrumpyImpl</span> <span class="directive">extends</span> AbstractLocalTransformation&lt;Grumpy, ClassNode&gt; {
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> doVisit(AnnotationNode annotation, ClassNode clazz) {
+        addError(<span class="string"><span class="delimiter">&quot;</span><span class="content">I don't like you Argggg!!!!! (said the Grumpy transformation)</span><span class="delimiter">&quot;</span></span>, clazz)
+    }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1040,7 +1224,12 @@ with <code>@Serializable</code> to implement <code>java.io.Serializable</code>.<
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/<span class="predefined-type">Serializable</span>.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> asteroid.Local
+
+<span class="annotation">@Local</span>(SerializableImpl)
+<span class="annotation">@interface</span> <span class="predefined-type">Serializable</span> {}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1058,7 +1247,32 @@ with <code>@Serializable</code> to implement <code>java.io.Serializable</code>.<
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/SerializableImpl.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.local.samples
+
+<span class="keyword">import</span> <span class="include">groovy.transform.CompileStatic</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.ClassNode</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.AnnotationNode</span>
+
+<span class="keyword">import</span> asteroid.A
+<span class="keyword">import</span> asteroid.Phase
+<span class="keyword">import</span> asteroid.AbstractLocalTransformation
+
+<span class="annotation">@CompileStatic</span>
+<span class="annotation">@Phase</span>(Phase.LOCAL.INSTRUCTION_SELECTION)
+<span class="type">class</span> <span class="class">SerializableImpl</span> <span class="directive">extends</span> AbstractLocalTransformation&lt;<span class="predefined-type">Serializable</span>, ClassNode&gt; {
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> doVisit(AnnotationNode annotation, ClassNode classNode) {
+        <span class="key">check</span>: <span class="string"><span class="delimiter">'</span><span class="content">package starts with asteroid</span><span class="delimiter">'</span></span>
+        classNode.packageName.startsWith(<span class="string"><span class="delimiter">'</span><span class="content">asteroid</span><span class="delimiter">'</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+
+        <span class="key">check</span>: <span class="string"><span class="delimiter">'</span><span class="content">there are least than 2 methods</span><span class="delimiter">'</span></span>
+        classNode.methods.size() &lt; <span class="integer">2</span> <i class="conum" data-value="2"></i><b>(2)</b>
+
+        <span class="key">then</span>: <span class="string"><span class="delimiter">'</span><span class="content">make it implements Serializable and Cloneable</span><span class="delimiter">'</span></span>
+        A.UTIL.NODE.addInterfaces(classNode, java.io.Serializable, <span class="predefined-type">Cloneable</span>) <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1093,7 +1307,17 @@ methods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/local.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/test/groovy/asteroid/local/samples/SerializableTest.groovy[tags=checkersShouldFail]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">    <span class="type">void</span> testFailsBecauseNumberOfMethods() {
+        shouldFail <span class="string"><span class="delimiter">'''</span><span class="content">
+        package asteroid.local.samples
+
+        @Serializable
+        class A {
+            def a() {}
+            def b() {}
+        }
+        </span><span class="delimiter">'''</span></span>
+    }</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1107,7 +1331,7 @@ use Asteroid utility functions to inject this behavior in your code.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in src/docs/asciidoc/local.adoc - include::../..<span class="comment">//../../../asteroid-core/src/main/java/asteroid/internal/PhaseTransformation.java[tags=addCheckTo, indent=0]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">A.UTIL.NODE.addCheckTo(A.UTIL.NODE.findMethodByName(annotatedNode, METHOD_DOVISIT));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1169,7 +1393,25 @@ compiler where it can find your transformation</p>
 <h3 id="_example_2"><a class="anchor" href="#_example_2"></a>6.2. Example</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/global.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/global/samples/AddTransformation.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.global.samples
+
+<span class="keyword">import</span> <span class="include">static</span> asteroid.Phase.GLOBAL
+
+<span class="keyword">import</span> <span class="include">groovy.transform.CompileStatic</span>
+
+<span class="keyword">import</span> asteroid.Phase
+<span class="keyword">import</span> asteroid.AbstractGlobalTransformation
+<span class="keyword">import</span> asteroid.transformer.Transformer
+
+<span class="annotation">@CompileStatic</span>
+<span class="annotation">@Phase</span>(GLOBAL.CONVERSION) <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="type">class</span> <span class="class">AddTransformation</span> <span class="directive">extends</span> AbstractGlobalTransformation { <i class="conum" data-value="2"></i><b>(2)</b>
+
+    <span class="annotation">@Override</span>
+    <span class="predefined-type">List</span>&lt;<span class="predefined-type">Class</span>&lt;<span class="predefined-type">Transformer</span>&gt;&gt; getTransformers() {
+        <span class="keyword">return</span> [AddPropertyToInnerClass, AddTraitTransformer] <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1199,7 +1441,29 @@ transformers that will eventually transform the code.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/global.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/global/samples/AddPropertyToInnerClass.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.global.samples
+
+<span class="keyword">import</span> <span class="include">groovy.transform.CompileStatic</span>
+
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.control.SourceUnit</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.ClassNode</span>
+
+<span class="keyword">import</span> asteroid.A
+<span class="keyword">import</span> asteroid.transformer.AbstractClassNodeTransformer
+
+<span class="annotation">@CompileStatic</span>
+<span class="type">class</span> <span class="class">AddPropertyToInnerClass</span> <span class="directive">extends</span> AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    AddPropertyToInnerClass(<span class="directive">final</span> SourceUnit sourceUnit) {
+        <span class="local-variable">super</span>(sourceUnit,
+              A.CRITERIA.byClassNodeNameContains(<span class="string"><span class="delimiter">'</span><span class="content">AddTransformerSpecExample$Input</span><span class="delimiter">'</span></span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> transformClass(<span class="directive">final</span> ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        A.UTIL.NODE.addInterfaces(target, java.io.Serializable)
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1272,7 +1536,22 @@ of <code>ClassNode</code> instances from the AST.</p>
 <div class="listingblock">
 <div class="title">ClassNodeTransformer</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/global.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/utils/AddImportTransformer.groovy[tags=classnodetransformer]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">AddImportTransformer</span> <span class="directive">extends</span> AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    <span class="directive">public</span> AddImportTransformer(<span class="directive">final</span> SourceUnit sourceUnit) {
+        <span class="local-variable">super</span>(sourceUnit,
+              A.CRITERIA.byAnnotationSimpleName(<span class="string"><span class="delimiter">'</span><span class="content">AddImport</span><span class="delimiter">'</span></span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+
+    }
+
+    <span class="comment">/**
+     * {@inheritDocs}
+     */</span>
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> transformClass(<span class="directive">final</span> ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        A.UTIL.NODE.addImport(target, groovy.json.JsonOutput) <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1341,7 +1620,20 @@ calls <code>xxx()</code> by a constant number <code>1</code>.</p>
 <div class="listingblock">
 <div class="title">ExpressionTransformer</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/global.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/global/samples/ChangeTripleXToPlusOne.groovy[tags=expressiontransformer]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">ChangeTripleXToPlusOne</span>
+    <span class="directive">extends</span> AbstractExpressionTransformer&lt;MethodCallExpression&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    ChangeTripleXToPlusOne(<span class="directive">final</span> SourceUnit sourceUnit) {
+        <span class="local-variable">super</span>(MethodCallExpression,
+              sourceUnit,
+              A.CRITERIA.byExprMethodCallByName(<span class="string"><span class="delimiter">'</span><span class="content">xxx</span><span class="delimiter">'</span></span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="predefined-type">Expression</span> transformExpression(<span class="directive">final</span> MethodCallExpression target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        <span class="keyword">return</span> A.EXPR.constX(<span class="integer">1</span>)  <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1438,7 +1730,22 @@ set of classes annotated with a certain annotation.</p>
 <div class="listingblock">
 <div class="title">Criteria</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/criterias.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/utils/AddImportTransformer.groovy[tags=classnodetransformer]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">AddImportTransformer</span> <span class="directive">extends</span> AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    <span class="directive">public</span> AddImportTransformer(<span class="directive">final</span> SourceUnit sourceUnit) {
+        <span class="local-variable">super</span>(sourceUnit,
+              A.CRITERIA.byAnnotationSimpleName(<span class="string"><span class="delimiter">'</span><span class="content">AddImport</span><span class="delimiter">'</span></span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+
+    }
+
+    <span class="comment">/**
+     * {@inheritDocs}
+     */</span>
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> transformClass(<span class="directive">final</span> ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        A.UTIL.NODE.addImport(target, groovy.json.JsonOutput) <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1459,7 +1766,29 @@ having a specific name.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/criterias.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/global/samples/AddPropertyToInnerClass.groovy<span class="type">[]</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> asteroid.global.samples
+
+<span class="keyword">import</span> <span class="include">groovy.transform.CompileStatic</span>
+
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.control.SourceUnit</span>
+<span class="keyword">import</span> <span class="include">org.codehaus.groovy.ast.ClassNode</span>
+
+<span class="keyword">import</span> asteroid.A
+<span class="keyword">import</span> asteroid.transformer.AbstractClassNodeTransformer
+
+<span class="annotation">@CompileStatic</span>
+<span class="type">class</span> <span class="class">AddPropertyToInnerClass</span> <span class="directive">extends</span> AbstractClassNodeTransformer { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    AddPropertyToInnerClass(<span class="directive">final</span> SourceUnit sourceUnit) {
+        <span class="local-variable">super</span>(sourceUnit,
+              A.CRITERIA.byClassNodeNameContains(<span class="string"><span class="delimiter">'</span><span class="content">AddTransformerSpecExample$Input</span><span class="delimiter">'</span></span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> transformClass(<span class="directive">final</span> ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        A.UTIL.NODE.addInterfaces(target, java.io.Serializable)
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1483,7 +1812,20 @@ name of the method we are calling, that&#8217;s why we use
 <div class="listingblock">
 <div class="title">ExpressionTransformer</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/criterias.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/global/samples/ChangeTripleXToPlusOne.groovy[tags=expressiontransformer]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">ChangeTripleXToPlusOne</span>
+    <span class="directive">extends</span> AbstractExpressionTransformer&lt;MethodCallExpression&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    ChangeTripleXToPlusOne(<span class="directive">final</span> SourceUnit sourceUnit) {
+        <span class="local-variable">super</span>(MethodCallExpression,
+              sourceUnit,
+              A.CRITERIA.byExprMethodCallByName(<span class="string"><span class="delimiter">'</span><span class="content">xxx</span><span class="delimiter">'</span></span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="predefined-type">Expression</span> transformExpression(<span class="directive">final</span> MethodCallExpression target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        <span class="keyword">return</span> A.EXPR.constX(<span class="integer">1</span>)  <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1496,7 +1838,24 @@ use <code>A.CRITERIA.and</code> and <code>A.CRITERIA.or</code>. Check next examp
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/criterias.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/global/samples/AddLoggerTransformer.groovy[tags=complexCriteria]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">AddLoggerTransformer</span> <span class="directive">extends</span> AbstractClassNodeTransformer {
+
+    <span class="directive">static</span> <span class="directive">final</span> Closure&lt;<span class="predefined-type">Boolean</span>&gt; CRITERIA = <i class="conum" data-value="1"></i><b>(1)</b>
+        A.CRITERIA.with {
+            and(byClassNodeNameStartsWith(<span class="string"><span class="delimiter">'</span><span class="content">asteroid.global.samples</span><span class="delimiter">'</span></span>),
+                or(byClassNodeNameContains(<span class="string"><span class="delimiter">'</span><span class="content">Logger</span><span class="delimiter">'</span></span>),
+                   byClassNodeNameEndsWith(<span class="string"><span class="delimiter">'</span><span class="content">Example</span><span class="delimiter">'</span></span>)))
+        }
+
+    AddLoggerTransformer(<span class="directive">final</span> SourceUnit sourceUnit) {
+        <span class="local-variable">super</span>(sourceUnit, CRITERIA) <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="type">void</span> transformClass(<span class="directive">final</span> ClassNode target) { <i class="conum" data-value="3"></i><b>(3)</b>
+        target.addAnnotation(A.NODES.annotation(Log).build())
+    }
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1532,7 +1891,10 @@ starting with <strong>get</strong></code>.</p>
 <div class="listingblock">
 <div class="title">Criterias in Local Transformations</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Unresolved directive <span class="keyword">in</span> src/docs/asciidoc/criterias.adoc - <span class="key">include</span>::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>/..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">asteroid-test</span><span class="delimiter">/</span></span>src/main/groovy/asteroid/local/samples/criterias/CheckImportantMethodsImpl.groovy[tags=criteriasaspredicates]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">        <span class="predefined-type">List</span>&lt;MethodNode&gt; notSoImportantMethods = classNode
+            .methods
+            .findAll(A.CRITERIA.and(A.CRITERIA.byAnnotation(Important),
+                                    A.CRITERIA.byMethodNodeNameStartsWith(<span class="string"><span class="delimiter">'</span><span class="content">get</span><span class="delimiter">'</span></span>)))</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1788,7 +2150,7 @@ has a method called <code>setModifiers(int)</code>. That value can be built with
 <div id="footer">
 <div id="footer-text">
 Version 0.5.0<br>
-Last updated 2022-11-24 19:31:53 +0100
+Last updated 2022-11-28 23:45:28 +0100
 </div>
 </div>
 <link rel="stylesheet" href="./coderay-asciidoctor.css">
